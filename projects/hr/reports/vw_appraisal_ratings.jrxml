@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_appraisal_ratings" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0e31a58-df53-46d4-9492-bce1042c7b02">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="176"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="entity_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/root/baraza/projects/hr/reports/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+job_reviews.supervisor_rating, COALESCE(job_reviews.recomendation,'') AS recomendation ,
+ COALESCE(job_reviews.reviewer_comments,'') AS reviewer_comments,
+job_reviews.self_rating, job_reviews.details AS employee_comments,
+vw_evaluation_points.job_review_id, vw_evaluation_points.entity_name, vw_evaluation_points.total_points,
+vw_evaluation_points.review_date, vw_evaluation_points.review_done, vw_evaluation_points.recomendation,
+vw_evaluation_points.review_category_name, vw_evaluation_points.review_point_name, vw_evaluation_points.review_points,
+vw_evaluation_points.points, vw_evaluation_points.narrative,
+getComputedReviewPoints(1, job_reviews.job_review_id) AS comp_emp_points,
+getComputedReviewPoints(2, job_reviews.job_review_id) AS comp_reviewer_points
+
+
+FROM vw_evaluation_points
+INNER JOIN job_reviews ON job_reviews.job_review_id = vw_evaluation_points.job_review_id
+
+WHERE (vw_evaluation_points.entity_id = '$P!{entity_id}')
+$P!{organd}
+
+
+ORDER BY vw_evaluation_points.job_review_id DESC, vw_evaluation_points.review_category_id;]]>
+	</queryString>
+	<field name="supervisor_rating" class="java.lang.Integer"/>
+	<field name="recomendation" class="java.lang.String"/>
+	<field name="reviewer_comments" class="java.lang.String"/>
+	<field name="self_rating" class="java.lang.Integer"/>
+	<field name="employee_comments" class="java.lang.String"/>
+	<field name="job_review_id" class="java.lang.Integer"/>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="total_points" class="java.lang.Integer"/>
+	<field name="review_date" class="java.sql.Date"/>
+	<field name="review_done" class="java.lang.Boolean"/>
+	<field name="review_category_name" class="java.lang.String"/>
+	<field name="review_point_name" class="java.lang.String"/>
+	<field name="review_points" class="java.lang.Integer"/>
+	<field name="points" class="java.lang.Integer"/>
+	<field name="narrative" class="java.lang.String"/>
+	<field name="comp_emp_points" class="java.lang.Double"/>
+	<field name="comp_reviewer_points" class="java.lang.Double"/>
+	<group name="job_review_id">
+		<groupExpression><![CDATA[$F{job_review_id}]]></groupExpression>
+		<groupHeader>
+			<band height="286">
+				<staticText>
+					<reportElement style="Column header" x="1" y="6" width="94" height="15" forecolor="#000000" uuid="6b2d9a3c-94e3-46c3-85dc-56d4d4ade4b5"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Job Review ID :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="1" y="21" width="94" height="15" forecolor="#000000" uuid="c49cdd4c-2f6d-4d07-815d-59678085e0a1"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Employee :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="95" y="21" width="201" height="15" uuid="c41cce77-ac56-4396-af3d-d37a689d9551"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="95" y="6" width="47" height="15" uuid="cc722101-7232-4844-aa39-0d59517635be"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{job_review_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="330" y="6" width="102" height="15" forecolor="#000000" uuid="e01571c2-0c4c-45c3-b898-30d09a04f0e1"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Overall Score :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" x="432" y="6" width="47" height="15" uuid="edc48c2c-eb26-4bbb-90dc-1c5dda5a616e"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{comp_emp_points}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="1" y="37" width="94" height="15" forecolor="#000000" uuid="6ed9352d-df6b-44f0-afbe-a36aa9c3783f"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Review Date :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="95" y="37" width="141" height="15" uuid="b4b9b13d-750d-4b9b-88b9-871915de69f2"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{review_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="330" y="37" width="102" height="15" forecolor="#000000" uuid="c4131c69-2115-4efd-b9da-20727b7c8077"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Review Done :]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="432" y="37" width="120" height="15" uuid="308bac18-1266-4d98-a6b7-f4229ec2fec9"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{review_done} ? "Yes":"No"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="21" y="165" width="121" height="20" uuid="66b54e93-5b05-4578-8c69-4699dfc90321"/>
+					<box leftPadding="10">
+						<topPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<leftPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.0" lineColor="#F2F2F2"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Supervisor Comments : ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="165" width="412" height="20" uuid="dd726ee6-038c-45b9-a6cb-c565ac82d4a8"/>
+					<box>
+						<topPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<leftPen lineWidth="0.0" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.75" lineColor="#F2F2F2"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Include any comments on your overall performance for the las t one year]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="21" y="83" width="121" height="20" uuid="1e9d6b9e-7ebe-4406-aa88-ca7ca1c87762"/>
+					<box leftPadding="10">
+						<topPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<leftPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.0" lineColor="#F2F2F2"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Employee Comments : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="21" y="105" width="531" height="60" uuid="9f147037-eecc-4849-bc94-2562f44e0431"/>
+					<box leftPadding="10" rightPadding="10">
+						<leftPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.75" lineColor="#F2F2F2"/>
+					</box>
+					<textElement>
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employee_comments}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement positionType="Float" x="142" y="83" width="410" height="20" uuid="5619617b-1970-4fd9-896d-d06d63d9f9bb"/>
+					<box>
+						<topPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<leftPen lineWidth="0.0" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.75" lineColor="#F2F2F2"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Include any comments on your overall performance for the las t one year]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Title" positionType="Float" x="-1" y="63" width="553" height="20" uuid="e77a7033-8f69-4d7d-93bf-8e60a01992e8"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[Overall Rating and Comments]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement positionType="Float" x="21" y="185" width="533" height="70" uuid="3ba0fbd7-f195-4417-aca7-7443cdfefd3f"/>
+					<box leftPadding="10" rightPadding="10">
+						<leftPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<bottomPen lineWidth="0.75" lineColor="#F2F2F2"/>
+						<rightPen lineWidth="0.75" lineColor="#F2F2F2"/>
+					</box>
+					<textElement>
+						<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{recomendation} + "\n" + $F{reviewer_comments}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" x="432" y="21" width="47" height="15" uuid="41fa0496-67b9-45d0-8d4c-836bb8b9147d"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{comp_reviewer_points}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="330" y="21" width="102" height="15" forecolor="#000000" uuid="f7f5b44e-38b6-4492-90fa-b1ec89f952cd"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Supervisor Rating :]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="Float" x="0" y="4" width="555" height="1" uuid="3db8fc07-f786-4aec-b68f-37a13867c716"/>
+					<graphicElement>
+						<pen lineStyle="Dotted" lineColor="#666666"/>
+					</graphicElement>
+				</line>
+				<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" x="505" y="6" width="47" height="15" uuid="13d5c8c5-1bd9-4026-b4ce-4e9914cf693e"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{self_rating}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0.00;-###0.00" isBlankWhenNull="true">
+					<reportElement style="Detail" x="505" y="21" width="47" height="15" uuid="c7c37667-4173-494f-9086-064a2d0caeac"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{supervisor_rating}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="479" y="6" width="25" height="15" forecolor="#000000" uuid="cae383a5-3b3e-48c7-903f-fb16739114cc"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[SR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="479" y="21" width="25" height="15" forecolor="#000000" uuid="21bc32fb-4dc6-4c69-af77-0d4ed2b4d061"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[SR]]></text>
+				</staticText>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="256" width="555" height="29" uuid="c343cf6b-4abc-440e-b759-1a1bc718bc3e"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="job_review_id">
+						<subreportParameterExpression><![CDATA[$F{job_review_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="organd">
+						<subreportParameterExpression><![CDATA[$P{organd}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="orgwhere">
+						<subreportParameterExpression><![CDATA[$P{orgwhere}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "vw_evaluation_points_subrpt3.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="49" uuid="154711d1-c0bd-4bed-b22d-db67f802f845"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Appraisal Ratings Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch"/>
+	</columnHeader>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="5c379c06-c514-481e-b0d1-22c1dba219a7"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="da8d3588-edeb-4b0c-b42b-8e6439ff732b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="421d153c-12ba-426f-88fd-170048c975d3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="a303bfcf-94c2-42d6-9937-4752c8806538"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

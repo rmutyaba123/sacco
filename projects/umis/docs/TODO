@@ -1,0 +1,20 @@
+TODO
+
+- Posting finance to finance
+- On approval for Finance, dean add to audit table
+- Do extra audit
+- Batch printing
+
+Done
+- Add qcourse location
+- Audit the probation and see registrar items
+- Student Default residence and room from last quarter
+- See how major content is selected with bulleting
+- Migrate the sequences
+- Add a student into entitys on admisions
+- Have an audit trail for when transcripts are printed
+- Add residence % and link to qstudents
+- Check on qgrades - duplicate (qstudentid, qcourseid)
+- See how to solve the Inter-sesion problem {Seem to not exist}
+- See how to solve the inter-semester problem {Registry to come up with naming for inter semester}
+- Optimise on selection of qstudents on the Semester Grade form - UEAB

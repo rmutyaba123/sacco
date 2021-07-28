@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_timetable" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0ac72a41-f554-4b0e-a416-136a61d4065b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_timetable.session_id, vw_timetable.session_name, vw_timetable.staff_id, vw_timetable.surname, vw_timetable.stream_class_id, vw_timetable.stream, vw_timetable.org_id, vw_timetable.subject_id, vw_timetable.subject_name, vw_timetable.timetable_id, vw_timetable.monday, vw_timetable.tuesday, vw_timetable.wednesday, vw_timetable.thursday, vw_timetable.friday, vw_timetable.saturday, vw_timetable.start_time, vw_timetable.end_time
+FROM vw_timetable
+Where vw_timetable.timetable_id is not null
+$P!{organd}
+order by session_id]]>
+	</queryString>
+	<field name="session_id" class="java.lang.Integer"/>
+	<field name="session_name" class="java.lang.String"/>
+	<field name="staff_id" class="java.lang.Integer"/>
+	<field name="surname" class="java.lang.String"/>
+	<field name="stream_class_id" class="java.lang.Integer"/>
+	<field name="stream" class="java.lang.String"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="subject_id" class="java.lang.Integer"/>
+	<field name="subject_name" class="java.lang.String"/>
+	<field name="timetable_id" class="java.lang.Integer"/>
+	<field name="monday" class="java.lang.Boolean"/>
+	<field name="tuesday" class="java.lang.Boolean"/>
+	<field name="wednesday" class="java.lang.Boolean"/>
+	<field name="thursday" class="java.lang.Boolean"/>
+	<field name="friday" class="java.lang.Boolean"/>
+	<field name="saturday" class="java.lang.Boolean"/>
+	<field name="start_time" class="java.sql.Time"/>
+	<field name="end_time" class="java.sql.Time"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="5" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="14d74827-28e3-4811-b72a-3d1ad1af8a97"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="45" height="15" forecolor="#000000" uuid="bba0fda3-db37-406d-b791-b6cdfe599b1c"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Session]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="49" y="0" width="44" height="15" forecolor="#000000" uuid="c1fc2709-c9f6-41ab-ac2d-faddedde3ef8"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Stream]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="97" y="0" width="70" height="15" forecolor="#000000" uuid="5fab4d10-8433-4387-9e21-3de3a8420ef5"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Subject Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="168" y="0" width="39" height="15" forecolor="#000000" uuid="b3733cf0-b79e-4fc6-ba79-ebf9b6467179"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[MON]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="234" y="0" width="29" height="15" forecolor="#000000" uuid="c63d59a7-5c19-40f5-adbf-2b1ffc1668d5"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[TUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="280" y="0" width="29" height="15" forecolor="#000000" uuid="4c00196d-30c7-4f1a-842a-4a005d19bdac"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[WED]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="328" y="0" width="29" height="15" forecolor="#000000" uuid="06ae555b-5bf8-45bd-83aa-ab253d40774b"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[THU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="378" y="0" width="29" height="15" forecolor="#000000" uuid="0cf1555a-8105-4c55-8de6-3e1bea6a5e58"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[FRI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="439" y="0" width="29" height="15" forecolor="#000000" uuid="76ad2bbc-e16e-47e3-b4f6-7f614f74deb0"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[SAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="481" y="0" width="29" height="15" forecolor="#000000" uuid="d0bb06aa-7b55-438f-9200-82780dd38c53"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Start Time]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="521" y="0" width="29" height="15" forecolor="#000000" uuid="7dca7960-2d23-440b-be16-d6eef4729003"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[End Time]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a772b3ad-77d8-4339-886e-cf1c77167b06"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="0" y="0" width="45" height="15" uuid="df2c668d-5fdc-4a60-ad1a-dcaafe09e9e9"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{session_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="51" y="0" width="42" height="15" uuid="bb985a6c-6e5a-4db8-9547-f5ecf9e24857"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{stream}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="97" y="0" width="70" height="15" uuid="b599c4be-62f7-4fda-ac11-d2913075ec5e"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{subject_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="167" y="0" width="40" height="15" uuid="21b822b8-f13d-4fd3-8960-b61755c716c9"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="234" y="0" width="29" height="15" uuid="f5e7d014-858f-4f2a-9fa6-ecdefc979db8"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tuesday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="279" y="0" width="29" height="15" uuid="44630fd8-2e78-4922-b38f-212950400f26"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{wednesday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="329" y="0" width="29" height="15" uuid="5ed80acd-a323-4c16-8ac1-446714003bf4"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{thursday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="378" y="0" width="29" height="15" uuid="2015f0fa-109f-4ea4-ac62-952d0e9ecbad"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{friday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="439" y="0" width="29" height="15" uuid="22306fb5-bca6-4bfd-86d8-b1168ba0b426"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{saturday}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="HH.mm" isBlankWhenNull="true">
+					<reportElement style="Detail" x="481" y="0" width="29" height="15" uuid="1aa19604-57e6-4b38-b5ba-247501d03502"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{start_time}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="HH.mm" isBlankWhenNull="true">
+					<reportElement style="Detail" x="521" y="0" width="29" height="15" uuid="0602cfe4-9b5e-4cad-9356-cc4aa2083760"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{end_time}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="4d03c1db-61c1-433b-b483-5e114982543b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

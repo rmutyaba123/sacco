@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<KANNEL url="http://localhost:13131/cgi-bin/sendsms" username="judiciary" password="Baraza9SMS" module="cases" title="Cases" duration="20000">
+	<COMM dbpassword="invent2k" dbpath="jdbc:postgresql://fcc.judiciary.go.ke/cases" dbclass="org.postgresql.Driver" dbusername="root">
+		<QUERY check=".CT." query="SELECT case_title FROM vw_cases" where="file_number"></QUERY>
+		<QUERY check=".CA." query="SELECT ('TITLE: ' || case_title || ' COURTROOM: ' || hearing_location_name || ' DATE: ' || activity_date || ' TIME: ' || activity_time) as agenda FROM vw_case_activity" where="file_number" orderby="activity_date desc"></QUERY>
+	</COMM>
+</KANNEL>
+

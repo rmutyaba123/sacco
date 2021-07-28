@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="2warrant_of_commintment_on_remand" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[10912]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT DISTINCT vw_case_quorum.court_station, vw_case_quorum.activity_date,
+	vw_case_quorum.case_id, vw_case_quorum.case_title,
+	vw_case_quorum.hearing_location_name,
+	vw_case_quorum.file_number, vw_case_quorum.start_date,
+	vw_case_quorum.activity_date, vw_case_quorum.activity_time,
+	vw_case_quorum.finish_time,
+	vw_case_quorum.entity_name as accused,
+	get_parties(vw_case_quorum.case_id, 2) as procecutor,
+	get_parties(vw_case_quorum.case_id, 1) as judge
+FROM vw_case_quorum
+WHERE vw_case_quorum.case_quorum_id = '$P!{filterid}']]>
+	</queryString>
+	<field name="court_station" class="java.lang.String"/>
+	<field name="activity_date" class="java.sql.Date"/>
+	<field name="case_id" class="java.lang.Integer"/>
+	<field name="case_title" class="java.lang.String"/>
+	<field name="hearing_location_name" class="java.lang.String"/>
+	<field name="file_number" class="java.lang.String"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="activity_time" class="java.sql.Time"/>
+	<field name="finish_time" class="java.sql.Time"/>
+	<field name="accused" class="java.lang.String"/>
+	<field name="procecutor" class="java.lang.String"/>
+	<field name="judge" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="-21" y="80" width="597" height="25"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Warrant of Commintment on Remand]]></text>
+			</staticText>
+			<image>
+				<reportElement x="254" y="18" width="63" height="43"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{reportpath}+"coat-of-arms.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="61" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[The Judiciary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="3" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Republic of Kenya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="453" y="18" width="99" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[CRIMINAL 101]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="594" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="41" y="98" width="310" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="39" y="126" width="65" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[WHEREAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="349" y="126" width="185" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[has this day been ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="12" y="141" width="115" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[charged before me with]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="12" y="171" width="156" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[and has been remanded till the ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="12" y="194" width="522" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[This is to authorize and command you to receive him into your custody and to produce him in the Court]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="209" width="22" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[at]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="12" y="156" width="522" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="161" y="209" width="171" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ on the day named.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="32" y="224" width="60" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Dated this]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="242" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="242" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="262" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="277" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="315" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="295" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="295" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="330" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="370" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="350" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="350" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="385" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="426" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="406" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="406" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="441" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="481" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="461" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="461" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="496" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="537" width="68" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(Signature)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="10" y="517" width="134" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Further remanded until]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="552" width="211" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="144" y="517" width="205" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="142" y="28" width="26" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[AT]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="165" y="28" width="244" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{hearing_location_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="62" y="46" width="65" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[CASE NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="408" y="10" width="80" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[COURT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="351" y="46" width="22" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[OF ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="127" y="46" width="224" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{file_number}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="yyyy" isBlankWhenNull="true">
+				<reportElement x="373" y="46" width="95" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="157" y="10" width="251" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{court_station}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="104" y="10" width="53" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[IN THE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="8" y="83" width="32" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[To]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="126" width="247" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{accused}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="127" y="141" width="407" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case_title}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="32" y="209" width="125" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.sql.Time"><![CDATA[$F{finish_time}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="41" y="83" width="310" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="92" y="224" width="125" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{activity_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

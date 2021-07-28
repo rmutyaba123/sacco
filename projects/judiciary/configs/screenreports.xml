@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<REPORTS reportpath="/root/baraza/projects/cases/reports/" report="vw_case_activity_f.jasper" pagedelay="2000" 
+	dbpath="jdbc:postgresql://localhost/appeal" dbclass="org.postgresql.Driver" dbusername="root" dbpassword="invent2k">	
+</REPORTS>

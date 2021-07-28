@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="case_types_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     vw_case_category."case_type_id" AS vw_case_category_case_type_id,
+     vw_case_category."case_type_name" AS vw_case_category_case_type_name,
+     vw_case_category."duration_unacceptable" AS vw_case_category_duration_unacceptable,
+     vw_case_category."duration_serious" AS vw_case_category_duration_serious,
+     vw_case_category."duration_normal" AS vw_case_category_duration_normal,
+     vw_case_category."duration_low" AS vw_case_category_duration_low,
+     vw_case_category."activity_unacceptable" AS vw_case_category_activity_unacceptable,
+     vw_case_category."activity_serious" AS vw_case_category_activity_serious,
+     vw_case_category."activity_normal" AS vw_case_category_activity_normal,
+     vw_case_category."activity_low" AS vw_case_category_activity_low,
+     vw_case_category."case_category_id" AS vw_case_category_case_category_id,
+     vw_case_category."case_category_name" AS vw_case_category_case_category_name,
+     vw_case_category."case_category_title" AS vw_case_category_case_category_title,
+     vw_case_category."case_category_no" AS vw_case_category_case_category_no,
+     vw_case_category."act_code" AS vw_case_category_act_code,
+     vw_case_category."death_sentence" AS vw_case_category_death_sentence,
+     vw_case_category."life_sentence" AS vw_case_category_life_sentence,
+     vw_case_category."min_sentence" AS vw_case_category_min_sentence,
+     vw_case_category."max_sentence" AS vw_case_category_max_sentence,
+     vw_case_category."min_fine" AS vw_case_category_min_fine,
+     vw_case_category."max_fine" AS vw_case_category_max_fine,
+     vw_case_category."min_canes" AS vw_case_category_min_canes,
+     vw_case_category."max_canes" AS vw_case_category_max_canes,
+     vw_case_category."details" AS vw_case_category_details
+FROM
+     "public"."vw_case_category" vw_case_category
+WHERE vw_case_category.case_type_id=$P{filterid}]]>
+	</queryString>
+	<field name="vw_case_category_case_type_id" class="java.lang.Integer"/>
+	<field name="vw_case_category_case_type_name" class="java.lang.String"/>
+	<field name="vw_case_category_duration_unacceptable" class="java.lang.Integer"/>
+	<field name="vw_case_category_duration_serious" class="java.lang.Integer"/>
+	<field name="vw_case_category_duration_normal" class="java.lang.Integer"/>
+	<field name="vw_case_category_duration_low" class="java.lang.Integer"/>
+	<field name="vw_case_category_activity_unacceptable" class="java.lang.Integer"/>
+	<field name="vw_case_category_activity_serious" class="java.lang.Integer"/>
+	<field name="vw_case_category_activity_normal" class="java.lang.Integer"/>
+	<field name="vw_case_category_activity_low" class="java.lang.Integer"/>
+	<field name="vw_case_category_case_category_id" class="java.lang.Integer"/>
+	<field name="vw_case_category_case_category_name" class="java.lang.String"/>
+	<field name="vw_case_category_case_category_title" class="java.lang.String"/>
+	<field name="vw_case_category_case_category_no" class="java.lang.String"/>
+	<field name="vw_case_category_act_code" class="java.lang.String"/>
+	<field name="vw_case_category_death_sentence" class="java.lang.Boolean"/>
+	<field name="vw_case_category_life_sentence" class="java.lang.Boolean"/>
+	<field name="vw_case_category_min_sentence" class="java.lang.Integer"/>
+	<field name="vw_case_category_max_sentence" class="java.lang.Integer"/>
+	<field name="vw_case_category_min_fine" class="java.lang.Float"/>
+	<field name="vw_case_category_max_fine" class="java.lang.Float"/>
+	<field name="vw_case_category_min_canes" class="java.lang.Integer"/>
+	<field name="vw_case_category_max_canes" class="java.lang.Integer"/>
+	<field name="vw_case_category_details" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="683" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="192" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Case Category]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="192" y="0" width="187" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Category Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="383" y="-1" width="138" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Category No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="521" y="0" width="162" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Act Code]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="683" height="15"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="0" y="0" width="192" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{vw_case_category_case_category_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="192" y="0" width="187" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{vw_case_category_case_category_title}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="521" y="0" width="162" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{vw_case_category_act_code}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="379" y="0" width="138" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{vw_case_category_case_category_no}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

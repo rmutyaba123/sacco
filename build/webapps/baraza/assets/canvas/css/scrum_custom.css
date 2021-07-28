@@ -1,0 +1,62 @@
+body[data-sidebar=dark] .navbar-brand-box {
+    background: #fff;
+}
+
+.col-lg-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.66667%;
+    flex: 0 0 99.66667%;
+    max-width: 14.2381%;
+    padding: 0px;
+}
+
+#product_backlog,
+#sprint_backlog,
+#to_do,
+#in_progress,
+#review,
+#done,
+#impediments {
+    /* min-height: 780px; */
+    /* max-height: 500px; */
+    height: 100%;
+    /* overflow: auto; */
+}
+
+.bg-soft-white,
+.badge-soft-white {
+    background-color: #eee !important;
+    color: #556ee6!important;
+}
+
+
+/* Version 2 Scrum Board Upgrade */
+
+body {
+    /* background-color: #F5F7FA; */
+    background-color: #0079bf;
+}
+
+.col-lg-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.66667%;
+    flex: 0 0 99.66667%;
+    max-width: 13.5%;
+    padding: 0px;
+    /* margin-right: 8px; */
+    margin-right: 0.7%;
+}
+
+.card {
+    border-radius: 0.25rem;
+    /* background-color: #e7edf3; */
+    background-color: #ebecf0;
+    border: 0px;
+    margin-bottom: 8px !important;
+}
+
+
+/* .text-muted {
+    color: #000 !important;
+    font-size: 10px;
+} */

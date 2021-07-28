@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_member_contributions" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43a061b2-be4a-42b8-96e5-54697e40659f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ds1" uuid="acb01631-568f-468a-a1e0-e269dd6d22ad">
+		<parameter name="filterid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT entity_id, entity_name, org_id, SUM(investment_amount) AS inv, SUM(merry_go_round_amount) as mgr, SUM(loan_contrib) as loan, SUM(total_contribution) as total
+ FROM vw_contributions
+where entity_id= '$P!{filterid}'
+GROUP BY entity_id, entity_name, org_id]]>
+		</queryString>
+		<field name="entity_id" class="java.lang.Integer"/>
+		<field name="entity_name" class="java.lang.String"/>
+		<field name="org_id" class="java.lang.Integer"/>
+		<field name="inv" class="java.lang.Float"/>
+		<field name="mgr" class="java.lang.Float"/>
+		<field name="loan" class="java.lang.Float"/>
+		<field name="total" class="java.lang.Float"/>
+		<group name="entity_id">
+			<groupExpression><![CDATA[$F{entity_id}]]></groupExpression>
+		</group>
+		<group name="org_id">
+			<groupExpression><![CDATA[$F{org_id}]]></groupExpression>
+		</group>
+		<group name="entity_name">
+			<groupExpression><![CDATA[$F{entity_name}]]></groupExpression>
+		</group>
+		<group name="total">
+			<groupExpression><![CDATA[$F{total}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="entityid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filterid" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_contributions.contribution_type_name, vw_contributions.entity_id, vw_contributions.entity_name, vw_contributions.org_id, vw_contributions.period_id, vw_contributions.start_date, vw_contributions.contribution_id, vw_contributions.contribution_date, vw_contributions.investment_amount, vw_contributions.merry_go_round_amount, vw_contributions.loan_contrib, vw_contributions.extra_contrib, vw_contributions.total_contribution, vw_contributions.paid, vw_contributions.entity_id
+FROM vw_contributions
+where entity_id= '$P!{entityid}' AND period_id = '$P!{filterid}'
+ORDER BY vw_contributions.start_date DESC]]>
+	</queryString>
+	<field name="contribution_type_name" class="java.lang.String"/>
+	<field name="entity_id" class="java.lang.Integer"/>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="period_id" class="java.lang.Integer"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="contribution_id" class="java.lang.Integer"/>
+	<field name="contribution_date" class="java.sql.Date"/>
+	<field name="investment_amount" class="java.lang.Float"/>
+	<field name="merry_go_round_amount" class="java.lang.Float"/>
+	<field name="loan_contrib" class="java.lang.Float"/>
+	<field name="extra_contrib" class="java.lang.Boolean"/>
+	<field name="total_contribution" class="java.lang.Float"/>
+	<field name="paid" class="java.lang.Boolean"/>
+	<variable name="suminvestmentant" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{investment_amount}]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="summgr" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{merry_go_round_amount}]]></variableExpression>
+	</variable>
+	<variable name="sumloan" class="java.lang.Float" calculation="Sum">
+		<variableExpression><![CDATA[$F{loan_contrib}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="174" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="96" y="11" width="345" height="62" uuid="79c855e6-321a-49ff-92fa-5f6c957cc23b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Member Contributions Report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="12" y="85" width="277" height="20" uuid="313a30d8-09c6-4cfc-b329-dff2dc1d1174"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="4" y="111" width="360" height="50" uuid="dd40a74c-5910-48c5-8e5d-0d05eeb314f5"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ds1" uuid="d0d60aea-7271-44aa-84a8-ca5226fc6558">
+						<datasetParameter name="filterid">
+							<datasetParameterExpression><![CDATA[$P{entityid}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="391d9ecf-5b96-4fc3-852f-9790e5b618b4">
+						<jr:columnHeader style="table 2_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="9c665848-6011-4a10-a423-c3e22dcf1d9c"/>
+								<text><![CDATA[Total Investment Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="a1ccc8cc-0f9d-4215-aa9e-8831bdc2c587"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{inv}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="6ca2f6e6-e59d-4eb2-9540-4b38054cc62c">
+						<jr:columnHeader style="table 2_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="9ee404ea-a62f-4825-a03e-7ab8f7b95d8c"/>
+								<text><![CDATA[Total MGR Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="603c936f-f671-4828-8f90-f2354241ad6d"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{mgr}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="ff92ed21-e776-4752-aa95-f13b5ae14f91">
+						<jr:columnHeader style="table 2_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="2d628e0f-e387-430f-a6b1-fa7785631607"/>
+								<text><![CDATA[Total Loan Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="eb62b71e-ce94-4cfc-92dc-e428a3381d18"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{loan}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="9607d48f-91c5-4b52-b6f6-bab48840c900">
+						<jr:columnHeader style="table 2_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="5bbcc268-7c56-47b4-8851-ca8e32a4bfcd"/>
+								<text><![CDATA[Total Contribution]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 2_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="5b922ccf-1f43-4719-97c5-4ee936cdfa08"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="00020d42-750a-498f-b39e-6d60de24e4e6"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="163" height="15" forecolor="#000000" uuid="e5f91e5a-e9e0-4f3a-9a85-233b7b7da339"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Type Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="163" y="0" width="83" height="15" forecolor="#000000" uuid="82f1b3e5-0c4e-4a64-ac86-8d78c90f2c57"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="246" y="0" width="109" height="15" forecolor="#000000" uuid="bec4bec8-ebf6-4df2-8d26-54a4461ab790"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Investment Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="355" y="0" width="77" height="15" forecolor="#000000" uuid="37306836-9294-4d70-91da-6f71e17ea06d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[MGR Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="432" y="0" width="76" height="15" forecolor="#000000" uuid="0a5b3466-8a25-4e8c-9895-ae8e87ca64c8"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Loan Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="a161eadf-1689-459f-91de-4405b2638ef6"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="0" y="0" width="163" height="15" uuid="2055ae52-aec8-467b-a26e-f64e9f36682f"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{contribution_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="163" y="0" width="83" height="15" uuid="04df930a-5492-4c99-a392-07db99210b17"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="246" y="0" width="109" height="15" uuid="c857ad39-0ece-4e4b-9bcb-5fae57ff2ab5"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{investment_amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="355" y="0" width="77" height="15" uuid="6357f4ae-d12b-45d7-ab5c-2c63c6b6c557"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{merry_go_round_amount}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="432" y="0" width="76" height="15" uuid="e617a7c4-527c-47e6-8873-8815e27c2927"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{loan_contrib}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="38" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="8" y="8" width="547" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="f71813a5-ab75-4e45-aba6-e584d010ed17"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="387" y="0" width="40" height="20" forecolor="#736343" uuid="292f51d7-1789-422f-aad1-007dc2919bdf"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="307" y="0" width="80" height="20" forecolor="#736343" uuid="47990f6d-1ec2-476f-bb2e-4206d638aaeb"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="9c9b0f8e-595a-4f61-8358-6032ab2902ac"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="8" y="0" width="58" height="20" uuid="60599527-8325-4735-a23c-6fa3710beb6f"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Totals]]></text>
+			</staticText>
+			<textField pattern="#,##0" isBlankWhenNull="false">
+				<reportElement x="246" y="0" width="109" height="20" uuid="1b8d40ab-42aa-47ec-baec-9576ad8d2424"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{suminvestmentant}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="355" y="0" width="77" height="20" uuid="caad5a4d-384a-442a-92a5-6d856693654a"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{summgr}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="432" y="0" width="76" height="20" uuid="6fa23862-6469-4e69-afd9-2ddd4bbe3b7f"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Double"/>
+					<bottomPen lineWidth="1.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumloan}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

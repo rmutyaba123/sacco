@@ -1,0 +1,67 @@
+<APP password="change_password" material="true" org="org_id" name="Human Resources" billing="false">
+	<DESK w="700" h="580" name="My Details" key="4">
+		<FORMVIEW new="false" keyfield="entity_id" name="My Details" user="entity_id" table="vw_employees" gohint="Follow this link to update your details">
+			<TEXTFIELD w="75" title="ID">employee_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Gender">gender_name</TEXTFIELD>
+			<TEXTDECIMAL w="75" title="Basic Salary">basic_salary</TEXTDECIMAL>
+			<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department Role">department_role_name</TEXTFIELD>
+			<CHECKBOX w="75" title="Active">active</CHECKBOX>
+		</FORMVIEW>
+	</DESK>
+	<DESK w="700" h="550" name="Leave Application" key="5">
+		<JASPER reportfile="vw_employee_leave_a.jasper" name="Leave Report" user="filterid"></JASPER>
+		<GRID keyfield="employee_leave_id" name="Leave Application" where="(approve_status = 'Draft')" user="entity_id" table="vw_employee_leave">
+			<TEXTFIELD w="75" title="Leave Type">leave_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Leave From">leave_from</TEXTDATE>
+			<TEXTDATE w="75" title="Leave To">leave_to</TEXTDATE>
+			<TEXTFIELD w="75" title="Leave Days">Leave_days</TEXTFIELD>
+			<CHECKBOX w="75" title="Special Request">special_request</CHECKBOX>
+			<TEXTFIELD w="175" title="Narrative">narrative</TEXTFIELD>
+			<FORM keyfield="employee_leave_id" name="Leave" table="employee_leave">
+				<USERFIELD>entity_id</USERFIELD>
+				<DEFAULT default="Draft">approve_status</DEFAULT>
+				<COMBOBOX w="430" h="20" lpfield="leave_type_name" x="10" y="10" lptable="vw_employee_leave_types" where="(leave_valid = true)" title="Leave Type" user="entity_id">leave_type_id</COMBOBOX>
+				<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="30" lptable="vw_employees" where="(active = true)" title="Contact Person" lpkey="entity_id">contact_entity_id</COMBOBOX>
+				<TEXTDATE w="150" h="20" x="10" y="50" title="Leave From" required="true">leave_from</TEXTDATE>
+				<TEXTDATE w="150" h="20" x="290" y="50" title="Leave To">leave_to</TEXTDATE>
+				<CHECKBOX w="150" h="20" x="10" y="70" title="Start Half Day">Start_Half_Day</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="290" y="70" title="End Half Day">End_Half_Day</CHECKBOX>
+				<TEXTFIELD w="430" h="20" x="10" y="90" title="Narrative">narrative</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="110" title="Details">details</TEXTAREA>
+			</FORM>
+			<ACTIONS>
+				<ACTION fnct="leave_aplication">Apply for Leave</ACTION>
+				<ACTION approval="1" fnct="leave_special">Special Application</ACTION>
+			</ACTIONS>
+		</GRID>
+		<GRID keyfield="employee_leave_id" name="Leave List" orderby="leave_from desc" user="entity_id" table="vw_employee_leave">
+			<TEXTFIELD w="75" title="Leave Type">leave_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Leave From">leave_from</TEXTDATE>
+			<TEXTDATE w="75" title="Leave To">leave_to</TEXTDATE>
+			<TEXTFIELD w="75" title="Leave Days">Leave_days</TEXTFIELD>
+			<CHECKBOX w="75" title="Special Request">special_request</CHECKBOX>
+			<TEXTFIELD w="175" title="Narrative">narrative</TEXTFIELD>
+			<TEXTFIELD w="75" title="Status">approve_status</TEXTFIELD>
+			<FORM keyfield="employee_leave_id" name="Leave" table="employee_leave">
+				<USERFIELD>entity_id</USERFIELD>
+				<DEFAULT default="Draft">approve_status</DEFAULT>
+				<COMBOBOX w="430" h="20" lpfield="leave_type_name" x="10" y="10" lptable="vw_employee_leave_types" where="(leave_valid = true)" title="Leave Type" user="entity_id">leave_type_id</COMBOBOX>
+				<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="30" lptable="vw_employees" where="(active = true)" title="Contact Person" lpkey="entity_id">contact_entity_id</COMBOBOX>
+				<TEXTDATE w="150" h="20" x="10" y="50" title="Leave From" required="true">leave_from</TEXTDATE>
+				<TEXTDATE w="150" h="20" x="290" y="50" title="Leave To">leave_to</TEXTDATE>
+				<CHECKBOX w="150" h="20" x="10" y="70" title="Start Half Day">Start_Half_Day</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="290" y="70" title="End Half Day">End_Half_Day</CHECKBOX>
+				<TEXTFIELD w="430" h="20" x="10" y="90" title="Narrative">narrative</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="110" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+		<GRID keyfield="employee_leave_type_id" name="Leave Types" where="(leave_valid = true)" user="entity_id" table="vw_employee_leave_types">
+			<TEXTFIELD w="75" title="Leave Type Name">leave_type_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Allowed Leave Days">allowed_leave_days</TEXTFIELD>
+			<TEXTFIELD w="75" title="Leave Days Span">leave_days_span</TEXTFIELD>
+		</GRID>
+	</DESK>
+</APP>

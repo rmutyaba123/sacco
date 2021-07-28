@@ -1,0 +1,22 @@
+TODO
+
+- Mechant account
+- Subscription; Default products, account_definations, accounts
+
+- Loan payments without availability of funds : to test
+- Separate how I make transactions on web : to test
+- Check on minimums for accounts transactions : to test on new transactions
+- desposit account, loan and activity change logs : to test
+- Compute annual compound intrest : to test
+- Summary reports : to test
+
+- Accounts posting
+- Making standing orders
+
+- Online purchase would need API
+Dr customer acocunt
+Cr the vendor
+
+
+Future features
+- Check on minimums for accounts transactions

@@ -1,0 +1,548 @@
+<APP name="schools">
+	<MENU name="School IMIS">
+		<MENU name="Control Panel">
+			<MENU name="Class">50</MENU>
+			<MENU name="Grades">140</MENU>
+			<MENU name="Prefects">125</MENU>
+			<MENU name="Subjects">55</MENU>
+			<MENU name="Exams">65</MENU>
+			<MENU name="Trimester">70</MENU>
+			<MENU name="Disciplinarys">110</MENU>
+			<MENU name="Guardian Types">115</MENU>
+			<MENU name="Dormitorys">120</MENU>
+			<MENU name="Seminars">35</MENU>
+			<MENU name="Clubs">40</MENU>
+			<MENU name="Scholarships">45</MENU>
+			<MENU name="Achievements">25</MENU>
+			<MENU name="Co-curricular"></MENU>
+			<MENU name="Absents">60</MENU>
+			<MENU name="New Applicant" role="applicant">80</MENU>
+		</MENU>
+		<MENU name="Students">
+			<MENU name="Students">1</MENU>
+		</MENU>
+		<MENU name="Trimester">
+			<MENU name="Timetable">95</MENU>
+			<MENU name="View Time Table">100</MENU>
+		</MENU>
+		<MENU name="Summaries">
+			<MENU name="Students List">130</MENU>
+		</MENU>
+		<MENU name="Administration">
+			<MENU name="Instructors">10</MENU>
+		</MENU>
+	</MENU>
+	<DESK w="700" name="Instructors" key="10" h="500">
+		<GRID name="Instructors" keyfield="teacher_id" table="teachers">
+			<TEXTFIELD w="75" title="Title">title</TEXTFIELD>
+			<TEXTFIELD w="75" title="Name">name</TEXTFIELD>
+			<TEXTDATE w="75" title="Dob">dob</TEXTDATE>
+			<TEXTFIELD w="75" title="Marital Status">marital_status</TEXTFIELD>
+			<TEXTFIELD w="75" title="Languages">languages</TEXTFIELD>
+			<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+			<TEXTDECIMAL w="75" title="Salary">salary</TEXTDECIMAL>
+			<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+			<FORM name="Instructors" keyfield="teacher_id" table="teachers">
+				<COMBOLIST w="50" title="Title" y="10" h="20" x="10">title
+					<DATA>Mr</DATA>
+					<DATA>Mrs</DATA>
+					<DATA>Miss</DATA>
+				</COMBOLIST>
+				<TEXTFIELD w="150" title="Name" y="30" h="20" x="290">name</TEXTFIELD>
+				<TEXTDATE w="150" title="Dob" y="50" h="20" x="10">dob</TEXTDATE>
+				<COMBOLIST w="50" title="Gender" y="70" h="20" x="10">gender
+					<DATA>Male</DATA>
+					<DATA>Female</DATA>
+				</COMBOLIST>
+				<COMBOLIST w="50" title="Marital Status" y="90" h="20" x="10">marital_status
+					<DATA>married</DATA>
+					<DATA>single</DATA>
+				</COMBOLIST>
+				<TEXTFIELD w="150" title="Languages" y="110" h="20" x="290">languages</TEXTFIELD>
+				<TEXTDATE w="150" title="Start Date" y="130" h="20" x="10">start_date</TEXTDATE>
+				<TEXTDECIMAL w="150" title="Salary" y="150" h="20" x="290">salary</TEXTDECIMAL>
+				<TEXTDATE w="150" title="End Date" y="170" h="20" x="10">end_date</TEXTDATE>
+			</FORM>
+			<GRID name="Teacher Roles" keyfield="teacher_role_id" linkfield="teacher_id" table="teacher_roles">
+				<TEXTFIELD w="75" title="Teacher Role ID">teacher_role_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Teacher ID">teacher_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Role ID">role_id</TEXTFIELD>
+				<FORM name="Teacher Roles" keyfield="teacher_role_id" linkfield="teacher_id" table="teacher_roles">
+					<COMBOBOX w="430" title="Role ID" lptable="roles" y="30" h="20" x="10" lpfield="role_name">role_id</COMBOBOX>
+				</FORM>
+			</GRID>
+		</GRID>
+		<GRID name="Roles" keyfield="role_id" table="roles">
+			<TEXTFIELD w="75" title="Role Name">role_name</TEXTFIELD>
+			<FORM name="Roles" keyfield="role_id" table="roles">
+				<TEXTFIELD w="150" title="Role Name" y="10" h="20" x="10">role_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Guardians" key="15" h="500">
+		<GRID name="Guardians" keyfield="entity_id" table="guardians">
+			<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Middle Name">middle_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Gender">gender</TEXTFIELD>
+			<TEXTDATE w="75" title="Dob">dob</TEXTDATE>
+			<TEXTFIELD w="75" title="Telephone">telephone</TEXTFIELD>
+			<FORM name="Guardians" keyfield="entity_id" table="guardians">
+				<TEXTFIELD w="150" title="Surname" y="10" h="20" x="10">surname</TEXTFIELD>
+				<TEXTFIELD w="150" title="Middle Name" y="10" h="20" x="290">middle_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="First Name" y="30" h="20" x="10">entity_name</TEXTFIELD>
+				<COMBOLIST w="50" title="Gender" y="30" h="20" x="10">gender
+					<DATA>Male</DATA>
+					<DATA>Female</DATA>
+				</COMBOLIST>
+				<COMBOBOX w="430" title="Student Name" lptable="students" y="50" h="20" x="10" lpfield="surname">entity_id</COMBOBOX>
+				<TEXTDATE w="150" title="Dob" y="70" h="20" x="10">dob</TEXTDATE>
+				<TEXTFIELD w="150" title="Telephone" y="90" h="20" x="10">telephone</TEXTFIELD>
+			</FORM>
+			<GRID name="Address" keyfield="address_id" linkfield="table_id" table="vw_address" where="table_name = 'guardians'">
+				<DEFAULT default="guardians">table_name</DEFAULT>
+				<TEXTFIELD w="100" title="Country">sys_country_name</TEXTFIELD>
+				<TEXTFIELD w="100" title="Postal Code">postal_code</TEXTFIELD>
+				<TEXTFIELD w="100" title="Town">town</TEXTFIELD>
+				<TEXTFIELD w="100" title="Phone Number">phone_number</TEXTFIELD>
+				<TEXTFIELD w="100" title="Mobile">mobile</TEXTFIELD>
+				<TEXTFIELD w="140" title="Email">email</TEXTFIELD>
+				<FORM name="Address" keyfield="address_id" linkfield="table_id" table="address">
+					<DEFAULT default="guardians">table_name</DEFAULT>
+					<COMBOBOX w="430" title="Country" default="KE" lptable="sys_countrys" noorg="true" y="10" h="20" x="10" lpfield="sys_country_name">sys_country_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Post Office Box" y="30" h="20" x="10">post_office_box</TEXTFIELD>
+					<TEXTFIELD w="150" title="Postal Code" y="30" h="20" x="290">postal_code</TEXTFIELD>
+					<TEXTFIELD w="150" title="Town" y="50" h="20" x="10">town</TEXTFIELD>
+					<TEXTFIELD w="430" title="Premises" y="70" h="20" x="10">premises</TEXTFIELD>
+					<TEXTFIELD w="430" title="Street" y="90" h="20" x="10">street</TEXTFIELD>
+					<TEXTFIELD w="430" title="Phone Number" y="110" h="20" x="10">phone_number</TEXTFIELD>
+					<TEXTFIELD w="150" title="Extension" y="130" h="20" x="10">extension</TEXTFIELD>
+					<TEXTFIELD w="430" title="Mobile" y="150" h="20" x="10">mobile</TEXTFIELD>
+					<TEXTFIELD w="430" title="Fax" y="170" h="20" x="10">fax</TEXTFIELD>
+					<TEXTFIELD w="430" title="Email" y="190" h="20" x="10">email</TEXTFIELD>
+				</FORM>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Achievements" key="25" h="550">
+		<GRID name="Achievements" keyfield="achievement_id" table="achievements">
+			<TEXTFIELD w="75" title="Achievement ID">achievement_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Achievement Name">achievement_name</TEXTFIELD>
+			<FORM name="Achievements" keyfield="achievement_id" table="achievements">
+				<TEXTFIELD w="150" title="Achievement Name" y="10" h="20" x="10">achievement_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Subjects" key="55" h="550">
+		<GRID name="Subjects" keyfield="subject_id" table="subjects">
+			<TEXTFIELD w="75" title="Subject ID">subject_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Subject Name">subject_name</TEXTFIELD>
+			<FORM name="Subjects" keyfield="subject_id" table="subjects">
+				<TEXTFIELD w="150" title="Subject Name" y="10" h="20" x="10">subject_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Absents" key="60" h="550">
+		<GRID name="Absents" keyfield="absent_id" table="absents">
+			<TEXTFIELD w="75" title="Absent ID">absent_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Absent Name">absent_name</TEXTFIELD>
+			<FORM name="Absents" keyfield="absent_id" table="absents">
+				<TEXTFIELD w="150" title="Absent Name" y="10" h="20" x="10">absent_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="50" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Trimester" key="70" h="550">
+		<GRID name="Trimester" keyfield="trimester_id" table="trimester">
+			<TEXTFIELD w="75" title="Trimester id">trimester_id</TEXTFIELD>
+			<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+			<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+			<CHECKBOX w="75" title="Closed">closed</CHECKBOX>
+			<FORM name="Trimester" keyfield="trimester_id" table="trimester">
+				<TEXTFIELD w="150" title="Trimester id" y="10" h="20" x="10">trimester_id</TEXTFIELD>
+				<TEXTDATE w="150" title="Start Date" y="30" h="20" x="10">start_date</TEXTDATE>
+				<TEXTDATE w="150" title="End Date" y="50" h="20" x="290">end_date</TEXTDATE>
+				<CHECKBOX w="150" title="Active" y="70" h="20" x="10">active</CHECKBOX>
+				<CHECKBOX w="150" title="Closed" y="90" h="20" x="10">closed</CHECKBOX>
+				<TEXTAREA w="430" title="Details" y="110" h="70" x="10">details</TEXTAREA>
+			</FORM>
+			<GRID name="Term Students" keyfield="term_student_id" linkfield="term_id" table="vw_term_students">
+				<TEXTFIELD w="75" title="Term Name">term_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Start Date">start_date</TEXTFIELD>
+				<TEXTFIELD w="75" title="End Date">end_date</TEXTFIELD>
+				<FORM name="Term Students" keyfield="term_student_id" linkfield="term_id" table="term_students">
+					<COMBOBOX w="430" title="Entity ID" lptable="entitys" where="(entity_type_id=4)" y="10" h="20" x="10" lpfield="entity_name">entity_id</COMBOBOX>
+					<COMBOBOX w="430" title="Class Name" lptable="class" y="30" h="20" x="10" lpfield="class_name">class_id</COMBOBOX>
+					<TEXTAREA w="430" title="Details" y="50" h="70" x="10">details</TEXTAREA>
+				</FORM>
+				<GRID name="Term Student Exams" keyfield="term_student_exam" linkfield="term_student_id" table="term_student_exams">
+					<TEXTFIELD w="75" title="Term Student Exam">term_student_exam</TEXTFIELD>
+					<TEXTFIELD w="75" title="Term Student ID">term_student_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Exam ID">exam_id</TEXTFIELD>
+					<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+					<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+					<FORM name="Term Student Exams" keyfield="term_student_exam" linkfield="term_student_id" table="term_student_exams">
+						<COMBOBOX w="430" title="Exam ID" lptable="exams" y="10" h="20" x="10" lpfield="exam_name">exam_id</COMBOBOX>
+						<TEXTDATE w="150" title="Start Date" y="30" h="20" x="10">start_date</TEXTDATE>
+						<TEXTDATE w="150" title="End Date" y="30" h="20" x="290">end_date</TEXTDATE>
+					</FORM>
+				</GRID>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Students" key="1" h="550">
+		<GRID name="Student" keyfield="entity_id" table="students">
+			<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Middle Name">middle_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Adm No">adm_no</TEXTFIELD>
+			<TEXTDATE w="75" title="Dob">dob</TEXTDATE>
+			<FORM name="Students" keyfield="entity_id" table="students">
+				<COMBOBOX w="430" title="Org ID" lptable="orgs" y="10" h="20" x="10" lpfield="org_name">org_id</COMBOBOX>
+				<TEXTFIELD w="150" title="Surname" y="50" h="20" x="10">surname</TEXTFIELD>
+				<TEXTFIELD w="150" title="Middle Name" y="70" h="20" x="290">middle_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="First Name" y="90" h="20" x="10">first_name</TEXTFIELD>
+				<TEXTDATE w="150" title="Adm Date" y="110" h="20" x="10">adm_date</TEXTDATE>
+				<COMBOLIST w="150" title="Gender" y="130" h="20" x="10">gender
+					<DATA key="M">Male</DATA>
+					<DATA key="F">Female</DATA>
+				</COMBOLIST>
+				<TEXTDATE w="150" title="Dob" y="150" h="20" x="10">dob</TEXTDATE>
+				<TEXTFIELD w="150" title="Entry Marks" y="170" h="20" x="10">entry_grade</TEXTFIELD>
+				<COMBOLIST w="150" title="Entry Grade" y="190" h="20" x="10">score
+					<DATA key="M">A (plain)</DATA>
+					<DATA key="F">A- (minus)</DATA>
+					<DATA key="M">B+ (plus)</DATA>
+					<DATA key="M">B (plain)</DATA>
+					<DATA key="M">B (minus)</DATA>
+					<DATA key="M">C (plus)</DATA>
+					<DATA key="M">C (plain)</DATA>
+					<DATA key="M">C (minus)</DATA>
+					<DATA key="M">D (plus)</DATA>
+					<DATA key="M">D (plain)</DATA>
+					<DATA key="M">D (minus)</DATA>
+					<DATA key="M">E</DATA>
+				</COMBOLIST>
+				<TEXTFIELD w="150" title="Adm No" y="210" h="20" x="290">adm_no</TEXTFIELD>
+				<TEXTDATE w="150" title="Exit Date" y="230" h="20" x="10">exit_date</TEXTDATE>
+				<COMBOBOX w="430" title="Dormitory" lptable="dormitorys" y="250" h="20" x="10" lpfield="dormitory_name">dormitory_id</COMBOBOX>
+				<TEXTFIELD w="150" title="Telephone" y="270" h="20" x="10">telephone</TEXTFIELD>
+				<TEXTFIELD w="150" title="Email Address" y="290" h="20" x="10">email</TEXTFIELD>
+				<COMBOBOX w="430" title="Class" lptable="class" y="310" h="20" x="10" lpfield="class_name">class_id</COMBOBOX>
+				<COMBOBOX w="430" title="Religion" lptable="religions" y="330" h="20" x="10" lpfield="religion_name">religion_id</COMBOBOX>
+			</FORM>
+			<GRID name="Address" keyfield="address_id" linkfield="table_id" table="vw_address" where="table_name = 'students'">
+				<TEXTFIELD w="100" title="Country">sys_country_name</TEXTFIELD>
+				<TEXTFIELD w="100" title="Postal Code">postal_code</TEXTFIELD>
+				<TEXTFIELD w="100" title="Town">town</TEXTFIELD>
+				<TEXTFIELD w="100" title="Phone Number">phone_number</TEXTFIELD>
+				<TEXTFIELD w="100" title="Mobile">mobile</TEXTFIELD>
+				<TEXTFIELD w="140" title="Email">email</TEXTFIELD>
+				<TEXTFIELD w="140" title="Default">is_default</TEXTFIELD>
+				<FORM name="Address" keyfield="address_id" linkfield="table_id" table="address">
+					<DEFAULT default="students">table_name</DEFAULT>
+					<COMBOBOX w="430" title="Country" default="KE" lptable="sys_countrys" noorg="true" y="10" h="20" x="10" lpfield="sys_country_name">sys_country_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Post Office Box" y="30" h="20" x="10">post_office_box</TEXTFIELD>
+					<TEXTFIELD w="150" title="Postal Code" y="30" h="20" x="290">postal_code</TEXTFIELD>
+					<TEXTFIELD w="150" title="Town" y="50" h="20" x="10">town</TEXTFIELD>
+					<TEXTFIELD w="430" title="Premises" y="70" h="20" x="10">premises</TEXTFIELD>
+					<TEXTFIELD w="430" title="Street" y="90" h="20" x="10">street</TEXTFIELD>
+					<TEXTFIELD w="430" title="Phone Number" y="110" h="20" x="10">phone_number</TEXTFIELD>
+					<TEXTFIELD w="150" title="Extension" y="130" h="20" x="10">extension</TEXTFIELD>
+					<TEXTFIELD w="430" title="Mobile" y="150" h="20" x="10">mobile</TEXTFIELD>
+					<TEXTFIELD w="430" title="Fax" y="170" h="20" x="10">fax</TEXTFIELD>
+					<TEXTFIELD w="430" title="Email" y="190" h="20" x="10">email</TEXTFIELD>
+				</FORM>
+			</GRID>
+			<GRID name="Previous Schools" keyfield="student_previous_schools_id" linkfield="entity_id" table="student_previous_schools">
+				<TEXTFIELD w="75" title="School Name">school_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+				<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+				<FORM name="Student Previous Schools" keyfield="student_previous_schools_id" linkfield="entity_id" table="student_previous_schools">
+					<TEXTFIELD w="150" title="School Name" y="30" h="20" x="10">school_name</TEXTFIELD>
+					<TEXTDATE w="150" title="Start Date" y="30" h="20" x="290">start_date</TEXTDATE>
+					<TEXTDATE w="150" title="End Date" y="50" h="20" x="10">end_date</TEXTDATE>
+					<TEXTAREA w="430" title="Details" y="70" h="70" x="10">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<GRID name="Student Guardian" keyfield="entity_id" linkfield="student_id" table="guardians">
+				<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+				<TEXTFIELD w="75" title="Middle Name">middle_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="First Name">entity_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Gender">gender</TEXTFIELD>
+				<TEXTDATE w="75" title="Dob">dob</TEXTDATE>
+				<TEXTFIELD w="75" title="Telephone">telephone</TEXTFIELD>
+				<FORM name="Guardians" keyfield="entity_id" linkfield="student_id" table="guardians">
+					<TEXTFIELD w="150" title="Surname" y="10" h="20" x="10">surname</TEXTFIELD>
+					<TEXTFIELD w="150" title="Middle Name" y="10" h="20" x="290">middle_name</TEXTFIELD>
+					<TEXTFIELD w="150" title="First Name" y="30" h="20" x="10">entity_name</TEXTFIELD>
+					<COMBOLIST w="50" title="Gender" y="50" h="20" x="10">gender
+						<DATA>Male</DATA>
+						<DATA>Female</DATA>
+					</COMBOLIST>
+					<COMBOBOX w="430" title="Relationship" lptable="kin_types" y="70" h="20" x="10" lpfield="kin_name">kin_type_id</COMBOBOX>
+					<TEXTDATE w="150" title="Dob" y="90" h="20" x="10">dob</TEXTDATE>
+					<TEXTFIELD w="150" title="Telephone" y="110" h="20" x="10">telephone</TEXTFIELD>
+					<CHECKBOX w="150" title="Exists" y="130" h="20" x="10">exists</CHECKBOX>
+					<TEXTFIELD w="150" title="Post Office Box" tab="Address" y="150" h="20" x="10">post_office_box</TEXTFIELD>
+					<TEXTFIELD w="150" title="Postal Code" tab="Address" y="170" h="20" x="10">postal_code</TEXTFIELD>
+					<TEXTFIELD w="150" title="Town" tab="Address" y="190" h="20" x="10">town</TEXTFIELD>
+					<TEXTFIELD w="150" title="Premises" tab="Address" y="210" h="20" x="10">premises</TEXTFIELD>
+					<TEXTFIELD w="150" title="Street" tab="Address" y="230" h="20" x="10">street</TEXTFIELD>
+				</FORM>
+			</GRID>
+			<GRID name="Term Registration" keyfield="term_student_id" linkfield="entity_id" table="vw_term_students">
+				<TEXTFIELD w="75" title="Term Name">term_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Start Date">start_date</TEXTFIELD>
+				<TEXTFIELD w="75" title="End Date">end_date</TEXTFIELD>
+				<FORM name="Term Students" keyfield="term_student_id" linkfield="entity_id" table="term_students">
+					<COMBOBOX w="430" title="Term Name" lptable="terms" y="10" h="20" x="10" lpfield="term_name">term_id</COMBOBOX>
+				</FORM>
+			</GRID>
+			<GRID name="Students Club" keyfield="students_club_id" linkfield="entity_id" table="vw_students_club">
+				<TEXTFIELD w="75" title="Club Name">club_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Position">position</TEXTFIELD>
+				<FORM name="Students Club" keyfield="students_club_id" linkfield="entity_id" table="students_club">
+					<COMBOBOX w="430" title="Club Name" lptable="clubs" y="10" h="20" x="10" lpfield="club_name">club_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Position" y="30" h="20" x="10">position</TEXTFIELD>
+				</FORM>
+			</GRID>
+			<GRID name="Student Dormitory" keyfield="dormitory_student_id" linkfield="entity_id" table="vw_dormitory_students">
+				<TEXTFIELD w="75" title="Dormitory Name">dormitory_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Capacity">capacity</TEXTFIELD>
+				<FORM name="Dormitory Students" keyfield="dormitory_student_id" linkfield="entity_id" table="dormitory_students">
+					<COMBOBOX w="430" title="Dormitory ID" lptable="dormitorys" y="10" h="20" x="10" lpfield="dormitory_name">dormitory_id</COMBOBOX>
+				</FORM>
+			</GRID>
+			<GRID name="Student Exam" keyfield="student_exam_id" linkfield="entity_id" table="vw_student_exam">
+				<TEXTFIELD w="75" title="Exam Name">exam_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Subject Name">subject_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Cat 1">cat1</TEXTFIELD>
+				<TEXTFIELD w="75" title="Cat 2">cat2</TEXTFIELD>
+				<TEXTFIELD w="75" title="Main Exam">main_exam</TEXTFIELD>
+				<FORM name="Student Exam" keyfield="student_exam_id" linkfield="entity_id" table="student_exam">
+					<COMBOBOX w="430" title="Exam Name" lptable="exams" y="10" h="20" x="10" lpfield="exam_name">exam_id</COMBOBOX>
+					<COMBOBOX w="430" title="Subject Name" lptable="subjects" y="50" h="20" x="10" lpfield="subject_name">subject_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Cat1" y="70" h="20" x="10">cat1</TEXTFIELD>
+					<TEXTFIELD w="150" title="Cat2" y="70" h="20" x="290">cat2</TEXTFIELD>
+					<TEXTFIELD w="150" title="Main Exam" y="90" h="20" x="10">main_exam</TEXTFIELD>
+					<COMBOLIST w="150" title="Grade" y="110" h="20" x="10">grade
+						<DATA key="A">A(plain)</DATA>
+						<DATA key="A-">A-(minus)</DATA>
+						<DATA key="B+">B+(plus)</DATA>
+						<DATA key="B">B(plain)</DATA>
+						<DATA key="B-">B-(minus)</DATA>
+						<DATA key="C+">C+(plus)</DATA>
+						<DATA key="C">C(plain)</DATA>
+						<DATA key="C-">C-(minus)</DATA>
+						<DATA key="D+">D+(plus)</DATA>
+						<DATA key="D">D(plain)</DATA>
+						<DATA key="D-">D-(minus)</DATA>
+						<DATA key="E">E</DATA>
+					</COMBOLIST>
+				</FORM>
+			</GRID>
+			<JASPER name="Exam Report" reportfile="examReport.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Seminars" key="35" h="550">
+		<GRID name="Seminars" keyfield="seminar_id" table="seminars">
+			<TEXTFIELD w="75" title="Seminar Name">seminar_name</TEXTFIELD>
+			<FORM name="Seminars" keyfield="seminar_id" table="seminars">
+				<TEXTFIELD w="150" title="Seminar Name" y="10" h="20" x="10">seminar_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Clubs" key="40" h="550">
+		<GRID name="Clubs" keyfield="club_id" table="clubs">
+			<TEXTFIELD w="75" title="Club Name">club_name</TEXTFIELD>
+			<FORM name="Clubs" keyfield="club_id" table="clubs">
+				<TEXTFIELD w="150" title="Club Name" y="10" h="20" x="10">club_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Scholarships" key="45" h="550">
+		<GRID name="Scholarships" keyfield="scholarship_id" table="scholarships">
+			<TEXTFIELD w="75" title="Scholarship Name">scholarship_name</TEXTFIELD>
+			<FORM name="Scholarships" keyfield="scholarship_id" table="scholarships">
+				<TEXTFIELD w="150" title="Scholarship Name" y="10" h="20" x="10">scholarship_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Class" key="50" h="550">
+		<GRID name="Class" keyfield="class_id" table="class">
+			<TEXTFIELD w="75" title="Class Name">class_name</TEXTFIELD>
+			<FORM name="Classs" keyfield="class_id" table="class">
+				<TEXTFIELD w="150" title="Class Name" y="10" h="20" x="10">class_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="Level" y="30" h="20" x="10">level</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="50" h="70" x="10">details</TEXTAREA>
+			</FORM>
+			<GRID name="Class Exam" keyfield="class_exam_id" linkfield="class_id" table="class_exam">
+				<TEXTFIELD w="75" title="Class Exam ID">class_exam_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Exam ID">exam_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Org ID">org_id</TEXTFIELD>
+				<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+				<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+				<TEXTFIELD w="75" title="Class ID">class_id</TEXTFIELD>
+				<FORM name="Class Exam" keyfield="class_exam_id" linkfield="class_id" table="class_exam">
+					<COMBOBOX w="430" title="Exam Name" lptable="exams" y="10" h="20" x="10" lpfield="exam_name">exam_id</COMBOBOX>
+					<TEXTDATE w="150" title="Start Date" y="30" h="20" x="10">start_date</TEXTDATE>
+					<TEXTDATE w="150" title="End Date" y="50" h="20" x="290">end_date</TEXTDATE>
+					<TEXTAREA w="430" title="Details" y="70" h="70" x="10">details</TEXTAREA>
+				</FORM>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Exams" key="65" h="550">
+		<GRID name="Exams" keyfield="exam_id" table="exams">
+			<TEXTFIELD w="75" title="Exam Name">exam_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Exam Type">exam_type</TEXTFIELD>
+			<FORM name="Exams" keyfield="exam_id" table="exams">
+				<TEXTFIELD w="150" title="Exam Name" y="10" h="20" x="10">exam_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="Exam Type" y="10" h="20" x="290">exam_type</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Prefects" key="125" h="550">
+		<GRID name="Prefects" keyfield="prefect_id" table="prefects">
+			<TEXTFIELD w="75" title="Prefect Name">prefect_name</TEXTFIELD>
+			<FORM name="Prefects" keyfield="prefect_id" table="prefects">
+				<TEXTFIELD w="150" title="Prefect Name" y="10" h="20" x="10">prefect_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Disciplinarys" key="110" h="550">
+		<GRID name="Displinarys" keyfield="displinary_id" table="displinarys">
+			<TEXTFIELD w="75" title="Displinary Name">displinary_name</TEXTFIELD>
+			<FORM name="Displinarys" keyfield="displinary_id" table="displinarys">
+				<TEXTFIELD w="150" title="Displinary Name" y="10" h="20" x="10">displinary_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Guardian Types" key="115" h="550">
+		<GRID name="Guardian Type" keyfield="kin_type_id" table="kin_types">
+			<TEXTFIELD w="75" title="Kin Name">kin_name</TEXTFIELD>
+			<FORM name="Kin Types" keyfield="kin_type_id" table="kin_types">
+				<TEXTFIELD w="150" title="Kin Name" y="10" h="20" x="10">kin_name</TEXTFIELD>
+				<TEXTAREA w="430" title="Details" y="30" h="70" x="10">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Dormitorys" key="120" h="550">
+		<GRID name="Dormitorys" keyfield="dormitory_id" table="dormitorys">
+			<TEXTFIELD w="75" title="Dormitory Name">dormitory_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Dormitory Matron">matron</TEXTFIELD>
+			<TEXTFIELD w="75" title="Dormitory capacity">capacity</TEXTFIELD>
+			<FORM name="Dormitorys" keyfield="dormitory_id" table="dormitorys">
+				<TEXTFIELD w="150" title="Dormitory Name" y="10" h="20" x="10">dormitory_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="Dormitory Capacity" y="30" h="20" x="10">capacity</TEXTFIELD>
+				<TEXTFIELD w="150" title="Dormitory Matron" y="50" h="20" x="10">matron</TEXTFIELD>
+				<TEXTFIELD w="150" title="Cubicle Capacity" y="70" h="20" x="10">cubicle_capacity</TEXTFIELD>
+				<COMBOLIST w="150" title="Grade" y="90" h="20" x="10">sex
+					<DATA key="M">Male</DATA>
+					<DATA key="F">Female</DATA>
+				</COMBOLIST>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Grades" key="140" h="550">
+		<GRID name="Grades" keyfield="grade_id" table="grades">
+			<TEXTFIELD w="75" title="Grade ID">grade_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Grade Name">grade_name</TEXTFIELD>
+			<TEXTDECIMAL w="75" title="Grade Weight">grade_weight</TEXTDECIMAL>
+			<TEXTFIELD w="75" title="Min Range">min_range</TEXTFIELD>
+			<TEXTFIELD w="75" title="Max Range">max_range</TEXTFIELD>
+			<FORM name="Grades" keyfield="grade_id" table="grades">
+				<TEXTFIELD w="150" title="Grade Name" y="10" h="20" x="10">grade_name</TEXTFIELD>
+				<TEXTDECIMAL w="150" title="Grade Weight" y="10" h="20" x="290">grade_weight</TEXTDECIMAL>
+				<TEXTFIELD w="150" title="Min Range" y="30" h="20" x="10">min_range</TEXTFIELD>
+				<TEXTFIELD w="150" title="Max Range" y="30" h="20" x="290">max_range</TEXTFIELD>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Applicants" key="80" h="550">
+		<GRID name="Entitys" keyfield="entity_id" table="entitys">
+			<TEXTFIELD w="75" title="Entity ID">entity_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Entity Type ID">entity_type_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Org ID">org_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Entity Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="User Name">user_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Primary Email">primary_email</TEXTFIELD>
+			<TEXTFIELD w="75" title="Primary Telephone">primary_telephone</TEXTFIELD>
+			<CHECKBOX w="75" title="Super User">super_user</CHECKBOX>
+			<CHECKBOX w="75" title="Entity Leader">entity_leader</CHECKBOX>
+			<CHECKBOX w="75" title="No Org">no_org</CHECKBOX>
+			<TEXTFIELD w="75" title="Function Role">function_role</TEXTFIELD>
+			<TEXTTIMESTAMP w="75" title="Date Enroled">date_enroled</TEXTTIMESTAMP>
+			<CHECKBOX w="75" title="Active">is_active</CHECKBOX>
+			<TEXTFIELD w="75" title="Entity Password">entity_password</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Password">first_password</TEXTFIELD>
+			<TEXTFIELD w="75" title="New Password">new_password</TEXTFIELD>
+			<TEXTFIELD w="75" title="Start Url">start_url</TEXTFIELD>
+			<CHECKBOX w="75" title="Picked">is_picked</CHECKBOX>
+			<TEXTFIELD w="75" title="Class ID">class_id</TEXTFIELD>
+			<FORM name="Entitys" keyfield="entity_id" table="entitys">
+				<COMBOBOX w="430" title="Entity Type ID" lptable="entity_types" y="10" h="20" x="10" lpfield="entity_type_name">entity_type_id</COMBOBOX>
+				<TEXTFIELD w="430" title="Entity Name" y="30" h="20" x="10">entity_name</TEXTFIELD>
+				<TEXTFIELD w="430" title="User Name" y="50" h="20" x="10">user_name</TEXTFIELD>
+				<TEXTFIELD w="430" title="Primary Email" y="70" h="20" x="10">primary_email</TEXTFIELD>
+				<TEXTFIELD w="150" title="Primary Telephone" y="90" h="20" x="10">primary_telephone</TEXTFIELD>
+				<CHECKBOX w="150" title="Super User" y="90" h="20" x="290">super_user</CHECKBOX>
+				<CHECKBOX w="150" title="Entity Leader" y="110" h="20" x="10">entity_leader</CHECKBOX>
+				<CHECKBOX w="150" title="No Org" y="110" h="20" x="290">no_org</CHECKBOX>
+				<TEXTFIELD w="430" title="Function Role" y="130" h="20" x="10">function_role</TEXTFIELD>
+				<TEXTTIMESTAMP w="150" title="Date Enroled" y="150" h="20" x="10">date_enroled</TEXTTIMESTAMP>
+				<CHECKBOX w="150" title="Active" y="150" h="20" x="290">is_active</CHECKBOX>
+				<TEXTFIELD w="150" title="Entity Password" y="170" h="20" x="10">entity_password</TEXTFIELD>
+				<TEXTFIELD w="150" title="First Password" y="170" h="20" x="290">first_password</TEXTFIELD>
+				<TEXTFIELD w="150" title="New Password" y="190" h="20" x="10">new_password</TEXTFIELD>
+				<TEXTFIELD w="150" title="Start Url" y="190" h="20" x="290">start_url</TEXTFIELD>
+				<CHECKBOX w="150" title="Picked" y="210" h="20" x="10">is_picked</CHECKBOX>
+				<TEXTAREA w="430" title="Details" y="230" h="70" x="10">details</TEXTAREA>
+				<TEXTFIELD w="150" title="Class ID" y="300" h="20" x="10">class_id</TEXTFIELD>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="report_student" key="90" h="550">
+		<JASPER name="report_student" reportfile="report_student.jasper"></JASPER>
+	</DESK>
+	<DESK w="700" name="Trimester Timetable" key="95" h="550">
+		<GRID name="Trimester" keyfield="timetable_id" table="vw_timetable">
+			<TEXTFIELD w="75" title="Class Name">class_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Subject Name">subject_name</TEXTFIELD>
+			<SPINTIME w="75" title="Start Time">start_time</SPINTIME>
+			<SPINTIME w="75" title="End Time">end_time</SPINTIME>
+			<FORM name="Timetable" keyfield="timetable_id" table="timetable">
+				<COMBOBOX w="430" title="Class Name" lptable="class" y="10" h="20" x="10" lpfield="class_name">class_id</COMBOBOX>
+				<COMBOBOX w="430" title="Trimester" lptable="trimester" y="30" h="20" x="10" lpfield="trimester_id">trimester_id</COMBOBOX>
+				<COMBOBOX w="430" title="Subject Name" lptable="subjects" y="50" h="20" x="10" lpfield="subject_name">subject_id</COMBOBOX>
+				<TEXTDATE w="150" title="Exam Date" y="70" h="20" x="10">exam_date</TEXTDATE>
+				<SPINTIME w="150" title="Start Time" y="90" h="20" x="10">start_time</SPINTIME>
+				<SPINTIME w="150" title="End Time" y="90" h="20" x="290">end_time</SPINTIME>
+				<COMBOBOX w="430" title="weekday Name" lptable="weekdays" y="110" h="20" x="10" lpfield="weekday_name">weekday_id</COMBOBOX>
+			</FORM>
+		</GRID>
+		<GRID name="Weekdays" keyfield="weekday_id" table="weekdays">
+			<TEXTFIELD w="75" title="Weekday ID">weekday_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Weekday Name">weekday_name</TEXTFIELD>
+			<FORM name="Weekdays" keyfield="weekday_id" table="weekdays">
+				<TEXTFIELD w="150" title="Weekday Name" y="10" h="20" x="10">weekday_name</TEXTFIELD>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Timetable" key="100" h="750">
+		<FILTER location="250" name="Exam Timetable" type="horl">
+			<DRILLDOWN name="Trimesters " keyfield="trimester_id" table="trimester" listfield="trimester_id"></DRILLDOWN>
+			<JASPER filtered="true" name="Exam Timetable" reportfile="examtimetable.jasper"></JASPER>
+		</FILTER>
+	</DESK>
+</APP>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<SMS port="/dev/ttyUSB" portcount="7" _store="ME" datarate="9600" accesscode="invent" nmi="1,1,0,1,0" duration="10000">
+	<COMM dbpassword="" dbpath="jdbc:mysql://localhost:3306/legalcase" dbclass="com.mysql.jdbc.Driver" dbusername="root">
+		<QUERY check=".CT." query="SELECT title FROM lcm_case" where="id_case"></QUERY>
+		<QUERY check=".CS." query="SELECT status FROM lcm_case" where="id_case"></QUERY>
+		<QUERY check=".CL." query="SELECT stage FROM lcm_case" where="id_case"></QUERY>
+		<QUERY check=".CA." query="SELECT replace(concat('TITLE: ',title,' TYPE: ', type,' COURTROOM: ',courtroom,' DATE: ', start_time), '''', '') as agenda FROM lcm_app" where="id_case" orderby="date_update desc"></QUERY>
+
+		<QUERY check=".CTP." query="SELECT title FROM lcm_case" like="title"></QUERY>
+		<QUERY check=".CSP." query="SELECT status FROM lcm_case" like="title"></QUERY>
+		<QUERY check=".CLP." query="SELECT stage FROM lcm_case" like="title"></QUERY>
+		<QUERY check=".CAP." query="SELECT replace(concat('TITLE: ', title, ' TYPE: ', type, ' COURTROOM: ', courtroom, ' DATE: ', start_time), '''', '') AS agenda FROM lcm_app " like= "title" orderby="date_update desc"></QUERY>
+	</COMM>	
+</SMS>
+

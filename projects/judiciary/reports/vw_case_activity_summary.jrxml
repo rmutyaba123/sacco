@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_case_activity_summary" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<subDataset name="sbdata">
+		<parameter name="startrange" class="java.lang.String">
+			<defaultValueExpression><![CDATA["2012-01-01"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="endrange" class="java.lang.String">
+			<defaultValueExpression><![CDATA["2012-01-01"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="organd" class="java.lang.String">
+			<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT court_station, case_type_name,
+ activity_result_name, count(case_activity_id) as activity_count
+
+FROM vw_case_activity
+
+WHERE (vw_case_activity.show_on_diary = true)
+AND (vw_case_activity.activity_date >= '$P!{startrange}')
+AND (vw_case_activity.activity_date <= '$P!{endrange}')
+$P!{organd}
+
+GROUP BY court_station, case_type_name,
+ activity_result_name
+
+ORDER BY court_station, case_type_name,
+ activity_result_name]]>
+		</queryString>
+		<field name="court_station" class="java.lang.String"/>
+		<field name="case_type_name" class="java.lang.String"/>
+		<field name="activity_result_name" class="java.lang.String"/>
+		<field name="activity_count" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startrange" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2012-01-01"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endrange" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2014-01-01"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT court_rank_name, court_station_name, case_type_name,
+activity_name, activity_result_name, count(case_activity_id) as activity_count
+
+FROM vw_case_activity
+
+WHERE (vw_case_activity.show_on_diary = true)
+AND (vw_case_activity.activity_date >= '$P!{startrange}')
+AND (vw_case_activity.activity_date <= '$P!{endrange}')
+$P!{organd}
+
+GROUP BY court_rank_name, court_station_name, case_type_name,
+activity_name, activity_result_name
+
+ORDER BY court_rank_name, court_station_name, case_type_name,
+activity_name, activity_result_name]]>
+	</queryString>
+	<field name="court_rank_name" class="java.lang.String"/>
+	<field name="court_station_name" class="java.lang.String"/>
+	<field name="case_type_name" class="java.lang.String"/>
+	<field name="activity_name" class="java.lang.String"/>
+	<field name="activity_result_name" class="java.lang.String"/>
+	<field name="activity_count" class="java.lang.Long"/>
+	<variable name="activity_count_1" class="java.lang.Long" resetType="Group" resetGroup="court_station_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{activity_count}]]></variableExpression>
+	</variable>
+	<variable name="activity_count_2" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{activity_count}]]></variableExpression>
+	</variable>
+	<group name="court_station_name">
+		<groupExpression><![CDATA[$F{court_station_name}]]></groupExpression>
+		<groupHeader>
+			<band height="35">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="4" y="0" width="168" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{court_rank_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="172" y="0" width="220" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{court_station_name}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="33" width="555" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="44" y="18" width="185" height="15" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Case Type]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="229" y="18" width="178" height="15" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Activity]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="407" y="18" width="88" height="15" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Results]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="495" y="18" width="57" height="15" forecolor="#000000"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Number]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="27">
+				<textField pattern="#,##0;(#,##0)">
+					<reportElement x="495" y="3" width="57" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_count_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="303" y="3" width="115" height="20" forecolor="#000000"/>
+					<textElement>
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[Court Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="44" y="0" width="468" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Activity Summary]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" x="1" y="62" width="554" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" isBold="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["FROM "+$P{startrange}+" TO "+$P{endrange}]]></textFieldExpression>
+			</textField>
+			<crosstab>
+				<reportElement x="0" y="88" width="555" height="49"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="sbdata">
+							<datasetParameter name="startrange">
+								<datasetParameterExpression><![CDATA[$P{startrange}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="endrange">
+								<datasetParameterExpression><![CDATA[$P{endrange}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="organd">
+								<datasetParameterExpression><![CDATA[$P{organd}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<rowGroup name="court_station" width="51" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{court_station}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="51" height="50"/>
+								<textElement>
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{court_station}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="104" height="25" forecolor="#FFFFFF"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="case_type_name" width="53" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{case_type_name}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="53" height="25"/>
+								<textElement>
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{case_type_name}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="52" height="25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<text><![CDATA[Station Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="activity_result_name" height="30" totalPosition="End">
+					<bucket>
+						<bucketExpression class="java.lang.String"><![CDATA[$F{activity_result_name}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isBlankWhenNull="true">
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="32" height="30"/>
+								<textElement>
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$V{activity_result_name}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="1" y="0" width="36" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="8"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="activity_countMeasure" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{activity_count}]]></measureExpression>
+				</measure>
+				<crosstabCell width="32" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="32" height="25"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="32" height="25" rowTotalGroup="court_station">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="32" height="25" forecolor="#FFFFFF"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="37" height="25" columnTotalGroup="activity_result_name">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="1" y="0" width="36" height="25"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="37" rowTotalGroup="court_station" columnTotalGroup="activity_result_name">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="1" y="0" width="36" height="25" forecolor="#FFFFFF"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="32" height="25" rowTotalGroup="case_type_name">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="32" height="25"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="37" height="25" rowTotalGroup="case_type_name" columnTotalGroup="activity_result_name">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="1" y="0" width="36" height="25"/>
+							<textElement>
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_countMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="44" y="0" width="185" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{case_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="229" y="0" width="178" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{activity_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="407" y="0" width="88" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{activity_result_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="495" y="0" width="57" height="15"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{activity_count}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="32" splitType="Stretch">
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="495" y="5" width="57" height="20"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$V{activity_count_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="303" y="5" width="115" height="20" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

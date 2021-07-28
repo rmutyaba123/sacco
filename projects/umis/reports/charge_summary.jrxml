@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="charge_summary" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2010/2011.1"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT quarterid, sublevelname, levellocationname,
+count(studentid) as total_enrollment, sum(hours) as total_hours,
+sum(unitcharge) as total_unitcharge, sum(labcharge) as total_labcharge,
+sum(feescharge) as total_feecharge,
+sum(courseextracharge) as total_courseextracharge,
+sum(clinical_charge) as total_clinical_charge,
+sum(examfee) as total_examfee,
+sum(residencecharge) as total_residencefee, sum(totalfees) as total_fees
+FROM studentquarterview
+WHERE (quarterid = '$P!{filterid}')
+AND (finaceapproval = true) AND (intersession = false)
+AND (withdraw = false) AND (ac_withdraw = false)
+GROUP BY quarterid, sublevelname, levellocationname
+ORDER BY levellocationname, sublevelname;]]>
+	</queryString>
+	<field name="quarterid" class="java.lang.String"/>
+	<field name="sublevelname" class="java.lang.String"/>
+	<field name="levellocationname" class="java.lang.String"/>
+	<field name="total_enrollment" class="java.lang.Long"/>
+	<field name="total_hours" class="java.lang.Double"/>
+	<field name="total_unitcharge" class="java.lang.Double"/>
+	<field name="total_labcharge" class="java.lang.Double"/>
+	<field name="total_feecharge" class="java.lang.Double"/>
+	<field name="total_courseextracharge" class="java.lang.Double"/>
+	<field name="total_clinical_charge" class="java.lang.Double"/>
+	<field name="total_examfee" class="java.lang.Double"/>
+	<field name="total_residencefee" class="java.lang.Double"/>
+	<field name="total_fees" class="java.lang.Double"/>
+	<variable name="total_enrollment_1" class="java.lang.Long" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_enrollment}]]></variableExpression>
+	</variable>
+	<variable name="total_hours_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_hours}]]></variableExpression>
+	</variable>
+	<variable name="total_unitcharge_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_unitcharge}]]></variableExpression>
+	</variable>
+	<variable name="total_labcharge_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_labcharge}]]></variableExpression>
+	</variable>
+	<variable name="total_feecharge_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_feecharge}]]></variableExpression>
+	</variable>
+	<variable name="total_courseextracharge_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_courseextracharge}]]></variableExpression>
+	</variable>
+	<variable name="total_residencefee_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_residencefee}]]></variableExpression>
+	</variable>
+	<variable name="total_fees_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_fees}]]></variableExpression>
+	</variable>
+	<variable name="total_clinical_charge_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_clinical_charge}]]></variableExpression>
+	</variable>
+	<variable name="total_examfee_1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_examfee}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="83" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="446" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="36" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Charge Summary Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="561" y="29" width="70" height="15" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Semester]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="631" y="29" width="140" height="15"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{quarterid}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="21" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="2" width="154" height="19" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="154" y="2" width="75" height="19" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Location]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="229" y="2" width="54" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Enrollment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="283" y="2" width="45" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Credits]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="328" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Unit Charge]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="386" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Lab Charge]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="502" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Exam Fees]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="560" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Extra Fee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="618" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Residence Fee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="734" y="2" width="65" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Total Fees]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="444" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Clinical Fee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="676" y="2" width="58" height="19" forecolor="#000000"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Fees]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="0" y="0" width="154" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{sublevelname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="154" y="0" width="75" height="15"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{levellocationname}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="229" y="0" width="54" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{total_enrollment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="283" y="0" width="45" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_hours}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="328" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_unitcharge}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="386" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_labcharge}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="560" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_courseextracharge}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="618" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_residencefee}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="444" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_clinical_charge}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement style="Detail" x="502" y="0" width="58" height="15"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_examfee}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement style="Detail" x="734" y="0" width="65" height="15"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_fees}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement style="Detail" x="676" y="0" width="58" height="15"/>
+				<box rightPadding="2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$F{total_feecharge}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="841" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="771" y="1" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="691" y="1" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="230" y="8" width="54" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$V{total_enrollment_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="284" y="8" width="45" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_hours_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="329" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_unitcharge_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="387" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_labcharge_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="503" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_examfee_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="561" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_courseextracharge_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="619" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_residencefee_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+				<reportElement x="735" y="8" width="65" height="23"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_fees_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="155" y="8" width="75" height="23" forecolor="#000000"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Totals]]></text>
+			</staticText>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="445" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_clinical_charge_1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;(#,##0)">
+				<reportElement x="677" y="8" width="58" height="23"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="2.0" lineStyle="Double"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$V{total_feecharge_1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

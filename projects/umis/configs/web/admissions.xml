@@ -1,0 +1,153 @@
+<APP name="UMIS" org="org_id" password="change_password">
+	<MENU name="General Information">
+		<MENU name="Application">
+			<MENU name="Application Forms">1</MENU>
+			<MENU name="School Details">2</MENU>
+			<MENU name="Passport Photo">3</MENU>
+			<MENU name="Upload Cerfificates">7</MENU>
+			<MENU name="Application Payment">10</MENU>
+			<MENU name="Registration">11</MENU>
+			<MENU name="Status">17</MENU>
+		</MENU>
+	</MENU>
+	<DESK w="700" name="Application Forms" key="1" h="500">
+		<GRID name="Application Forms" keyfield="entry_form_id" table="vw_entry_forms" user="entity_id">
+			<TEXTFIELD w="350" title="Form Name">form_name</TEXTFIELD>
+			<TEXTTIMESTAMP w="150" title="Application Date">application_date</TEXTTIMESTAMP>
+			<TEXTTIMESTAMP w="100" title="Completion Date">completion_date</TEXTTIMESTAMP>
+			<BROWSER title="Edit Form" action="ENTRYFORM" linkfield="actionvalue" baseurl="form.jsp?action=ENTRYFORM" blankpage="true">entry_form_id</BROWSER>
+			<FILES username="root" repository="/repository/webdav/umis/" name="Documents" keyfield="sys_file_id" linkfield="table_id" table="sys_files" password="baraza">
+				<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+				<TEXTFIELD w="50" title="Size">file_size</TEXTFIELD>
+				<TEXTFIELD w="150" title="Type">file_type</TEXTFIELD>
+				<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+			</FILES>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="School" key="2" h="500">
+		<GRID name="School" keyfield="schoolid" orderby="schoolid" table="schools" noorg="true">
+			<TEXTFIELD w="75" title="School ID">schoolid</TEXTFIELD>
+			<TEXTFIELD w="250" title="School">schoolname</TEXTFIELD>
+			<GRID name="Department" keyfield="departmentid" orderby="departmentid" linkfield="schoolid" table="departmentview" noorg="true" reporttitle="schoolname">
+				<TEXTFIELD w="75" title="Department ID">Departmentid</TEXTFIELD>
+				<TEXTFIELD w="250" title="Department">departmentname</TEXTFIELD>
+				<GRID name="Majors" keyfield="majorid" linkfield="departmentid" table="majorview" noorg="true" reporttitle="departmentname">
+					<TEXTFIELD w="250" title="Majors Name">majorname</TEXTFIELD>
+					<CHECKBOX w="75" title="Core" format="boolean" ischar="true">major</CHECKBOX>
+					<GRID name="Majors Contents" keyfield="majorcontentid" orderby="courseid" linkfield="majorid" table="majorcontentview" noorg="true" where="(iscurrent = true)">
+						<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="75" title="Credit Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="75" title="Content Type">contenttypename</TEXTFIELD>
+						<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+						<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="majorcontentid" linkfield="majorcontentid" table="majorcontentview" noorg="true">
+							<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+							<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+							<TEXTFIELD w="70" title="Details">course_details</TEXTFIELD>
+							<GRID name="Prerequisite" keyfield="prerequisiteid" linkfield="majorcontentid" table="vw_major_prereq" noorg="true">
+								<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+								<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+								<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+								<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+							</GRID>
+						</FORMVIEW>
+					</GRID>
+				</GRID>
+				<GRID name="Courses Listing" keyfield="courseid" orderby="courseid" linkfield="departmentid" table="courses" noorg="true" where="(iscurrent = true)">
+					<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+					<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+					<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+					<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+					<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="courseid" linkfield="courseid" table="courses" noorg="true">
+						<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+						<TEXTFIELD w="70" title="Details">details</TEXTFIELD>
+						<GRID name="Prerequisite" linkfield="courseid" table="prereqview" noorg="true">
+							<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+							<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+						</GRID>
+					</FORMVIEW>
+				</GRID>
+				<FORMVIEW w="570" name="Department Details" lw="100" keyfield="departmentid" linkfield="departmentid" table="departmentview" noorg="true">
+					<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+					<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+					<TEXTFIELD title="Department Name">Departmentname</TEXTFIELD>
+					<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+					<TEXTFIELD title="Vision">vision</TEXTFIELD>
+					<TEXTFIELD title="Mission">mission</TEXTFIELD>
+					<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+					<TEXTFIELD title="Exposures">exposures</TEXTFIELD>
+					<TEXTFIELD title="Oppotunities">oppotunities</TEXTFIELD>
+					<TEXTFIELD title="Details">details</TEXTFIELD>
+				</FORMVIEW>
+			</GRID>
+			<FORMVIEW w="550" name="School Details" lw="120" keyfield="schoolid" linkfield="schoolid" table="schools" noorg="true">
+				<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+				<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+				<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+				<TEXTFIELD title="Vision">vision</TEXTFIELD>
+				<TEXTFIELD title="Mission">mission</TEXTFIELD>
+				<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+				<TEXTFIELD title="Details">details</TEXTFIELD>
+			</FORMVIEW>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Application" key="10" h="500">
+		<FORMVIEW name="Details" keyfield="entity_id" table="vw_entitys" user="entity_id">
+			<TEXTFIELD w="75" title="Campus">org_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Full Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="User Name">user_name</TEXTFIELD>
+			<TEXTDECIMAL w="75" title="User Name">admision_payment</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Paid">admision_paid</CHECKBOX>
+		</FORMVIEW>
+	</DESK>
+	<DESK w="700" name="General Details" key="11" h="500">
+		<FORMVIEW w="530" name="General Details" lw="120" keyfield="registrationid" table="registrations" user="entity_id">
+			<TEXTFIELD w="15" title="Registration">registrationid</TEXTFIELD>
+			<TEXTFIELD w="15" title="First Name">firstname</TEXTFIELD>
+			<TEXTFIELD w="15" title="Middle Name">middlename</TEXTFIELD>
+			<TEXTFIELD w="15" title="Surname">lastname</TEXTFIELD>
+			<TEXTFIELD w="15" title="Birth Date" format="date">birthdate</TEXTFIELD>
+			<TEXTFIELD w="15" title="Gender">sex</TEXTFIELD>
+			<TEXTFIELD w="15" title="Marital Status">maritalstatus</TEXTFIELD>
+			<TEXTFIELD w="15" title="Religious Affiliation">denominationid</TEXTFIELD>
+			<TEXTFIELD w="15" title="Nationality">nationalityid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Selection">majorid</TEXTFIELD>
+		</FORMVIEW>
+	</DESK>
+	<DESK w="700" name="Status" key="17" h="500">
+		<FORMVIEW name="Official Details" keyfield="registrationid" table="registrations" user="entity_id">
+			<TEXTFIELD w="15" title="Registration">registrationid</TEXTFIELD>
+			<CHECKBOX w="15" title="Submited">submitapplication</CHECKBOX>
+			<CHECKBOX w="15" title="Accepted">isaccepted</CHECKBOX>
+			<CHECKBOX w="15" title="Reported">isreported</CHECKBOX>
+			<CHECKBOX w="15" title="Deferred">isdeferred</CHECKBOX>
+			<CHECKBOX w="15" title="Rejected">isrejected</CHECKBOX>
+			<TEXTFIELD w="15" title="Evaluation Date">evaluationdate</TEXTFIELD>
+			<CHECKBOX w="15" title="Reported">reported</CHECKBOX>
+			<TEXTDATE w="15" title="Reported Date">reporteddate</TEXTDATE>
+			<TEXTDATE w="15" title="Application Date" format="date">applicationdate</TEXTDATE>
+			<JASPER name="Registration Report" showpdf="true" linkfield="filterid" reportfile="registration.jasper"></JASPER>
+		</FORMVIEW>
+	</DESK>
+	<DESK w="700" name="Upload Passport Photo" key="3" h="500">
+		<FORM foredit="true" maxfilesize="2097152" name="Upload Passport" keyfield="entity_id" delete="false" table="entitys" user="entity_id">
+			<TEXTFIELD w="430" enabled="false" title="Full Name " y="10" h="20" x="10">entity_name</TEXTFIELD>
+			<PICTURE w="300" username="repository" tab="Passport Photo" access="enter2012" password="baraza" y="1" h="300" x="10">picture_file</PICTURE>
+		</FORM>
+	</DESK>
+	<DESK w="700" name="Upload Cerfificates" key="7" h="500">
+		<FILES username="repository" repository="/repository/webdav/files/" name="Cerfificates" keyfield="sys_file_id" linkfield="table_id" table="sys_files" filetable="registration" password="baraza">
+			<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+			<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="File Type">file_type</TEXTFIELD>
+			<TEXTFIELD w="75" title="File Size">file_size</TEXTFIELD>
+		</FILES>
+	</DESK>
+</APP>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="9release_statement" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="132"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[10912]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_cases.court_station, vw_cases.case_id, vw_cases.start_date,
+	vw_cases.region_name, vw_cases.file_number,
+	get_parties(vw_cases.case_id, 2) as procecutor,
+	get_parties(vw_cases.case_id, 1) as judge,
+	get_parties(vw_cases.case_id, 4) as accused,
+	vw_receipts.receipt_id, vw_receipts.amount, vw_receipts.receipt_date
+FROM vw_cases INNER JOIN vw_receipts ON vw_cases.case_id = vw_receipts.case_id
+WHERE (vw_receipts.approved = true) AND (vw_receipts.receipt_id = '$P!{filterid}')]]>
+	</queryString>
+	<field name="court_station" class="java.lang.String"/>
+	<field name="case_id" class="java.lang.Integer"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="region_name" class="java.lang.String"/>
+	<field name="file_number" class="java.lang.String"/>
+	<field name="procecutor" class="java.lang.String"/>
+	<field name="judge" class="java.lang.String"/>
+	<field name="accused" class="java.lang.String"/>
+	<field name="receipt_id" class="java.lang.Integer"/>
+	<field name="amount" class="java.lang.Float"/>
+	<field name="receipt_date" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="-21" y="80" width="597" height="25"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Release Order]]></text>
+			</staticText>
+			<image>
+				<reportElement x="254" y="18" width="63" height="43"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{reportpath}+"coat-of-arms.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="61" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[The Judiciary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="3" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Republic of Kenya]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="465" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="34" y="95" width="164" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[THE OFFICER IN CHARGE,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="36" y="110" width="122" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[G.K.PRISON,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="95" width="31" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[TO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="36" y="125" width="162" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="279" y="320" width="252" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[I Have the honour to be,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="14" y="212" width="214" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[I have the honour to state that the fine of sh ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="355" y="425" width="176" height="15" forecolor="#736343"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Magistrate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="242" width="245" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[today in this Court  vide Court fines Receipt No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="257" width="317" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[The said prisoner may therefore be released of this charge.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="279" y="352" width="252" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Your most obedient servant]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="340" y="335" width="38" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sir,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1" y="175" width="67" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SIR,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="403" y="212" width="149" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[on behalf of prisoner]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="213" y="227" width="104" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[in Criminal Case No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="467" y="227" width="85" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[has been paid.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="384" y="242" width="16" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[of]]></text>
+			</staticText>
+			<ellipse>
+				<reportElement x="58" y="320" width="100" height="92"/>
+			</ellipse>
+			<staticText>
+				<reportElement style="Column header" x="88" y="366" width="38" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[SEAL]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="yyyy" isBlankWhenNull="true">
+				<reportElement x="372" y="47" width="95" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="164" y="29" width="244" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{region_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="407" y="11" width="80" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[COURT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="350" y="47" width="22" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[OF ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="156" y="11" width="251" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{court_station}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="126" y="47" width="224" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{file_number}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="141" y="29" width="26" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[AT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="61" y="47" width="65" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[CASE NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="103" y="11" width="53" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[IN THE ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="228" y="212" width="174" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="227" width="212" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{accused}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="317" y="227" width="150" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{file_number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="245" y="242" width="133" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{receipt_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="403" y="242" width="149" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.Float"><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

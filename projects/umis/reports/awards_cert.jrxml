@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="awards_cert" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="dae340e8-3e22-4013-bf43-be74e8afbf7b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="195"/>
+	<parameter name="academic_year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="studentdegreeid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["20439"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="award_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select studentname,academicyear,  studentdegreeid
+from honorslist
+where (studentdegreeid = '$P!{studentdegreeid}');]]>
+	</queryString>
+	<field name="studentname" class="java.lang.String"/>
+	<field name="academicyear" class="java.lang.String"/>
+	<field name="studentdegreeid" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="205" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="31" width="752" height="60" uuid="cd9bfebd-cc0e-4536-bd99-1ccd57df3633"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSITY OF EASTERN AFRICA, BARATON]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="278" y="91" width="192" height="114" uuid="dc364684-374c-4357-9028-4e187155132b"/>
+				<imageExpression><![CDATA["/opt/baraza/projects/ueab/reports/bara_logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="233" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="10" width="752" height="139" uuid="9e2f826c-9cdb-4d00-94f3-04a07f7c12f7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Times New Roman" size="18" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Presents to<br><i> " + $F{studentname} + "</i><br>Certificate of academic achievement</br> <br>For <b><i>Special Award</b></i><br> for Current and Cumulative G.P.A of not less than 3.50<br> In all quarters in " + $F{academicyear} +  " Academic Year<br> Awarded on this " + $P{award_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="190" width="752" height="20" uuid="64b62ad5-8158-4ff5-999b-06953d9bcf92"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prof. Mwangi Wa-Githumo ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="210" width="752" height="23" uuid="7c5bef13-f7a0-4dc5-bcbb-6197461bcc01"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deputy Vice Chancellor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="230" y="190" width="310" height="1" uuid="095abfe1-3292-4f50-a709-3b5dc557ec58"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

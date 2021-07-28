@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c7697f30-d0b1-45bf-aff6-2c957fc6f3d5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFA07A">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFD1BF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="7b737a94-471f-45b1-9c00-51769e31b4d9"/>
+	<queryString>
+		<![CDATA[SELECT aptitude_test_id, aptitude_test_name,
+	user_id, user_name, graded_by, graded_by_name,
+	aptitude_grade_id, grade,
+	date_taken, date_graded, org_id
+
+FROM vw_aptitude_grades
+
+WHERE grade >= pass_mark
+
+ORDER BY grade DESC;]]>
+	</queryString>
+	<field name="aptitude_test_id" class="java.lang.Integer"/>
+	<field name="aptitude_test_name" class="java.lang.String"/>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="user_name" class="java.lang.String"/>
+	<field name="graded_by" class="java.lang.Integer"/>
+	<field name="graded_by_name" class="java.lang.String"/>
+	<field name="aptitude_grade_id" class="java.lang.Integer"/>
+	<field name="grade" class="java.lang.Integer"/>
+	<field name="date_taken" class="java.sql.Date"/>
+	<field name="date_graded" class="java.sql.Date"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement x="111" y="19" width="303" height="41" uuid="b140fef0-b081-49cc-b464-533927291e3f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" isBold="true" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[CodePamoja Aptitude Tests Report]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="84" height="60" uuid="faa2b4c8-67c1-4865-86f2-0b1efada2be1"/>
+				<imageExpression><![CDATA["/opt/baraza/build/webapps/baraza/assets/images/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="96" y="0" width="331" height="20" uuid="8d1e1a75-72d4-4df5-bef4-10638ca9f83a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Applicants with grades exceeding Pass Mark]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="445" y="0" width="100" height="29" backcolor="#E1DCD7" uuid="d310e70e-478d-458e-b1f0-2b6e45c4f4af"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Graded By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="111" y="0" width="113" height="29" backcolor="#E1DCD7" uuid="75bf3cd5-6f64-4b54-87df-2c023a99db61"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Test]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="224" y="0" width="110" height="29" backcolor="#E1DCD7" uuid="6daffaa4-61f3-4df8-88b5-9e54366f2b92"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[User ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="334" y="0" width="111" height="29" backcolor="#E1DCD7" uuid="083ff925-ff0e-4063-bde3-bd76427a8962"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="111" height="29" backcolor="#E1DCD7" uuid="1b31ff1d-7444-459c-9c86-323f9204e62e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Number]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="222" y="1" width="110" height="20" uuid="66a86407-4e41-41f5-a0b5-397ce3ea09fa"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{user_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="1" width="111" height="20" uuid="8d17b4ed-80f2-4f6c-81f9-d05aa820dcb4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="443" y="1" width="100" height="20" uuid="8a31f38b-fe79-4ef9-b99b-cf623444af4c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{graded_by}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="1" width="111" height="20" uuid="bd727e9a-3b4d-4663-8d25-f5c540212f4f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aptitude_test_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="1" width="111" height="20" uuid="39ed536d-4e55-414c-a486-5b8600f8049d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aptitude_test_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="14" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="15" splitType="Stretch"/>
+	</summary>
+</jasperReport>

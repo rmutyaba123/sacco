@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_pensions_payments" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4053a0e6-12d5-441a-9014-cd7c98bd1209">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="44"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_employee_pensions.start_date, vw_employee_pensions.entity_name,
+	vw_employee_pensions.currency_symbol,
+	vw_employee_pensions.pension_company,
+	vw_employee_pensions.pension_number,
+	vw_employee_pensions.amount, vw_employee_pensions.employer_amount,
+	vw_employee_pensions.pension_amount
+
+FROM vw_employee_pensions
+
+WHERE (period_id = '$P!{filterid}')
+$P!{organd}
+
+ORDER BY vw_employee_pensions.currency_symbol, vw_employee_pensions.entity_name]]>
+	</queryString>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="currency_symbol" class="java.lang.String"/>
+	<field name="pension_company" class="java.lang.String"/>
+	<field name="pension_number" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="employer_amount" class="java.lang.Double"/>
+	<field name="pension_amount" class="java.lang.Double"/>
+	<variable name="amount_1" class="java.lang.Double" resetType="Group" resetGroup="currency_symbol" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="employer_amount_1" class="java.lang.Double" resetType="Group" resetGroup="currency_symbol" calculation="Sum">
+		<variableExpression><![CDATA[$F{employer_amount}]]></variableExpression>
+	</variable>
+	<variable name="pension_amount_1" class="java.lang.Double" resetType="Group" resetGroup="currency_symbol" calculation="Sum">
+		<variableExpression><![CDATA[$F{pension_amount}]]></variableExpression>
+	</variable>
+	<group name="currency_symbol">
+		<groupExpression><![CDATA[$F{currency_symbol}]]></groupExpression>
+		<groupHeader>
+			<band height="39">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="38" width="555" height="1" uuid="e93cc067-d626-412d-b568-2b2544c34f78"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="1" y="23" width="139" height="15" forecolor="#000000" uuid="17d16ca9-1a93-4a0d-b204-13b1a59f49f2"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Staff]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="140" y="23" width="115" height="15" forecolor="#000000" uuid="41a80757-b2a3-4ed3-8616-79d3786abbf4"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Pension Company]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="255" y="23" width="75" height="15" forecolor="#000000" uuid="721146ab-db43-4f09-8d86-3fa9df8db83a"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Pension Number]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="330" y="23" width="75" height="15" forecolor="#000000" uuid="12edcc7f-6716-428e-9eeb-4b0c19b36907"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="405" y="23" width="75" height="15" forecolor="#000000" uuid="74de6d73-3237-4fee-b0ef-465368754cab"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Employer Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="480" y="23" width="75" height="15" forecolor="#000000" uuid="c571dd4e-5aad-48af-bd46-1365959cd3e4"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Total Amount]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="139" height="15" uuid="3f8c0782-40bb-41c2-92ab-289c1065112b"/>
+					<textElement>
+						<font fontName="Times New Roman" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{currency_symbol}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField pattern="#,##0">
+					<reportElement x="330" y="4" width="75" height="15" uuid="34df4f02-b553-4083-834b-087826ac86ef"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{amount_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="405" y="4" width="75" height="15" uuid="ad27b913-3b47-48e9-9da8-d72c8a5607ff"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{employer_amount_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="480" y="4" width="75" height="15" uuid="c84a2c74-1fe2-4dff-8759-7ea8aca28e9b"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{pension_amount_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="140" y="4" width="115" height="15" forecolor="#000000" uuid="e545970e-17d0-4660-a656-8d91d478739f"/>
+					<textElement>
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="304" height="62" uuid="1660b733-3645-4c3e-a4a7-bb8ba3cf8470"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Payment Pensions Report]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="MMMMM, yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" x="370" y="47" width="182" height="15" uuid="73ddc11f-b9d2-4370-95ef-33fc6e697773"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="d62e5c78-4be7-4bc1-b4df-f20a765500c5"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="139" height="15" uuid="7a831b21-3b5e-43be-af1a-68b8b0070344"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="140" y="0" width="115" height="15" uuid="2f21a78e-6c77-4aad-9c89-d4420707c0e2"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pension_company}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="255" y="0" width="75" height="15" uuid="ac0c8315-411c-4022-bb26-9669c1a6d24e"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pension_number}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="330" y="0" width="75" height="15" uuid="cd22f5bf-16cc-4998-a21e-2ea6c2be401f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="405" y="0" width="75" height="15" uuid="9e0761bf-03c2-460f-90c6-fff7879b858b"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employer_amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="480" y="0" width="75" height="15" uuid="54b8dcdb-d1f4-499a-9e30-80fb7750468c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{pension_amount}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="a69e710d-f77d-4582-9023-b920271f7c79"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="85a43811-4cee-4f9d-bfbf-be8794416230"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="8764504a-b97c-4328-8a9f-3bea5961ad85"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="c4818790-f9cc-47fb-9a7d-b414d0f8833d"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="86d06e7c-8bb4-4dec-995e-807fb1e3f609"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

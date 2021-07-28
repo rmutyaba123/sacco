@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_department_role_details" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="29f00f44-8088-4857-9316-a39ca0dd111c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="HR"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_department_roles.department_id, vw_department_roles.department_name, vw_department_roles.department_description,
+	vw_department_roles.department_duties, vw_department_roles.parent_role_name, vw_department_roles.org_id,
+	vw_department_roles.department_role_id, vw_department_roles.ln_department_role_id, vw_department_roles.department_role_name,
+	vw_department_roles.job_description, vw_department_roles.job_requirements, vw_department_roles.duties,
+	vw_department_roles.performance_measures, vw_department_roles.active, vw_department_roles.details
+FROM vw_department_roles
+WHERE vw_department_roles.department_role_id = '$P!{filterid}'
+$P!{organd};]]>
+	</queryString>
+	<field name="department_id" class="java.lang.Integer"/>
+	<field name="department_name" class="java.lang.String"/>
+	<field name="department_description" class="java.lang.String"/>
+	<field name="department_duties" class="java.lang.String"/>
+	<field name="parent_role_name" class="java.lang.String"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="department_role_id" class="java.lang.Integer"/>
+	<field name="ln_department_role_id" class="java.lang.Integer"/>
+	<field name="department_role_name" class="java.lang.String"/>
+	<field name="job_description" class="java.lang.String"/>
+	<field name="job_requirements" class="java.lang.String"/>
+	<field name="duties" class="java.lang.String"/>
+	<field name="performance_measures" class="java.lang.String"/>
+	<field name="active" class="java.lang.Boolean"/>
+	<field name="details" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="10" width="555" height="52" uuid="a6c16357-2fff-4f10-a185-64a1dfec9ef4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Department Role Details Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="12" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="270" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="0" y="181" width="555" height="20" forecolor="#000000" uuid="1db31966-3feb-4508-a45e-0600a8b63d0d"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Performance Measures]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="0" y="96" width="555" height="20" forecolor="#000000" uuid="16465d4f-504e-4027-901a-c290bc3ad428"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Duties]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="0" y="223" width="555" height="20" forecolor="#000000" uuid="bbddb22f-6d28-4b1d-a3c6-2d4df787c1dd"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Details]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="54" width="555" height="20" forecolor="#000000" uuid="5feef13a-e083-4abc-93fa-6e2eebaeea62"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Job Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="0" y="138" width="555" height="20" forecolor="#000000" uuid="0f6e58ab-61fd-4896-9780-9c152731dc60"/>
+				<box>
+					<bottomPen lineWidth="0.5" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Job Requirements]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1" y="0" width="170" height="20" forecolor="#000000" uuid="b4e828cf-a023-43bb-a252-7a829209b8c4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Department Name           : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="26" width="171" height="20" forecolor="#000000" uuid="16efc567-ecd5-4e0b-924d-f5c1344e8be9"/>
+				<box>
+					<bottomPen lineWidth="1.25" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<text><![CDATA[Department Role Name  : ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="171" y="0" width="384" height="20" uuid="9d3f495e-dd59-4962-b096-ab38eaf945bc"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="171" y="26" width="384" height="20" uuid="9d5b3d5a-5212-41c4-8072-00333dc0d057"/>
+				<box>
+					<bottomPen lineWidth="1.25" lineColor="#E7E7E7"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department_role_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="74" width="555" height="20" uuid="224053f7-bd22-4997-9761-0b7890c1cd78"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="116" width="555" height="20" uuid="2b4b29f7-9199-4bed-882b-75708594474b"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{duties}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="158" width="555" height="20" uuid="b9685d2d-57ac-40b2-b3e2-6579cf935ed6"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_requirements}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="201" width="555" height="20" uuid="6940b52b-d4a7-4994-9d0e-f36f6305ab83"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{performance_measures}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="243" width="555" height="20" uuid="c9939ddb-7188-415d-88fb-09fe720e505d"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{details}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="9a9b813f-58fa-4218-a0a8-142da472197b"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="94ae93c9-92d8-48bb-8ab0-d06b5b8bdc8b"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="512" y="0" width="40" height="20" forecolor="#736343" uuid="81e63969-7a05-4d17-925e-f74c1597d385"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="431" y="0" width="80" height="20" forecolor="#736343" uuid="06c25cf4-6562-4639-882f-d2ade13fcd03"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="d1ce24c4-e86e-421e-89a4-c47638b2bd3b"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,123 @@
+Features
+
+Self Service Desk:
+    Dashboard
+    Employee Details
+    Staff out of office/on leave
+    Apply For Leave
+    Job openings/Internships applications
+    Generate CV
+    Generate Payslips
+    Petty Cash Requests
+    Employee Tasks on Projects
+
+Human Resource Management for
+    Employee management
+    Leave management
+    Performance management
+    Posting of available vacancies
+    Training scheduling
+    disciplinary issues and their actions 
+
+Defitions of:
+    Organizations and Locations/Branches
+    Departments
+    Banks and their Branches
+    News and Emails
+    Entities and Salary Scales
+    Approvals actioned by admin
+
+Payroll:
+    Generate Payroll
+    Configure Allowances, Deductions
+    Define Statutory Deductions
+    Expenses
+    Loans and Advances MAnagement
+    claims and reimbursements
+
+Projects:
+    Definitions of Projects
+    Signed off Clients
+    Tasks and Task Allocations
+    Generate Timesheets
+    Time and Attendance Management
+
+Finance:
+    Asset Management
+    Budget Allocation
+    Raise Invoices
+    Manage Sales and Purchases
+    Manage Payments and Receipts
+    Requisition Management
+    Automatic Posting to Journal
+    Petty Cash Mmanagement
+
+Reports:
+    Customisable reports
+    Staff Reports
+    Review Reports
+    Leave, Employees, Contracts, Arbitration etc
+
+Setup
+
+Check step by step video on https://www.youtube.com/watch?v=-rBtKSpioH8
+
+1. install Postgresql http://www.postgresql.org/ above version 9.0
+	Linux Installation
+	- yum install postgresql-server
+	- service postgresql initdb - (Optional - will clear all databases)
+	- service postgresql start
+
+	Windows Installation
+	- Download the setup file and install
+
+	{ To make the installation easier you can set the password for user postgres durting the installation to Baraza2011 }
+	{ Remember to change it for a live deployment }
+
+2. install Java http://www.oracle.com/technetwork/java/javase/downloads/index.html version 1.7.45 and above
+
+3. Download hcm.app.3.1.6.zip and unzip it on any folder
+
+4. Run the Setup
+	cd ./hcm.app.3.1.6/
+	Linux : ./setup.sh
+	Windows : double click on setup.bat in app folder
+
+5. Click on 
+	Test Connection - {To test connection to the database}
+	Save Configutations - {In case you change user name or password connecting to the database }
+	Create New - {Create a new blank database}
+	Create Demo - {Create a demo database}
+
+6. Running the appplication
+	Web Application
+	Linux : sh server.sh
+	Windows : baraza.bar
+	got to browser http://localhost:9090/
+
+	Application
+	Linux : sh baraza.sh
+	Windows : baraza.bar
+
+	IDE
+	Application
+	Linux : sh ide.sh
+	Windows : ide.bar
+
+7. If you have many application to run in tomcat downlaod the 
+	No DB configuration will be needed. There is a README file for the .war in the war folder
+
+USER PASSWORDS
+username root
+password baraza
+
+DEMO Accounts
+Applicants
+amteja@mteja.me.ke - enter
+joseph.kamau@gmail.com - enter
+
+Employees
+jdoe - enter
+jtinga - enter
+
+

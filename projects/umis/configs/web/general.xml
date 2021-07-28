@@ -1,0 +1,125 @@
+<APP name="UMIS">
+	<MENU name="General Information">
+		<MENU name="Information">
+			<MENU name="School">1</MENU>
+			<MENU name="Employer Application">12</MENU>
+		</MENU>
+	</MENU>
+	<DESK w="700" name="School" key="1" h="500">
+		<GRID name="School" keyfield="schoolid" orderby="schoolid" table="schools" noorg="true">
+			<TEXTFIELD w="75" title="School ID">schoolid</TEXTFIELD>
+			<TEXTFIELD w="250" title="School">schoolname</TEXTFIELD>
+			<GRID name="Department" keyfield="departmentid" orderby="departmentid" linkfield="schoolid" table="departmentview" noorg="true" reporttitle="schoolname">
+				<TEXTFIELD w="75" title="Department ID">Departmentid</TEXTFIELD>
+				<TEXTFIELD w="250" title="Department">departmentname</TEXTFIELD>
+				<GRID name="Majors" keyfield="majorid" linkfield="departmentid" table="majorview" noorg="true" reporttitle="departmentname">
+					<TEXTFIELD w="250" title="Majors Name">majorname</TEXTFIELD>
+					<CHECKBOX w="75" title="Core" format="boolean" ischar="true">major</CHECKBOX>
+					<GRID name="Majors Contents" keyfield="majorcontentid" orderby="courseid" linkfield="majorid" table="majorcontentview" noorg="true" where="(iscurrent = true)">
+						<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="75" title="Credit Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="75" title="Content Type">contenttypename</TEXTFIELD>
+						<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+						<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="majorcontentid" linkfield="majorcontentid" table="majorcontentview" noorg="true">
+							<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+							<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+							<TEXTFIELD w="70" title="Details">course_details</TEXTFIELD>
+							<GRID name="Prerequisite" keyfield="prerequisiteid" linkfield="majorcontentid" table="vw_major_prereq" noorg="true">
+								<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+								<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+								<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+								<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+							</GRID>
+						</FORMVIEW>
+					</GRID>
+				</GRID>
+				<GRID name="Courses Listing" keyfield="courseid" orderby="courseid" linkfield="departmentid" table="courses" noorg="true" where="(iscurrent = true)">
+					<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+					<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+					<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+					<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+					<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="courseid" linkfield="courseid" table="courses" noorg="true">
+						<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+						<TEXTFIELD w="70" title="Details">details</TEXTFIELD>
+						<GRID name="Prerequisite" linkfield="courseid" table="prereqview" noorg="true">
+							<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+							<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+						</GRID>
+					</FORMVIEW>
+				</GRID>
+				<FORMVIEW w="570" name="Department Details" lw="100" keyfield="departmentid" linkfield="departmentid" table="departmentview" noorg="true">
+					<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+					<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+					<TEXTFIELD title="Department Name">Departmentname</TEXTFIELD>
+					<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+					<TEXTFIELD title="Vision">vision</TEXTFIELD>
+					<TEXTFIELD title="Mission">mission</TEXTFIELD>
+					<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+					<TEXTFIELD title="Exposures">exposures</TEXTFIELD>
+					<TEXTFIELD title="Oppotunities">oppotunities</TEXTFIELD>
+					<TEXTFIELD title="Details">details</TEXTFIELD>
+				</FORMVIEW>
+			</GRID>
+			<FORMVIEW w="550" name="School Details" lw="120" keyfield="schoolid" linkfield="schoolid" table="schools" noorg="true">
+				<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+				<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+				<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+				<TEXTFIELD title="Vision">vision</TEXTFIELD>
+				<TEXTFIELD title="Mission">mission</TEXTFIELD>
+				<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+				<TEXTFIELD title="Details">details</TEXTFIELD>
+			</FORMVIEW>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Application for Admission" key="11" h="500">
+		<FORM name="Application for Admission" keyfield="entity_id" audit="false" del="false" table="entitys" noorg="true">
+			<DEFAULT default="8">entity_type_id</DEFAULT>
+			<TEXTFIELD w="430" title="Full Name *" y="10" h="20" x="10">entity_name</TEXTFIELD>
+			<TEXTFIELD w="430" title="Email *" y="30" h="20" x="10">user_name</TEXTFIELD>
+			<COMBOBOX w="430" title="Application" lptable="forms" lpkey="form_id" where="(use_key = 1)" y="50" h="20" x="10" lpfield="form_name">selection_id</COMBOBOX>
+			<COMBOBOX w="430" title="Campus" lptable="orgs" y="70" h="20" x="10" lpfield="org_name">org_id</COMBOBOX>
+			<FORMVIEW name="News" keyfield="sys_news_id" table="sys_news" noorg="true" where="(sys_news_id = 1)">
+				<TEXTAREA w="530" title="Advice" y="2" h="170" x="10">details</TEXTAREA>
+			</FORMVIEW>
+		</FORM>
+	</DESK>
+	<DESK w="700" name="Employer Access" key="12" h="500">
+		<FORM name="Employer Access" keyfield="address_id" table="address" noorg="true">
+			<DEFAULT w="150" default="entitys">table_name</DEFAULT>
+			<TEXTFIELD w="430" title="Company Name" y="10" h="20" x="10">address_name</TEXTFIELD>
+			<TEXTFIELD w="150" title="Post Office Box" y="30" h="20" x="10">post_office_box</TEXTFIELD>
+			<TEXTFIELD w="150" title="Postal Code" y="30" h="20" x="290">postal_code</TEXTFIELD>
+			<TEXTFIELD w="430" title="Premises" y="50" h="20" x="10">premises</TEXTFIELD>
+			<TEXTFIELD w="430" title="Street" y="70" h="20" x="10">street</TEXTFIELD>
+			<TEXTFIELD w="150" title="Town" y="90" h="20" x="10">town</TEXTFIELD>
+			<COMBOBOX w="430" title="Country" default="KE" lptable="sys_countrys" noorg="true" y="110" h="20" x="10" lpfield="sys_country_name">sys_country_id</COMBOBOX>
+			<TEXTFIELD w="250" title="Phone Number" y="130" h="20" x="10">phone_number</TEXTFIELD>
+			<TEXTFIELD w="50" title="Extension" y="130" h="20" x="390">extension</TEXTFIELD>
+			<TEXTFIELD w="430" title="Mobile" y="150" h="20" x="10">mobile</TEXTFIELD>
+			<TEXTFIELD w="430" title="Fax" y="170" h="20" x="10">fax</TEXTFIELD>
+			<TEXTFIELD w="430" title="Email" y="190" h="20" x="10">email</TEXTFIELD>
+			<TEXTFIELD w="430" title="Website" y="210" h="20" x="10">website</TEXTFIELD>
+			<TEXTFIELD w="150" title="Password" y="230" h="20" x="10">first_password</TEXTFIELD>
+			<TEXTAREA w="430" title="Details" y="250" h="70" x="10">details</TEXTAREA>
+			<FORMVIEW name="News" keyfield="sys_news_id" table="sys_news" noorg="true" where="(sys_news_id = 2)">
+				<TEXTAREA w="530" title="Advice" y="2" h="170" x="10">details</TEXTAREA>
+			</FORMVIEW>
+		</FORM>
+	</DESK>
+	<DESK w="700" name="Reset Passwords" key="2" h="500">
+		<FORM fornew="true" save.button="Reset Password" name="Reset Passwords" keyfield="sys_reset_id" edit="false" delete="false" audit="false" table="sys_reset" noorg="true">
+			<TEXTFIELD w="430" title="Request Email" y="30" h="20" x="10">request_email</TEXTFIELD>
+			<FORMVIEW name="Sys Reset" keyfield="sys_reset_id" linkfield="sys_reset_id" display="form" table="sys_reset" noorg="true">
+				<TEXTFIELD w="430" fnct="'Your email has been sent to your email.'::text" title="Submit" y="110" h="20" x="10">disp</TEXTFIELD>
+			</FORMVIEW>
+		</FORM>
+	</DESK>
+</APP>

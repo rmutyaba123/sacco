@@ -1,0 +1,22 @@
+
+body[data-sidebar=dark] .navbar-brand-box {
+    background: #fff;
+}
+
+.col-lg-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.66667%;
+    flex: 0 0 99.66667%;
+    max-width: 24.5%;
+    padding: 0px;
+}
+
+#gain-creators, #gains, #pains, #pain-relievers{
+    min-height: 360px;
+}
+
+#products-services, #customer-jobs{
+    min-height: 780px;
+}
+
+

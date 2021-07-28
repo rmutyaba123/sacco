@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_load_units" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e8444795-156f-402c-9dd2-52523f1d7995">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ds1" uuid="406adce8-e4dd-4609-9cd7-4a34e0f9bea3">
+		<parameter name="filterid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT org_id, org_name,
+sum(sms_count) as s_sms_count,
+sum(sms_units) as s_sms_units
+
+FROM vw_load_usage
+
+WHERE (to_char(sms_day, 'YYYY') = '$P!{filterid}')
+
+GROUP BY org_id, org_name
+
+ORDER BY org_name]]>
+		</queryString>
+		<field name="org_id" class="java.lang.Integer"/>
+		<field name="org_name" class="java.lang.String"/>
+		<field name="s_sms_count" class="java.math.BigDecimal"/>
+		<field name="s_sms_units" class="java.math.BigDecimal"/>
+		<variable name="sum_sms" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{s_sms_count}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="ds2" uuid="978e9d90-214e-42d0-ab6e-5117be9cab9b">
+		<parameter name="filterid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT to_char(sms_day, 'Month') as sms_month,
+sum(sms_count) as s_sms_count,
+sum(sms_units) as s_sms_units,
+sum(sms_sold) as s_sms_sold
+
+FROM vw_load_usage
+
+WHERE (to_char(sms_day, 'YYYY') = '$P!{filterid}')
+
+GROUP BY to_char(sms_day, 'Month'), to_char(sms_day, 'MM')
+
+ORDER BY to_char(sms_day, 'MM')]]>
+		</queryString>
+		<field name="sms_month" class="java.lang.String"/>
+		<field name="s_sms_count" class="java.math.BigDecimal"/>
+		<field name="s_sms_units" class="java.math.BigDecimal"/>
+		<field name="s_sms_sold" class="java.math.BigDecimal"/>
+		<variable name="sum_sms_count" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{s_sms_count}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT org_id, org_name, to_char(sms_day, 'YYYY') as sms_year, to_char(sms_day, 'Month') as sms_month,
+	sum(sms_count) as s_sms_count, sum(sms_units) as s_sms_units
+
+FROM vw_load_usage
+
+WHERE (to_char(sms_day, 'YYYY') = '$P!{filterid}')
+
+GROUP BY org_id, org_name, to_char(sms_day, 'YYYY'), to_char(sms_day, 'Month'), to_char(sms_day, 'MM')
+ORDER BY org_name, to_char(sms_day, 'YYYY'), to_char(sms_day, 'MM')]]>
+	</queryString>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="org_name" class="java.lang.String"/>
+	<field name="sms_year" class="java.lang.String"/>
+	<field name="sms_month" class="java.lang.String"/>
+	<field name="s_sms_count" class="java.math.BigDecimal"/>
+	<field name="s_sms_units" class="java.math.BigDecimal"/>
+	<variable name="s_sms_count_1" class="java.math.BigDecimal" resetType="Group" resetGroup="org_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{s_sms_count}]]></variableExpression>
+	</variable>
+	<group name="org_name">
+		<groupExpression><![CDATA[$F{org_name}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="191" height="15" uuid="4f49266e-2536-45e9-97e9-3507926991a9"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{org_name}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="e6a17493-6d1d-49e2-880f-778b390faa9c"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="192" y="0" width="110" height="15" forecolor="#000000" uuid="eee6ba32-ec54-4acc-829d-0d66ee2fab3d"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Month]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="302" y="0" width="84" height="15" forecolor="#000000" uuid="fdcc5624-3989-41af-9c8d-66c156a55a0a"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Sms Count]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="15">
+				<textField pattern="#,##0">
+					<reportElement x="302" y="0" width="84" height="15" uuid="ca89bb37-3b81-45ae-85fc-b3f2d4fe4456"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{s_sms_count_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="94" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="206" height="37" uuid="c8f815fb-f6db-4e75-9494-697bc7c8f6d4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Load Units Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="66" y="37" width="87" height="15" forecolor="#000000" uuid="a64d2bdb-cbe1-4ab4-bbe3-f8702a6417a7"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Year]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="153" y="37" width="87" height="15" uuid="7d9faee5-b48a-4e9a-8468-056cf65ea800"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sms_year}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="table" style="table" positionType="Float" x="1" y="74" width="378" height="18" uuid="e43c85a2-a914-4408-a936-34aa3ce263cc"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ds1" uuid="aab54077-c194-450c-8b89-c786afcbd1cd">
+						<datasetParameter name="filterid">
+							<datasetParameterExpression><![CDATA[$P{filterid}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="276" uuid="5821124d-f26d-4f2f-8355-d5bf92b0b5b6">
+						<jr:columnHeader style="table_CH" height="21" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="276" height="21" uuid="f3e62469-b694-446f-a924-7ef146862e06"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Organisation]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="276" height="20" uuid="0df72469-6bc6-4fdc-984c-6799d8843a87"/>
+								<textFieldExpression><![CDATA[$F{org_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="42e6415d-7242-4d03-9acc-f4b175fbc47b">
+						<jr:columnHeader style="table_CH" height="21" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="21" uuid="212d042c-fce5-4285-9986-d797be2318c6"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Count]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="1d02fffd-23e4-4500-b304-545fd968335b"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$V{sum_sms}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="576078e6-2ef8-40c9-b038-483cdcf5bc4e"/>
+								<textElement textAlignment="Right"/>
+								<textFieldExpression><![CDATA[$F{s_sms_count}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="1" y="54" width="378" height="16" uuid="d51258e5-b95d-490f-b385-6d0e8ed8a801"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ds2" uuid="58bbeb27-051e-4430-94de-6ddd6e73d5f8">
+						<datasetParameter name="filterid">
+							<datasetParameterExpression><![CDATA[$P{filterid}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="de55f281-bfb1-4d6b-8ae7-b6e60ee14213">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15" uuid="f2111922-d2c7-4db8-a376-46e7ee018df7"/>
+								<textElement>
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[Month]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="f38e077f-7d09-4e9f-83f0-87b2c342eff9"/>
+								<textElement>
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sms_month}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="94520479-19a0-485a-b9d8-978a625f109b">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15" uuid="e387f7cf-bd21-46cb-9286-89cdd7a974dd"/>
+								<textElement>
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[SMS Usage]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="30" uuid="66d4130b-5b90-48a4-9c3d-70210da6639c"/>
+								<textElement textAlignment="Right">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{sum_sms_count}]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="78f9ad24-d1ee-48e4-abff-4f029b0a46e0"/>
+								<textElement textAlignment="Right">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{s_sms_count}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2f292c7c-d669-474a-925a-cd21f891daa5">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15" uuid="51221665-1d7f-4bd8-bce3-439e8949cb78"/>
+								<textElement>
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[SMS Loaded]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="80ff6660-e000-4232-bdbf-9ec398a2734b"/>
+								<textElement textAlignment="Right">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{s_sms_units}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="a543ed77-1ce6-4c18-9f36-01239671d991">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15" uuid="dfdb66a4-1b0b-4dc5-a093-0431f02fb202"/>
+								<textElement>
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<text><![CDATA[SMS Sold]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table 1_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="#,##0" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="da1c1a8a-34fd-4691-a2a2-0dfacd6cb4b8"/>
+								<textElement textAlignment="Right">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{s_sms_sold}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="12" uuid="ef832147-f157-4383-bdd6-3a0e25fcc612"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="192" y="0" width="110" height="12" uuid="185d8f2e-e433-47e1-a1af-cc43925f00d5"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sms_month}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="302" y="0" width="84" height="12" uuid="c29774f0-2b5e-4e57-b79c-d1dfed62351f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{s_sms_count}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="423454eb-f7b3-4a03-87ee-371c4a346a90"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="597e292b-7c1a-4c5f-ad04-4ed3926fa1b3"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="eabaf296-629d-488c-ae60-7d323c92bc47"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="b5c1fc54-c3b9-48b1-a232-1c6ea5e6207d"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

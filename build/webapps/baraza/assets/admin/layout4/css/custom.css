@@ -1,0 +1,546 @@
+/* here you can put your own css to customize and override the theme */
+
+
+/***
+Rounded Portlets
+***/
+
+
+/*
+.portlet {
+    border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+    border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+    border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+
+/*GENERAL MODIFICAATIONS*/
+
+body {
+    font-size: 12px;
+}
+
+.page-header.navbar {
+    width: 100%;
+    padding: 0 2px 0 2px;
+    height: 60px;
+    min-height: 60px;
+}
+
+.page-header-fixed .page-container {
+    margin-top: 50px;
+}
+
+.page-header.navbar .page-logo {
+    float: left;
+    display: block;
+    width: 270px;
+    height: 70px;
+    padding-left: 0px !important;
+    padding-right: 20px;
+}
+
+.page-header.navbar .page-top {
+    height: 60px;
+    float: right;
+}
+
+.page-header.navbar .top-menu .navbar-nav>li.dropdown {
+    margin: 0px;
+    padding: 0px;
+    height: 60px;
+}
+
+.page-header.navbar .top-menu .navbar-nav>li.dropdown-user .dropdown-toggle {
+    padding: 10px 10px 18px 10px;
+}
+
+.page-header.navbar .top-menu .navbar-nav>li.dropdown-user .dropdown-toggle>.username {
+    font-size: 12px;
+}
+
+@media (max-width: 767px) {
+    .page-header.navbar .page-top {
+        background: #FFFFFF;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-header.navbar .page-top {
+        padding: 0;
+        display: block;
+        clear: both;
+        width: 100%;
+    }
+}
+
+.page-container {
+    margin: 0px;
+    padding: 0px 20px 0 0px;
+    position: relative;
+}
+
+.page-sidebar .page-sidebar-menu>li>a>.title,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a>.title {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.page-sidebar .page-sidebar-menu>li>a,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li>a {
+    padding: 7px 15px;
+}
+
+.page-sidebar .page-sidebar-menu .sub-menu li>a,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu li>a {
+    display: block;
+    margin: 0;
+    padding: 4px 4px 4px 25px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 400;
+    background: none;
+}
+
+@media (min-width: 992px) {
+    .page-sidebar {
+        width: 200px;
+    }
+    .page-content-wrapper .page-content {
+        margin-left: 200px;
+        margin-top: 0px;
+        min-height: 600px;
+        padding: 5px 0 0 20px;
+    }
+}
+
+@media (max-width: 767px) {
+    .page-header.navbar .page-top {
+        background: #FFFFFF;
+    }
+    .page-container {
+        margin: 0 !important;
+        padding: 0;
+    }
+    .page-header.navbar .page-top {
+        padding: 0;
+        display: block;
+        clear: both;
+        width: 100%;
+    }
+}
+
+label {
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.form-control {
+    font-size: 12px;
+    height: 27px;
+    padding: 1px;
+    margin-top: 3px;
+}
+
+.input-group {
+    height: 26px;
+}
+
+.input-group-btn:last-child>.btn,
+.input-group-btn:last-child>.btn-group {
+    margin-left: -1px;
+    height: 27px;
+    margin-top: 3px;
+}
+
+select.form-control {
+    padding: 1px;
+}
+
+
+/*END GENERAL MODIFICAATIONS*/
+
+.portlet.box>.portlet-body {
+    background-color: #fff;
+    padding: 5px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 5px 10px;
+}
+
+.nav-tabs>li>a,
+.nav-pills>li>a {
+    font-size: 12px;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -ms-border-radius: 4px 4px 0 0;
+    -o-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
+}
+
+.nav-tabs,
+.nav-pills {
+    margin-bottom: 0px;
+}
+
+.table-scrollable {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 0px solid #dddddd;
+    margin: 0px 0 !important;
+}
+
+.ui-widget {
+    font-family: "Open Sans", sans-serif !important;
+    font-size: 1.1em;
+}
+
+ui-widget-content {
+    font-family: "Open Sans", sans-serif !important;
+    border: 0px solid #ddd;
+    background: #ffffff !important;
+    background: #ffffff;
+}
+
+
+/*@media="screen"
+.ui-widget-content {
+  border: 1px solid #ddd;
+  background: #ffffff;
+  color: #333;
+}*/
+
+.ui-jqgrid .ui-jqgrid-btable {
+    table-layout: fixed;
+    /*width: 100%;*/
+    margin: 0;
+    outline-style: none;
+    border-collapse: separate;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px solid #ddd;
+}
+
+.table-bordered {
+    border: 1px solid #ddd;
+}
+
+.table-bordered>tbody>tr>td,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>thead>tr>th {
+    border: 0px solid #ddd;
+}
+
+.btn {
+    padding: 6px 14px 8px 14px;
+}
+
+.ms-container {
+    width: 650px;
+}
+
+
+/* VIEW FORM CSS*/
+
+.viewform>.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 5px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px solid #ddd;
+}
+
+.viewform>.table>thead {
+    display: none;
+}
+
+.viewform>.table>tbody>tr:nth-child(4n + 1) td,
+.viewform>.table>tbody>tr:nth-child(4n + 2) td {
+    background-color: #f2f2f2;
+}
+
+.viewform>.table>tbody>tr:hover td,
+.viewform>.table>tbody>tr:hover td {
+    background-color: #ddd;
+}
+
+.viewform>.table>tbody>tr:nth-child(4n + 3) td,
+.viewform>.table>tbody>tr:nth-child(4n + 4) td {
+    background-color: #ffffff;
+}
+
+.viewform {
+    height: 360px;
+    overflow: auto;
+}
+
+
+/*  begin total ui widget overwrite */
+
+
+/*.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+    border: 0px solid #ccc;
+    background: #ffffff;
+    font-weight: bold;
+    color: #1c94c4
+}
+
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight, .ui-state-hover {
+  border: 0px solid #fed22f;
+  background: #8e5fa2;
+  color: #ffffff; 
+}
+
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    border: 0px solid #fbcb09;
+    background: #8e5fa2;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
+.ui-state-hover a,
+.ui-state-hover a:hover,
+.ui-state-hover a:link,
+.ui-state-hover a:visited {
+    color: #8e5fa2;
+    text-decoration: none
+}*/
+
+.table-striped>tbody>tr:nth-of-type(2n+1) {
+    background-color: #e9ecf3;
+}
+
+.form-control .select2-choice {
+    border: 1px solid #e5e5e5;
+    background-color: #fff;
+    background-image: none;
+    filter: none;
+    height: 25px;
+    padding: 0px 0 0px 9px;
+}
+
+.colored-header {
+    background-color: #167F92;
+    color: #FFF;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-10 {
+    margin: 10px 0;
+}
+
+.margin-top-5 {
+    margin-top: 5px;
+}
+
+.padding-15 {
+    padding: 15px 15px 1px 15px;
+}
+
+.portlet.light .portlet-body {
+    padding-top: 0px;
+}
+
+.portlet.light>.portlet-title {
+    padding: 0;
+    min-height: 18px;
+}
+
+.caption-helper {
+    padding: 0;
+    margin: 0;
+    line-height: 13px;
+    color: #9eacb4;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.font-600 {
+    font-weight: 600;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+
+/**
+*Portlets Starts Dashboard
+**/
+
+.dashboard-stat2 {
+    padding: 15px 15px 1px 15px;
+}
+
+.dashboard-stat2 .display {
+    margin-bottom: 10px;
+}
+
+.ui-widget-content a {
+    color: #0088cc;
+    text-decoration: underline;
+}
+
+
+/*** link button ***/
+
+
+/* .link_btn {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 2px;
+} */
+
+.link_btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .85rem 1.15rem;
+    font-size: 1.1rem;
+    line-height: 1.25;
+    border-radius: .25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.link_btn {
+    /* font-family: "Poppins"; */
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    border-radius: 0;
+    border-radius: .25rem;
+    background-color: #1478be;
+    border-color: #1478be;
+    margin-right: 5px;
+    margin-bottom: 1px;
+    text-decoration: none !important;
+    color: #ffffff;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1478be !important;
+    border-color: #1478be !important;
+}
+
+.label-primary {
+    background-color: #1478be !important;
+}
+
+.link_btn:hover {
+    /* font-family: "Poppins"; */
+    background-color: #81d742;
+    border-color: #81d742;
+    text-decoration: none !important;
+    color: #ffffff;
+}
+
+
+/* a.link_btn:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f0a6";
+    display: inline-block;
+    padding-right: 8px;
+    vertical-align: middle;
+    font-weight: 500;
+} */
+
+.portlet.light {
+    padding: 12px 20px 12px 20px;
+    background-color: #fff;
+}
+
+
+/* Dashboard Sidebar With icons CSS */
+
+.page-sidebar .page-sidebar-menu>li>a>i {
+    top: 2px;
+    margin-left: 1px;
+    margin-right: 6px;
+    /* font-weight : 900; */
+}
+
+@media (min-width: 992px) {
+    /* 992px */
+    /* Page content */
+    .page-content-wrapper {
+        float: left;
+        width: 100%;
+    }
+    .page-content-wrapper .page-content {
+        margin-left: 235px;
+        margin-top: 0px;
+        min-height: 600px;
+        padding: 10px 0 0 20px;
+    }
+    .page-sidebar {
+        width: 235px;
+        float: left;
+        position: relative;
+        margin-right: -100%;
+        margin-bottom: 10px;
+    }
+}
+
+.page-container {
+    margin: 0px;
+    padding: 20px 20px 0 20px;
+    position: relative;
+}

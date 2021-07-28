@@ -1,0 +1,108 @@
+<APP name="Human Resources" org="org_id" password="change_password">
+	<MENU name="Human Resources">
+		<MENU name="Registration">1</MENU>
+		<MENU name="Reset Passwords">2</MENU>
+		<MENU name="Vacancies">14</MENU>
+		<MENU name="Internships">15</MENU>
+	</MENU>
+	<DESK w="700" name="Registration" key="1" h="500">
+		<FORM cols="2" new="true" name="Applicant" keyfield="entity_id" edit="false" delete="false" audit="false" table="applicants" fornew="true" save.button="Apply">
+			<COMBOLIST w="50" required="true" title="Title *" y="10" h="20" x="10" span="true">person_title
+				<DATA>Miss</DATA>
+				<DATA>Mr</DATA>
+				<DATA>Mrs</DATA>
+				<DATA>Dr</DATA>
+				<DATA>Prof</DATA>
+			</COMBOLIST>
+			<TEXTFIELD w="100" required="true" title="Surname *" y="10" h="20" x="190">surname</TEXTFIELD>
+			<TEXTFIELD w="100" required="true" title="First Name *" y="10" h="20" x="490" span="true">first_name</TEXTFIELD>
+			<TEXTFIELD w="150" title="Middle Name" y="30" h="20" x="10">middle_name</TEXTFIELD>
+			<TEXTFIELD w="150" required="true" title="Phone *" h="20" y="30" x="290" span="true">applicant_phone</TEXTFIELD>
+			<TEXTFIELD w="150" required="true" title="Email *" y="50" h="20" x="10" id="applicant_email">applicant_email</TEXTFIELD>
+			<TEXTDATE w="150" required="true" title="Date Of Birth *" y="70" h="20" x="10" span="true">date_of_birth</TEXTDATE>
+			<COMBOBOX w="150" required="true" title="Nationality *" default="KE" lptable="sys_countrys" noorg="true" lpkey="sys_country_id" y="70" h="20" x="290" lpfield="sys_country_name">nationality</COMBOBOX>
+			<COMBOLIST w="150" required="true" title="Gender *" y="90" h="20" x="10" span="true">gender
+				<DATA key="M">Male</DATA>
+				<DATA key="F">Female</DATA>
+			</COMBOLIST>
+			<COMBOLIST w="150" required="true" title="Marital Status *" y="90" h="20" x="290">marital_status
+				<DATA key="M">Married</DATA>
+				<DATA key="S">Single</DATA>
+			</COMBOLIST>
+			<TEXTFIELD w="150" required="true" title="Identity Card Number * " y="110" h="20" x="10" span="true">identity_card</TEXTFIELD>
+			<TEXTFIELD w="150" required="true" title="Language * " y="130" h="20" x="10">language</TEXTFIELD>
+			<TEXTAREA w="550" tab="Interests" y="2" h="120" x="10">interests</TEXTAREA>
+			<TEXTAREA w="550" tab="Objective" y="2" h="120" x="10">objective</TEXTAREA>
+			<TEXTAREA w="550" tab="Field of Study" y="2" h="120" x="10">field_of_study</TEXTAREA>
+			<TEXTAREA w="550" tab="Details" y="2" h="120" x="10">details</TEXTAREA>
+			<FORMVIEW name="Applicant" keyfield="entity_id" linkfield="entity_id" table="applicants">
+				<TEXTFIELD w="430" fnct="'Data submited check your email for details'::text" title="Submit" y="110" h="20" x="10">disp</TEXTFIELD>
+				<TEXTFIELD w="150" title="Surname" y="10" h="20" x="10">surname</TEXTFIELD>
+				<TEXTFIELD w="150" title="First Name" y="10" h="20" x="290">first_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="Middle Name" y="30" h="20" x="10">middle_name</TEXTFIELD>
+				<TEXTFIELD w="150" title="Email" y="30" h="20" x="290">applicant_email</TEXTFIELD>
+				<TEXTFIELD w="100" title="Phone">applicant_phone</TEXTFIELD>
+				<TEXTDATE w="150" title="Date Of Birth" y="50" h="20" x="10">date_of_birth</TEXTDATE>
+				<TEXTFIELD w="150" title="Identity Card" y="90" h="20" x="10">identity_card</TEXTFIELD>
+				<TEXTFIELD w="430" title="Language" y="110" h="20" x="10">language</TEXTFIELD>
+			</FORMVIEW>
+		</FORM>
+	</DESK>
+
+	<DESK w="700" name="Reset Passwords" key="2" h="500">
+		<FORM name="Reset Passwords" keyfield="sys_reset_id" table="sys_reset" edit="false" delete="false" audit="false" fornew="true" noorg="true" save.button="Reset Password">
+			<TEXTFIELD w="430" title="Request Email" h="20" y="30" x="10" id="applicant_email">request_email</TEXTFIELD>
+			<FORMVIEW name="Sys Reset" keyfield="sys_reset_id" table="sys_reset" linkfield="sys_reset_id" display="form" noorg="true">
+				<TEXTFIELD w="430" fnct="'Your email has been sent to your email.'::text" title="Submit" y="110" h="20" x="10">disp</TEXTFIELD>
+			</FORMVIEW>		
+		</FORM>
+	</DESK>
+
+	<DESK w="700" name="Vacancies" key="14" h="550">
+		<GRID name="Available Positions" keyfield="intake_id" table="vw_intake" noorg="true" where="(closing_date >= current_date)" secured="true" url="jsongeneral">
+			<TEXTLINK w="45" title="Post ID">intake_id</TEXTLINK>
+			<TEXTFIELD w="75" title="Organisation">org_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Role">department_role_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Opening Date">opening_date</TEXTDATE>
+			<TEXTDATE w="75" title="Closing Date">closing_date</TEXTDATE>
+			<TEXTFIELD w="50" title="Positions">positions</TEXTFIELD>
+			<TEXTFIELD w="75" title="Location">location_name</TEXTFIELD>
+			<TEXTFIELD w="175" title="Details">details</TEXTFIELD>
+			<FORMVIEW tw="570" name="Role Details" keyfield="intake_id" linkfield="intake_id" table="vw_intake" noorg="true">
+				<TEXTFIELD w="75" title="Post ID">intake_id</TEXTFIELD>
+				<TEXTFIELD w="410" title="Organisation">org_name</TEXTFIELD>
+				<TEXTFIELD w="410" title="Organisation Details">org_details</TEXTFIELD>
+				<TEXTFIELD w="410" title="Department">department_name</TEXTFIELD>
+				<TEXTFIELD w="430" title="Designation">department_role_name</TEXTFIELD>
+				<TEXTFIELD w="430" title="Reporting To">parent_role_name</TEXTFIELD>
+				<TEXTFIELD w="50" title="Positions">positions</TEXTFIELD>
+				<TEXTFIELD w="75" title="Location">location_name</TEXTFIELD>
+				<TEXTFIELD w="550" title="Job Description">job_description</TEXTFIELD>
+			</FORMVIEW>
+		</GRID>
+	</DESK>
+
+	<DESK w="700" name="Internships" key="15" h="550">
+		<GRID name="Internships Posts" keyfield="internship_id" table="vw_internships" noorg="true" where="(closing_date >= current_date)" secured="false" url="jsongeneral">
+			<TEXTLINK w="45" title="Internship ID">internship_id</TEXTLINK>
+			<TEXTFIELD w="75" title="Organization">org_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+			<TEXTFIELD w="50" title="Positions">positions</TEXTFIELD>
+			<TEXTDATE w="75" title="Opening Date">opening_date</TEXTDATE>
+			<TEXTDATE w="75" title="Closing Date">closing_date</TEXTDATE>
+			<TEXTFIELD w="75" title="Location">location</TEXTFIELD>
+			<FORMVIEW name="Internships Posts" keyfield="internship_id" table="vw_internships" noorg="true" where="(closing_date >= current_date)">
+				<TEXTFIELD w="75" title="Internship ID">internship_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Organization">org_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Organization Details">org_details</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Opening Date">opening_date</TEXTDATE>
+				<TEXTDATE w="75" title="Closing Date">closing_date</TEXTDATE>
+				<TEXTFIELD w="50" title="Positions">positions</TEXTFIELD>
+				<TEXTFIELD w="75" title="Location">location</TEXTFIELD>
+				<TEXTFIELD w="175" title="Details">details</TEXTFIELD>
+			</FORMVIEW>
+		</GRID>
+	</DESK>
+
+</APP>

@@ -1,0 +1,24 @@
+<APPLIST loglevel="info" dbpassword="invent" greeting="Open Baraza Server" encryption="accessbaaccessba" dbtemplate="baraza" dbpath="jdbc:postgresql://localhost/postgres" dbclass="org.postgresql.Driver" dbusername="postgres" logfile="/opt/baraza/baraza.log" mode="run">
+	<APP dbpath="jdbc:postgresql://localhost/hr" dbname="hr" path="hr" xmlfile="hr.xml" dbclass="org.postgresql.Driver" dbusername="postgres" auth="entity">Human Resources</APP>
+	<APP dbpath="jdbc:postgresql://localhost/hr" dbname="hr" path="hr" xmlfile="payroll.xml" dbclass="org.postgresql.Driver" org="org_id" dbusername="root" auth="entity">Payroll</APP>
+	<APP dbpath="jdbc:postgresql://localhost/hr" dbname="hr" path="hr" xmlfile="projects.xml" dbclass="org.postgresql.Driver" org="org_id" dbusername="root" auth="entity">Projects</APP>
+	<APP dbpath="jdbc:postgresql://localhost/hr" dbname="hr" path="hr" xmlfile="finance.xml" dbclass="org.postgresql.Driver" org="org_id" dbusername="root" auth="entity">Finance</APP>
+	<APP dbpassword="baraza2012" dbpath="jdbc:postgresql://localhost/baraza" dbname="baraza" path="baraza" xmlfile="baraza.xml" disable="true" dbclass="org.postgresql.Driver" dbusername="root" auth="entity">Baraza</APP>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/hr" dbname="hr" path="hr" xmlfile="mail.xml" disable="true" dbclass="org.postgresql.Driver" dbusername="root">HR Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/sacco" dbname="sacco" path="sacco" xmlfile="email.xml" disable="true" dbclass="org.postgresql.Driver" dbusername="root">Sacco Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/microstart" dbname="microstart" path="microstart" xmlfile="email.xml" disable="true" dbclass="org.postgresql.Driver" dbusername="root">Microstart Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/chama" dbname="chama" path="chama" xmlfile="email.xml" disable="false" dbclass="org.postgresql.Driver" dbusername="root">Chama Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/travelportapps" dbname="travelportapps" path="travelportapps" xmlfile="mail.xml" disable="false" dbclass="org.postgresql.Driver" dbusername="root">Travelportapps Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/travelcreations" dbname="travelcreations" path="travelcreations" xmlfile="mail.xml" disable="false" dbclass="org.postgresql.Driver" dbusername="root">Travelcreations Mailing Server</SERVER>
+
+	<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/heritage" dbname="heritage" path="heritage" xmlfile="mail.xml" disable="false" dbclass="org.postgresql.Driver" dbusername="root">Heritage Mailing Server</SERVER>
+
+<SERVER dbpassword="invent" dbpath="jdbc:postgresql://localhost/faidaplus" dbname="faidaplus" path="faidaplus" xmlfile="mail.xml" disable="false" dbclass="org.postgresql.Driver" dbusername="root">faidaplus Mailing Server</SERVER>
+
+</APPLIST>

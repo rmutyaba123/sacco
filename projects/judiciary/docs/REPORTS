@@ -1,0 +1,28 @@
+Judges Summary Reports
+
+   1. Number of cases handled (open versus closed cases) in a specific duration. DONE
+   2. Category of Cases handled DONE case_summary_category_count
+   3. Types and number of each Verdict given DONE case_decisions
+   4. Number of Adjournments per case DONE case_adjornments
+   5. Case durations from start to finish DONE case_life_spans
+   6. Number of disqualifications from cases.DONE IN decision types NO 2
+   7. Number of cases as Presiding judge. DONE IN cases_summary_incomplete and complete
+   8. Number of cases assigned based on registrar who assigned. CLARIFICATION
+   9. Value of awards issued in civil suits and appeals.FIELD FOR AWARDS REQUIRED
+  10. Number of judgements overruled in appeal. CLARIFICATION :- OVErRULE MAY BE PART OF DECISION TYPE
+
+
+Court Station Summary reports
+
+   1. Number of cases filed, open and closed.DONE courts_summary_cases
+   2. Number of staff in station.DONE court summary_judges_bench
+
+
+Case Parties Summary reports
+
+   1. Number of cases per case party DONE court_summary_per_person
+   2. Number of cases dismissed, lost, won.PENDING : A FIELD TO BE ADDED i.e won/lost
+   3. Number of appeals won, lost.PENDING A FIELD TO BE ADDED i.e won /lost
+   4. Acts Broken report DONE as same as casecategoriesde
+
+

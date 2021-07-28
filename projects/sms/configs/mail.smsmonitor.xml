@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ESCALATION title="Cases Mail" processdelay="2"
+	host="simba.judiciary.go.ke" mailuser="sms.service" mailpassword="judsms2k12" mailfrom="sms.service@judiciary.go.ke"
+	inbox="INBOX" sentbox="Sent" imapssl="true">
+	
+	<REPORT name="SMS Failue" keyfield="sys_emailed_id" action="Emailed" actioncount="1" 
+			table="sys_emails, sys_emailed"
+			where="(sys_emails.sys_email_id = sys_emailed.sys_email_id) AND (sys_emails.sys_email_id = 10) AND (sys_emailed.emailed = false)">
+		<SUBJECT title="subject">sys_emails.title</SUBJECT>
+		<ADDRESS title="address">sys_emails.default_email</ADDRESS>
+		<BODYFIELD reference="{{narrative}}" basetable="sys_emailed">narrative</BODYFIELD>
+		<FIELD title="Body" basetable="sys_emails">details</FIELD>
+	</REPORT>
+
+</ESCALATION>

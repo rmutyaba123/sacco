@@ -1,0 +1,205 @@
+TODO
+
+
+
+- system help
+- reports
+
+- Over due actions
+- Colour code for overdue case
+- Diary conflict check
+
+- Mini cases for data entry purposes - REPORTS
+- Reports
+
+- eFiling
+
+NI
+- Roles : Registry, Accounts, Judge, Account
+- Drill down cases by judicial officer
+- view for case logs on report
+
+OPTION
+- Option to apply sentense to all aquised
+
+BARAZA
+- add excel and csv export of reports
+
+ADMIN FUNCTIONS
+- Function to start new numbering case sequence
+
+----------------------------
+TEST
+- Add quarum based on active members - option
+- Get a cause list for a day
+- Get a list of cases for a given contact
+- Add the electal areas
+- Bank on case deposits
+- Trigger to close cases after payment of fines - done
+- check on bug on change of diary dates
+- Function to close and open case - need any approval process
+- Auto allocate cases to judges {round robin and availability}
+- check with rules show which forms on activity details
+
+Done
+- Case transfer function to create a case in lower court + delete transfer details
+- Court division to take org_id of court station
+- Search for contacts though ajax based on ID
+- check on number generation
+- block holidays, leave and meetings in other colours
+- personal diary
+- room diary
+- Trigger to check that dates are not so far or too behind
+- Create Entity Types for {Lawyers, Insurance Firms}
+- Add Car registration number on civil cases on claim and trafic offences {Insurance}
+- SMS Query by File Number
+- Launch appeal from case
+	- Case lock due to case appeal launch
+- Apply the documents to events and add narrative
+- check on issue of NEW; EDIT forms
+- bookmark cases
+- prevent back dating of receipts and payments
+- Refunds on mpesa transactions
+- Function to add and remove quarum
+- Add judge function below the get title one
+- Function to get new title if its NEW {Add names for other items}
+- Receipt trigger to pick case number, once approved cannot be changed
+- On adding parties add a trigger to add count
+- Judgement with fine trigger fine
+- Check on activity rules, finish_dates and times > activity dates and default values
+
+- Case receipts management
+	- Once processed it cannot be changed - Done
+	- Lock editing amount - Done
+	- put option for imprisoment - Done
+
+- Date and time spin web default for now
+- Add org filter on the report
+
+- Separte cases {Civil/ Criminal}
+- Create table File_locations
+- Contacts {Case Parties - Add party type}
+- Auto generate case file numbers Court_Rank/Court_Station/Division/Case_number/year ie CA/NBI/CR/1/2012
+- Create login for people filling in forms and entering cases & accessing reports
+- file loading
+- Add staff ID to Judicial officers and Court staff
+- Separte Court Staff from Contacts
+- Cash payment - add it on receipt
+
+- Create a table for minutes and link them to the files, add folder as a static value
+- Add judicial disqualification
+- Link judges to subjects
+- judgment status, e.g., active, dormant, satisfied, partially satisfied, expired
+
+- Entity
+Idenfification type {ID, Passport}
+Identification ie ID
+County Aquired
+
+- Demographics
+Gender Female, Male
+Date birth
+Deceased
+Date of death
+
+-
+Judicial Officers
+Staff ID
+{Ranking {Chief Justice, Suprement Court Judge, Court of Appel Judge, Constitutional court judge, Judge, Magistrate}
+{Court Station}
+{Station Judge}
+
+
+Cases:
+Case Title
+Date of case
+Case File Number
+Court
+Physical File Location
+Judicial Officer
+Suing Amount
+Claim Amount
+
+Send copy - email
+
+Status
+Stage 
+
+If state changes a narration is needed
+
+Case payments tracking
+
+Separate criminal case and civil case
+
+Criminal case
+- Date of arrest
+- OB Number
+- Polici staiom
+- Warrant of arrest {yes, no}
+- Case Category {Trafic, hh}
+- Charge
+- Particural of Alleged crime
+- Scan charge sheet
+
+
+Proceedings
+- case activities
+- Edit Judgment -> Ruling/Judgment
+- Add Procedings to Activity
+- Allow to show if task is completed
+- Identification Type {National ID, Passport, PIN Number, Company Certificate}
+- Contacts to be searched
+- Case Activity results {Dismissed, Allowed, heard, Adjurned, Judgement Entered, Adjorned Sine Die, Ruling Delivered,
+	Closed Withdrawn, Consent Order filed, Ruling reserved}
+- Case Activity Adjorned reason {Party Absent, Attorney Absent, Witness Absent, interpretor Absent, other reasons}
+- Change "Case Contacts" to "Case Roles"
+- Change "Case Activity" to "Case Proceedings"
+- Change "Edit Ruling" to "Decision" - Under "Decision" add Dropdown for "Type of Decision" then Rich Text Editor for Details. 
+- Decision Types {Ruling, Judgment, Decree}
+- Distinguish Court Ranks - Court Stations
+- Disallow Editing once Case is closed.
+- Case history trigger
+- Reports : 
+	Cause List report
+	Case listing
+	Activity Details
+	case by Case Type or category
+	open cases
+	closed cases
+	case duration
+
+- Case transfer : Add Date of receipt and received by
+- Split the roles into : parties ; Bench
+- Add summary under decision
+- Have a role to select court rank division : Civil and Criminal
+- Report on transfers
+
+
+case logging
+- cases - Done
+- case_transfers - Done
+- case_orders - Done
+- case_activity - Done
+- case_contacts - Done
+- case_counts - Done
+- case_decisions - Done
+
+To do view
+- receipts
+- court_payments
+- court_refunds
+- court_bankings
+
+
+---------------------------
+Appleal
+
+- File notice of appeal in high court
+- record of appeal - 60 days
+- Entered in the register
+- You pick a date for first hearing
+
+
+- Civil application
+
+

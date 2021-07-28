@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_loan_monthly" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e00e89b0-681a-4a95-8476-4a13ee0ea110">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT entity_name, adjustment_name, account_number, currency_name,
+	loan_type_name, loan_date, loan_id, principle, interest,
+	monthly_repayment, reducing_balance, repayment_period, period_id,
+	start_date,
+	interest_amount, interest_paid, repayment,
+	penalty, penalty_paid, total_interest, total_repayment,
+	loan_balance
+
+FROM vw_loan_monthly
+
+WHERE (loan_id = '$P!{filterid}')
+$P!{organd}
+
+ORDER BY start_date]]>
+	</queryString>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="adjustment_name" class="java.lang.String"/>
+	<field name="account_number" class="java.lang.String"/>
+	<field name="currency_name" class="java.lang.String"/>
+	<field name="loan_type_name" class="java.lang.String"/>
+	<field name="loan_date" class="java.sql.Date"/>
+	<field name="loan_id" class="java.lang.Integer"/>
+	<field name="principle" class="java.lang.Float"/>
+	<field name="interest" class="java.lang.Float"/>
+	<field name="monthly_repayment" class="java.lang.Float"/>
+	<field name="reducing_balance" class="java.lang.Boolean"/>
+	<field name="repayment_period" class="java.lang.Integer"/>
+	<field name="period_id" class="java.lang.Integer"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="interest_amount" class="java.lang.Float"/>
+	<field name="interest_paid" class="java.lang.Float"/>
+	<field name="repayment" class="java.lang.Float"/>
+	<field name="penalty" class="java.lang.Float"/>
+	<field name="penalty_paid" class="java.lang.Float"/>
+	<field name="total_interest" class="java.lang.Float"/>
+	<field name="total_repayment" class="java.lang.Float"/>
+	<field name="loan_balance" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="172" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="446" height="62" uuid="cb0f679b-4bdf-4e9c-b24b-ddf093c5e532"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Loan Statement]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="79" width="163" height="15" uuid="d5cfddba-e38e-474d-8906-3da086906458"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="94" width="163" height="15" uuid="8ce6feb3-1479-4f93-9c4d-bc55d18b17a5"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adjustment_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="109" width="170" height="15" uuid="e523f709-51f8-4411-9962-4dae80f7b9c9"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account_number}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="79" width="170" height="15" uuid="189c171e-d5ed-4b9a-881f-57f7af32e09c"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{currency_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="94" width="170" height="15" uuid="ff237d31-046d-4a42-b3da-ed566320f011"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loan_type_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="79" width="90" height="15" forecolor="#000000" uuid="534e2bbb-73b3-48f5-861c-3b517bffbfa4"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Staff]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement x="90" y="124" width="163" height="15" uuid="3206a6a8-659f-4916-a208-b79db0b6a70f"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loan_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="109" width="163" height="15" uuid="bcdea919-3165-4812-a06d-0c213f0105a6"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{loan_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="353" y="124" width="170" height="15" uuid="1a514fe4-f130-492d-9b43-03d08f8316bc"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{principle}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="154" width="163" height="15" uuid="eeb96106-7526-40df-a237-405e10e7a4e9"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{interest}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="353" y="139" width="170" height="15" uuid="762b0dbf-b73a-45ac-b028-080194ca6435"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monthly_repayment}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="90" y="139" width="163" height="15" uuid="6dbe7aca-8098-4d33-b584-1c8cd3156627"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{reducing_balance}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="353" y="154" width="170" height="15" uuid="96121de2-f506-46a0-a859-768d1119ae6f"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{repayment_period}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="94" width="90" height="15" forecolor="#000000" uuid="f5693158-6d4a-4cc2-b287-d0b0fb50ecef"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Adjustment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="109" width="90" height="15" forecolor="#000000" uuid="f4389488-b837-48e0-92d8-f4625380f4d8"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Loan ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="124" width="90" height="15" forecolor="#000000" uuid="d075e037-b81f-4511-8dae-98ab85dabbbf"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Loan Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="139" width="90" height="15" forecolor="#000000" uuid="f83fd490-7e17-47da-a571-333885bb5bf9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Reducing Balance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="154" width="90" height="15" forecolor="#000000" uuid="ee8203a0-23c0-45ee-989e-21065ad7bb76"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Intreste Rate %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="79" width="90" height="15" forecolor="#000000" uuid="12f76c53-9179-46f7-b420-5aa680c95747"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Currency]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="94" width="90" height="15" forecolor="#000000" uuid="5eeaa669-9c0d-47aa-bd7e-bff299d916c1"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Loan Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="109" width="90" height="15" forecolor="#000000" uuid="497c3304-d39f-4638-b9f4-3f137212730b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Account Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="124" width="90" height="15" forecolor="#000000" uuid="28e7b011-5f74-4700-b4f7-d876f9aa731d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Principal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="139" width="90" height="15" forecolor="#000000" uuid="95484d5c-b38a-4fbb-9d08-e2f12f9d830e"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Monthly Repayment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="154" width="90" height="15" forecolor="#000000" uuid="1817ff29-4873-430b-9f28-cb0ba9e1c9a0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Repayment Period]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="38" width="555" height="1" uuid="4c2f6e73-0b61-4380-82a3-9fd47d912241"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="1" y="0" width="58" height="32" forecolor="#000000" uuid="333581d8-3691-487a-892e-c3a2337a85f9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="59" y="0" width="58" height="32" forecolor="#000000" uuid="426dc3e9-bc03-44b1-8e6f-d47cc3223ad6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Interest Amount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="117" y="0" width="58" height="32" forecolor="#000000" uuid="eb526915-e024-4873-be4e-c78918c9123c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Interest Paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="175" y="0" width="58" height="32" forecolor="#000000" uuid="091a0dc5-0e60-457b-8788-61e0b06d59d0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Repayment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="233" y="0" width="58" height="32" forecolor="#000000" uuid="fa70cdd8-770d-40a4-91ee-bf59d8e9c850"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Penalty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="291" y="0" width="58" height="32" forecolor="#000000" uuid="006de09c-f8ad-4292-b63c-6b3484724b64"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Penalty Paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="349" y="0" width="58" height="32" forecolor="#000000" uuid="af2431b7-dee5-4b86-8351-9da600475dd0"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Total Interest]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="407" y="0" width="58" height="32" forecolor="#000000" uuid="1d4d018d-9881-42c4-93b1-fb065efd6b7b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Total Repayment]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="465" y="0" width="58" height="32" forecolor="#000000" uuid="d1c4db09-b031-46d0-912f-457ae08e1d4c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Loan Balance]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="4192767b-4773-4a36-b4bd-56b8daf706ed"/>
+				<textField isStretchWithOverflow="true" pattern="yyyy, MMM" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="58" height="15" uuid="8e7e679d-1d6c-4620-8847-0694cb9162a4"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{start_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="59" y="0" width="58" height="15" uuid="e1b35910-ff9a-4fdd-ba40-941741a3bb05"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{interest_amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="117" y="0" width="58" height="15" uuid="bc2ab89f-e3bd-4c09-9e4d-f4a4a0450b1e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{interest_paid}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="175" y="0" width="58" height="15" uuid="caac39f5-d0a7-43e2-ba40-9eff73a4d8de"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{repayment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="233" y="0" width="58" height="15" uuid="f03d82b4-6b6c-4a07-9d48-1b9aa87d0d68"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{penalty}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="291" y="0" width="58" height="15" uuid="88bde31b-fd10-4c0e-b82f-6c156c14ebe0"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{penalty_paid}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="349" y="0" width="58" height="15" uuid="98657fbf-7b30-4b44-a833-e6eca72805c4"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_interest}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="407" y="0" width="58" height="15" uuid="543aa8e6-5902-41b0-aee1-183ab649ac0f"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{total_repayment}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="465" y="0" width="58" height="15" uuid="d66160ec-8d55-43b7-b442-c60057b53c77"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{loan_balance}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="e23f102a-21d4-4858-8a83-3626aa1b8f53"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="3c413db1-6179-47f9-8658-f7856e01835c"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="b79e426b-f6a3-450b-a94e-a3b0712ca25e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="2706e5be-06ae-4fa0-b9bb-37619b27a539"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="3ea71f4e-5dbd-469d-8ea3-a8f8da1a7a76"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

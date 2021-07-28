@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ebb9254b-e6ba-4fc2-b7b6-768d7ece470d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT entitys.entity_id, entitys.org_id, entitys.entity_name, entitys.primary_email,
+entitys.primary_telephone, entitys.date_enroled,rentals.rental_id, rentals.start_rent, rentals.hse_no,
+rentals.elec_no, rentals.water_no, rentals.is_active, rentals.rental_value, rentals.service_fees, rentals.commision_value,
+rentals.commision_pct, rentals.deposit_fee, rentals.deposit_fee_date, rentals.deposit_refund, rentals.deposit_refund_date
+FROM entitys
+INNER JOIN rentals ON entitys.entity_id = rentals.entity_id]]>
+	</queryString>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="primary_email" class="java.lang.String"/>
+	<field name="primary_telephone" class="java.lang.String"/>
+	<field name="date_enroled" class="java.sql.Timestamp"/>
+	<field name="start_rent" class="java.sql.Date"/>
+	<field name="hse_no" class="java.lang.String"/>
+	<field name="elec_no" class="java.lang.String"/>
+	<field name="water_no" class="java.lang.String"/>
+	<field name="is_active" class="java.lang.Boolean"/>
+	<field name="rental_value" class="java.lang.Double"/>
+	<field name="service_fees" class="java.lang.Double"/>
+	<field name="commision_value" class="java.lang.Double"/>
+	<field name="commision_pct" class="java.lang.Double"/>
+	<field name="deposit_fee" class="java.lang.Double"/>
+	<field name="deposit_fee_date" class="java.sql.Date"/>
+	<field name="deposit_refund" class="java.lang.Double"/>
+	<field name="deposit_refund_date" class="java.sql.Date"/>
+	<field name="entity_id" class="java.lang.Integer"/>
+	<group name="entity_id">
+		<groupExpression><![CDATA[$F{entity_id}]]></groupExpression>
+	</group>
+	<group name="is_active">
+		<groupExpression><![CDATA[$F{is_active}]]></groupExpression>
+	</group>
+	<group name="start_rent">
+		<groupExpression><![CDATA[$F{start_rent}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

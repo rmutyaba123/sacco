@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_payroll_diff" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3f15d4f2-f247-4567-b896-32b53cfdb26e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="263"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="previous_id" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_employee_month.period_year, vw_employee_month.period_month,
+  vw_employee_month.entity_id, vw_employee_month.entity_name,
+  vw_employee_month.employee_id, vw_employee_month.overtime,
+  vw_employee_month.basic_pay, vw_employee_month.payroll_allowance,
+  vw_employee_month.payroll_deduction, vw_employee_month.payroll_expense,
+  vw_employee_month.payroll_tax, vw_employee_month.net_pay,
+  vw_employee_month.currency_id, vw_employee_month.currency_name,
+  vw_employee_month.currency_symbol,
+  vw_employee_month.banked,
+  bb.p_date, bb.p_basic_pay, bb.p_payroll_tax, bb.p_net_pay, bb.p_banked,
+  (vw_employee_month.net_pay - COALESCE(bb.p_net_pay, 0)) as diff_net_pay,
+  (vw_employee_month.banked - COALESCE(bb.p_banked, 0)) as diff_banked
+
+FROM vw_employee_month LEFT JOIN
+(SELECT aa.entity_id, aa.start_date as p_date, aa.basic_pay as p_basic_pay,
+  aa.payroll_tax as p_payroll_tax, aa.net_pay as p_net_pay, aa.banked as p_banked
+FROM vw_employee_month as aa
+WHERE aa.period_id = '$P!{previous_id}') as bb
+
+ON vw_employee_month.entity_id = bb.entity_id
+
+WHERE (vw_employee_month.period_id = '$P!{filterid}')
+$P!{organd}
+
+ORDER BY vw_employee_month.currency_name, vw_employee_month.entity_id;]]>
+	</queryString>
+	<field name="period_year" class="java.lang.String"/>
+	<field name="period_month" class="java.lang.String"/>
+	<field name="entity_id" class="java.lang.Integer"/>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="employee_id" class="java.lang.String"/>
+	<field name="overtime" class="java.lang.Double"/>
+	<field name="basic_pay" class="java.lang.Double"/>
+	<field name="payroll_allowance" class="java.lang.Double"/>
+	<field name="payroll_deduction" class="java.lang.Double"/>
+	<field name="payroll_expense" class="java.lang.Double"/>
+	<field name="payroll_tax" class="java.lang.Double"/>
+	<field name="net_pay" class="java.lang.Double"/>
+	<field name="currency_id" class="java.lang.Integer"/>
+	<field name="currency_name" class="java.lang.String"/>
+	<field name="currency_symbol" class="java.lang.String"/>
+	<field name="banked" class="java.lang.Double"/>
+	<field name="p_date" class="java.sql.Date"/>
+	<field name="p_basic_pay" class="java.lang.Double"/>
+	<field name="p_payroll_tax" class="java.lang.Double"/>
+	<field name="p_net_pay" class="java.lang.Double"/>
+	<field name="p_banked" class="java.lang.Double"/>
+	<field name="diff_net_pay" class="java.lang.Double"/>
+	<field name="diff_banked" class="java.lang.Double"/>
+	<variable name="basic_pay_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{basic_pay}]]></variableExpression>
+	</variable>
+	<variable name="payroll_tax_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{payroll_tax}]]></variableExpression>
+	</variable>
+	<variable name="net_pay_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{net_pay}]]></variableExpression>
+	</variable>
+	<variable name="p_basic_pay_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_basic_pay}]]></variableExpression>
+	</variable>
+	<variable name="p_payroll_tax_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_payroll_tax}]]></variableExpression>
+	</variable>
+	<variable name="p_net_pay_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_net_pay}]]></variableExpression>
+	</variable>
+	<variable name="banked_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{banked}]]></variableExpression>
+	</variable>
+	<variable name="p_banked_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{p_banked}]]></variableExpression>
+	</variable>
+	<variable name="diff_net_pay_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{diff_net_pay}]]></variableExpression>
+	</variable>
+	<variable name="diff_banked_1" class="java.lang.Double" resetType="Group" resetGroup="currency_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{diff_banked}]]></variableExpression>
+	</variable>
+	<group name="currency_name">
+		<groupExpression><![CDATA[$F{currency_name}]]></groupExpression>
+		<groupHeader>
+			<band height="39">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="38" width="705" height="1" uuid="264bb51b-caa9-4eb3-9277-e9172e2da0d2"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="1" y="23" width="59" height="15" forecolor="#000000" uuid="b5ff4c94-b8b4-4d64-9053-c7cd7e46c3da"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="60" y="23" width="145" height="15" forecolor="#000000" uuid="b9d19d45-863d-44c5-be81-c3a6e8a0787b"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Employee Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="205" y="23" width="50" height="15" forecolor="#000000" uuid="650f4be2-79b5-4777-bdab-9d2bf2918629"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Basic Pay]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="455" y="23" width="50" height="15" forecolor="#000000" uuid="97e37bc9-fb7d-4317-b8fb-ffd873345087"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tax]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="555" y="23" width="50" height="15" forecolor="#000000" uuid="283401d2-2171-4290-9d58-950e890c7e8c"/>
+					<box rightPadding="2">
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Banked]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="255" y="23" width="50" height="15" forecolor="#000000" uuid="36452a12-84e4-41b6-ba0b-c0a59c6f188a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tax]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="305" y="23" width="50" height="15" forecolor="#000000" uuid="3bcc80db-f095-438e-8872-54d8f197af7e"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Net Pay]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="405" y="23" width="50" height="15" forecolor="#000000" uuid="df585a5e-ccf4-428f-a98d-abc2732d29ec"/>
+					<box>
+						<leftPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Basic Pay]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="168" height="15" uuid="f27d0b57-b550-45dd-b3ef-821cad96cfb7"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{currency_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="MMMMM, yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="405" y="8" width="200" height="15" uuid="353ff5d7-3414-43cc-916e-ca10f34fb1ed"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement>
+						<font fontName="Times New Roman" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="605" y="8" width="50" height="31" forecolor="#000000" uuid="aa385109-e313-4309-85cd-cfce34595f4d"/>
+					<box>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Basic pay Difference]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="355" y="23" width="50" height="15" forecolor="#000000" uuid="6b059030-cc0d-40c3-9d9f-583954f3fec6"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Banked]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="505" y="23" width="50" height="15" forecolor="#000000" uuid="ad398df3-c013-4463-b6ff-186ae1b07167"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Net Pay]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="655" y="8" width="50" height="31" forecolor="#000000" uuid="22ff5f88-75a3-4a08-bb79-38624a514955"/>
+					<box>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Banked Difference]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="26">
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="205" y="1" width="50" height="20" uuid="93e0c809-63e6-4312-a56c-638ace11b1ac"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{basic_pay_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="455" y="1" width="50" height="20" uuid="7ad4deec-b569-40d3-b087-a6b5ccada39a"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{p_payroll_tax_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="555" y="1" width="50" height="20" uuid="0c37d949-0352-47a4-a557-8c9cc6e3dd0f"/>
+					<box rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{p_banked_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="255" y="1" width="50" height="20" uuid="582a9689-002a-4e53-b880-0817f81634ac"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{payroll_tax_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="305" y="1" width="50" height="20" uuid="e166b2e3-425d-4ca9-a113-043452a4d0b8"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{net_pay_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="60" y="1" width="145" height="20" forecolor="#000000" uuid="9355acaf-7774-44f7-9291-127632d33ed8"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Totals]]></text>
+				</staticText>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="405" y="1" width="50" height="20" uuid="b7e9fdee-f018-4b52-ba5e-b1a1928cb1f6"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{p_basic_pay_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="605" y="1" width="50" height="20" uuid="b6fdee17-d68e-4998-bf1d-39191b510ca9"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{diff_net_pay_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="355" y="1" width="50" height="20" uuid="98fac350-3bcd-43d3-bf5b-f7e838893c48"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{banked_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="505" y="1" width="50" height="20" uuid="861e0ec3-27ee-47d7-a9f7-f1f6e65eefb4"/>
+					<box rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{p_net_pay_1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;(#,##0)" isBlankWhenNull="true">
+					<reportElement x="655" y="1" width="50" height="20" uuid="7400b844-45fb-4953-91fb-6c43ff9281a8"/>
+					<box>
+						<topPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.75" lineStyle="Double"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{diff_banked}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="71" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="41" uuid="aea03540-5905-4764-a1ca-1c39b1fe80db"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Employee Month Report]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="41" width="46" height="20" uuid="5c40b305-3b62-4165-bcd7-0305b198d31a"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period_year}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="41" width="99" height="20" uuid="f94d67ef-dddb-48b6-a49d-544f4b2f6aca"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{period_month}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="89a0a18c-0739-4a90-b66a-c0700e42eb64"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="59" height="15" uuid="d7d2da2a-6b4d-4bf7-9664-4e8c27833d08"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{employee_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="60" y="0" width="145" height="15" uuid="2cee31d5-71d4-4857-9a80-e717d9bd8a72"/>
+					<textElement>
+						<font fontName="Times New Roman" size="9" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="205" y="0" width="50" height="15" uuid="2c412753-afa2-4477-ab35-f9cf9668551a"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{basic_pay}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="455" y="0" width="50" height="15" uuid="dc4dffdb-dc83-4728-9e71-965311f1e533"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_payroll_tax}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="255" y="0" width="50" height="15" uuid="ac1113e3-dd13-484b-aad7-5bb539e0d996"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{payroll_tax}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="305" y="0" width="50" height="15" uuid="9028a636-05e0-4552-85f9-5533f7950780"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{net_pay}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="555" y="0" width="50" height="15" uuid="cd2f36b9-2faa-4f5a-9536-02f1043267da"/>
+					<box rightPadding="2">
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_banked}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="405" y="0" width="50" height="15" uuid="fdd7f9cf-31da-4df0-8d96-491a09477593"/>
+					<box>
+						<leftPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_basic_pay}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="355" y="0" width="50" height="15" uuid="5eaa2bde-cdd3-4b5a-863e-03514d5f7058"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{banked}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="505" y="0" width="50" height="15" uuid="5173def7-e9fc-4aa6-a5c8-0fcba7e23c59"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p_net_pay}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="605" y="0" width="50" height="15" uuid="7eda65b1-4e06-4089-94d8-a037fc8d0c9c"/>
+					<box>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{diff_net_pay}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="655" y="0" width="50" height="15" uuid="83df892b-1174-4550-81c4-b4a19cd6e79e"/>
+					<box>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{diff_banked}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="705" height="1" uuid="59fda322-7dfc-47fb-9e8b-d1fb6daaecae"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="f7ad71d4-980b-4240-b464-d992d671c7d4"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="755" y="2" width="40" height="20" forecolor="#736343" uuid="94c56ce6-391c-4f71-a139-07ea58b974a5"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="675" y="2" width="80" height="20" forecolor="#736343" uuid="aa0becb3-6a34-43f8-a4cb-ef1aa34eb01b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="6" y="2" width="197" height="20" forecolor="#736343" uuid="33bf25d4-4044-4c89-8fc2-393b483a2433"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="7" splitType="Stretch"/>
+	</summary>
+</jasperReport>

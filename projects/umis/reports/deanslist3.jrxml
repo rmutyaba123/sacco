@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="deanslist3" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2d633982-bb4b-43b2-9c37-823faa1db89a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="datefrom" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dateto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT quarterid, studentid, studentname, schoolname, sex, credit, gpa, cummcredit, cummgpa,
+degreelevelname, getcoremajor(studentdegreeid) as coremajor
+FROM studentquartersummary
+WHERE (quarterid>='$P!{datefrom}')
+AND (quarterid<='$P!{dateto}')
+AND (credit >= 12)
+AND (gpa >= 3.5)
+AND (checkincomplete(qstudentid) = 0)
+AND (checkgrade(qstudentid, 2.67) = 0)
+AND degreelevelid != 'MAS' AND degreelevelid != 'phd' AND degreelevelid != 'DIPL'
+AND degreelevelid != 'PGD' AND degreelevelid != 'PhD'
+ORDER BY  studentname, quarterid;]]>
+	</queryString>
+	<field name="quarterid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="studentid" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="studentname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="schoolname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sex" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="credit" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gpa" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cummcredit" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cummgpa" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="degreelevelname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="coremajor" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="105" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-1" x="81" y="49" width="412" height="54" uuid="9295042e-3f12-4326-8ac9-fbd344e29683"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="10" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[Requirements
+Load: 12 credit hours or more
+Incomplete: No Incomplete in any course during the quarter
+Grades: Note less that B- (Minus) in all courses
+current GPA: Not less that 3.50 in the quarter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText" x="114" y="-1" width="290" height="50" uuid="5e465d03-8886-4b50-92d2-3077dafc5b13"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="16" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[         UEAB
+DEANS LIST RANGE]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="170" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="170" uuid="2bdb65d6-4d9c-4cfe-b5f9-9f493291fe9f"/>
+				<rowGroup name="studentname" width="174">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{studentname}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="173" height="25" uuid="ff85421e-5534-47fa-b0ae-2b841f81a0c9"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{studentname}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="quarterid" height="30">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{quarterid}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<textField>
+								<reportElement style="Crosstab Data Text" x="-1" y="0" width="50" height="30" uuid="7e19a810-44af-4cdb-9f5f-769a8024197e"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{quarterid}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="gpaMeasure" class="java.lang.Double">
+					<measureExpression><![CDATA[$F{gpa}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents>
+						<textField pattern="#,##0.00;#,##0.00-" isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="-1" y="0" width="50" height="25" uuid="b657db33-9c89-4a15-8187-ac514240ea7e"/>
+							<box leftPadding="0">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+								<bottomPen lineWidth="1.0"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font fontName="Times New Roman" size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{gpaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell height="25" rowTotalGroup="studentname">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="fee4c5a4-28bd-47c4-96c6-28b92ce4a806"/>
+							<textFieldExpression><![CDATA[$V{gpaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="quarterid">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="3087c2b6-65a8-4efe-901b-5be04eaacade"/>
+							<textFieldExpression><![CDATA[$V{gpaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="studentname" columnTotalGroup="quarterid">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d6d56c81-45a5-40c0-8b15-a7c416a3cd75"/>
+							<textFieldExpression><![CDATA[$V{gpaMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

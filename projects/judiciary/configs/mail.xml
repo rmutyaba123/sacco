@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ESCALATION title="Cases Mail" processdelay="2"
+	host="simba.judiciary.go.ke" mailuser="sms.service" mailpassword="judsms2k12" mailfrom="sms.service@judiciary.go.ke"
+	inbox="INBOX" sentbox="Sent" imapssl="true">
+	
+	<REPORT name="Application" keyfield="sys_emailed_id" action="Emailed" actioncount="1" 
+			table="sys_emails, sys_emailed, sms"
+			where="(sms.sms_id = sys_emailed.table_id) AND (sys_emails.sys_email_id = sys_emailed.sys_email_id) AND (sys_emailed.emailed = false)">
+		<SUBJECT title="subject">sys_emails.title</SUBJECT>
+		<ADDRESS title="address">'sms@judiciary.go.ke'</ADDRESS>
+		<HEADER title="Forward ID" reference="X-OTRS-CustomerNo" basetable="sms">sms_number</HEADER>
+		<FIELD title="Body" fnct="sms.message || ' - ' || sms.sms_number">msg</FIELD>
+	</REPORT>
+
+</ESCALATION>

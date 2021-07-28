@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="studentquarterview" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20" uuid="03cdf47a-b743-49da-ab79-5c440b3b0940">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="filterid" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["./../"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT studentid, qstudentid, studentdegreeid, studentname, schoolname, nationalitycountry, degreename, maritalstatus, sex,
+quarterid, quarteryear, quarter,
+gpa, credit, hours, cummcredit, cummgpa
+FROM studentquarterlist
+WHERE (studentdegreeid = '$P!{filterid}') AND (approved = true);]]>
+	</queryString>
+	<field name="studentid" class="java.lang.String"/>
+	<field name="qstudentid" class="java.lang.Integer"/>
+	<field name="studentdegreeid" class="java.lang.Integer"/>
+	<field name="studentname" class="java.lang.String"/>
+	<field name="schoolname" class="java.lang.String"/>
+	<field name="nationalitycountry" class="java.lang.String"/>
+	<field name="degreename" class="java.lang.String"/>
+	<field name="maritalstatus" class="java.lang.String"/>
+	<field name="sex" class="java.lang.String"/>
+	<field name="quarterid" class="java.lang.String"/>
+	<field name="quarteryear" class="java.lang.String"/>
+	<field name="quarter" class="java.lang.String"/>
+	<field name="gpa" class="java.lang.Double"/>
+	<field name="credit" class="java.lang.Double"/>
+	<field name="hours" class="java.lang.Double"/>
+	<field name="cummcredit" class="java.lang.Double"/>
+	<field name="cummgpa" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="149" splitType="Stretch">
+			<staticText>
+				<reportElement key="staticText-1" mode="Transparent" x="12" y="59" width="71" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="e9957f86-4520-4ac0-9313-70328f1fcaf9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[School :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-2" mode="Transparent" x="12" y="42" width="71" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="2b647bd3-50a5-4fbf-96e6-86902fbcb53a"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Student :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" mode="Transparent" x="347" y="77" width="44" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="e9f67b8a-fe4a-4374-aec9-38736dc18272"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Sex :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-4" mode="Transparent" x="347" y="59" width="44" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="9f92aea3-c039-46c3-840d-17c77833df82"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[M/S :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-5" mode="Transparent" x="12" y="77" width="71" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="e69a1941-bd95-4297-a134-076ec6b72d14"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nationality :]]></text>
+			</staticText>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-1" mode="Transparent" x="90" y="59" width="238" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="c872a6bb-9eaf-44a5-8d2d-a34ac8173081"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{schoolname}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-2" mode="Transparent" x="90" y="42" width="78" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="42c465b7-0903-41a8-bfee-b3d8ad5664b8"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{studentid}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-3" mode="Transparent" x="176" y="42" width="304" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="e2fcf8f8-d883-43da-b947-d1557bae636c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{studentname}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-4" mode="Transparent" x="397" y="77" width="32" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="ca6055e3-4d6f-45c3-843f-d4fec3f777cb"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sex}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-5" mode="Transparent" x="397" y="59" width="32" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="6b2bd67e-fdda-413d-8329-ccb1986c2621"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{maritalstatus}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-6" mode="Transparent" x="90" y="77" width="238" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="56faef0f-6ab0-47d7-a57c-d1ec75fc36fd"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nationalitycountry}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-6" x="41" y="5" width="449" height="33" uuid="8d3d5a0d-9db6-4733-977a-04d2e0b97b75"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="24"/>
+				</textElement>
+				<text><![CDATA[Unofficial Record - For Advising Only]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-7" mode="Transparent" x="12" y="95" width="71" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="f6b00018-96d4-4962-b0c1-d7432f53473b"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Bold" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Degree :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement key="textField-7" mode="Transparent" x="90" y="95" width="238" height="17" forecolor="#000000" backcolor="#FFFFFF" uuid="5e0194d7-a80f-438e-93a2-735995be0ba9"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{degreename}]]></textFieldExpression>
+			</textField>
+			<subreport isUsingCache="true">
+				<reportElement key="subreport-1" x="9" y="112" width="522" height="17" uuid="e7099dbf-7b7d-4b36-9b58-a7433ba1f4ba"/>
+				<subreportParameter name="studentdegreeid">
+					<subreportParameterExpression><![CDATA[$F{studentdegreeid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{reportpath} + "studentmajorviewa.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="129" width="535" height="18" uuid="e820787b-d2c9-43d2-9ab3-f2234a299028"/>
+				<subreportParameter name="studentdegreeid">
+					<subreportParameterExpression><![CDATA[$F{studentdegreeid}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "transfereda.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="21" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-8" mode="Transparent" x="4" y="3" width="150" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="b81d2a00-d388-41ed-a47b-69e1d0f38fb0"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Times-Roman" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-9" mode="Transparent" x="410" y="3" width="87" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="7422dce0-58be-48f2-9194-719c99b25576"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" pattern="" isBlankWhenNull="false">
+				<reportElement key="textField-10" mode="Transparent" x="497" y="3" width="36" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="af8d9db5-d2f5-4ea7-a641-57f8ceb1ca29"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None">
+					<font fontName="Times New Roman" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="CP1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-8" x="166" y="3" width="234" height="16" uuid="c604a1b4-e0c5-4c9a-922c-bb14809dc1ea"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" size="8" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[* Indicate repeated course without credit]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band height="85" splitType="Stretch">
+			<elementGroup>
+				<elementGroup>
+					<crosstab>
+						<reportElement key="crosstab-1" x="0" y="4" width="535" height="57" isPrintWhenDetailOverflows="true" uuid="4f592177-c824-4b69-92d7-a7e8a91198f8"/>
+						<crosstabHeaderCell>
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<staticText>
+									<reportElement key="staticText-7" x="50" y="1" width="48" height="13" uuid="d3cc7be7-4165-4325-9766-4b7587f71790"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement>
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<text><![CDATA[Quarters]]></text>
+								</staticText>
+								<staticText>
+									<reportElement key="staticText-7" x="1" y="18" width="41" height="13" uuid="9f954cc6-09c5-4a5c-8f3a-569e62c17ab4"/>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement>
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<text><![CDATA[Year]]></text>
+								</staticText>
+								<line>
+									<reportElement key="line-1" x="0" y="0" width="100" height="32" uuid="5c9a324e-a695-4c84-b7f5-7bd5a9a27198"/>
+									<graphicElement>
+										<pen lineWidth="0.25" lineStyle="Solid"/>
+									</graphicElement>
+								</line>
+							</cellContents>
+						</crosstabHeaderCell>
+						<rowGroup name="quarteryear" width="100">
+							<bucket class="java.lang.String">
+								<bucketExpression><![CDATA[$F{quarteryear}]]></bucketExpression>
+							</bucket>
+							<crosstabRowHeader>
+								<cellContents mode="Transparent">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textField isBlankWhenNull="false">
+										<reportElement key="textField" x="1" y="0" width="98" height="13" uuid="d22ebb72-5d02-4b56-834b-5238939e657f"/>
+										<box>
+											<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="0.0" lineColor="#000000"/>
+											<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Times New Roman" size="8"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{quarteryear}]]></textFieldExpression>
+									</textField>
+									<staticText>
+										<reportElement key="staticText-7" x="1" y="13" width="98" height="11" uuid="26c75392-5c5c-4427-8653-3db85729950f"/>
+										<box>
+											<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="0.0" lineColor="#000000"/>
+											<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement>
+											<font fontName="Times New Roman" size="8"/>
+										</textElement>
+										<text><![CDATA[Cummulated]]></text>
+									</staticText>
+								</cellContents>
+							</crosstabRowHeader>
+							<crosstabTotalRowHeader>
+								<cellContents mode="Transparent">
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+								</cellContents>
+							</crosstabTotalRowHeader>
+						</rowGroup>
+						<columnGroup name="quarter" height="32" headerPosition="Center">
+							<bucket class="java.lang.String">
+								<bucketExpression><![CDATA[$F{quarter}]]></bucketExpression>
+							</bucket>
+							<crosstabColumnHeader>
+								<cellContents mode="Transparent">
+									<box>
+										<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textField isBlankWhenNull="false">
+										<reportElement key="textField" x="0" y="0" width="79" height="17" uuid="42fe8f6e-5a64-46cc-9b40-e36f2975af72"/>
+										<box>
+											<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="0.0" lineColor="#000000"/>
+											<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center" verticalAlignment="Middle">
+											<font fontName="Times New Roman" size="8"/>
+										</textElement>
+										<textFieldExpression><![CDATA[$V{quarter}]]></textFieldExpression>
+									</textField>
+									<staticText>
+										<reportElement key="staticText-7" x="0" y="18" width="34" height="13" uuid="f28e801f-93e5-40b6-a23e-c1b2558a73c2"/>
+										<box>
+											<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="0.0" lineColor="#000000"/>
+											<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center">
+											<font fontName="Times New Roman" size="8"/>
+										</textElement>
+										<text><![CDATA[Credit]]></text>
+									</staticText>
+									<staticText>
+										<reportElement key="staticText-7" x="34" y="18" width="45" height="13" uuid="4be58892-6cbb-4c58-a9ba-fd4b07b0e9e4"/>
+										<box>
+											<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+											<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+											<bottomPen lineWidth="0.0" lineColor="#000000"/>
+											<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										</box>
+										<textElement textAlignment="Center">
+											<font fontName="Times New Roman" size="8"/>
+										</textElement>
+										<text><![CDATA[GPA]]></text>
+									</staticText>
+								</cellContents>
+							</crosstabColumnHeader>
+							<crosstabTotalColumnHeader>
+								<cellContents/>
+							</crosstabTotalColumnHeader>
+						</columnGroup>
+						<measure name="gpa_average" class="java.lang.Double" calculation="Average">
+							<measureExpression><![CDATA[$F{gpa}]]></measureExpression>
+						</measure>
+						<measure name="qcredit_average" class="java.lang.Double" calculation="Average">
+							<measureExpression><![CDATA[$F{credit}]]></measureExpression>
+						</measure>
+						<measure name="cummgpa_average" class="java.lang.Double" calculation="Average">
+							<measureExpression><![CDATA[$F{cummgpa}]]></measureExpression>
+						</measure>
+						<measure name="cummcredit_average" class="java.lang.Double" calculation="Average">
+							<measureExpression><![CDATA[$F{cummcredit}]]></measureExpression>
+						</measure>
+						<crosstabCell width="80" height="25">
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="0.75" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.75" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.75" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="0.75" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+									<reportElement key="textField" x="0" y="0" width="34" height="13" uuid="53c4d795-28bb-4c74-8dcf-b45744991933">
+										<printWhenExpression><![CDATA[$V{qcredit_average}>0]]></printWhenExpression>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{qcredit_average}]]></textFieldExpression>
+								</textField>
+								<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+									<reportElement key="textField-7" x="34" y="0" width="45" height="13" uuid="eac3ced5-161b-48e6-b1ac-f012e00170b1">
+										<printWhenExpression><![CDATA[$V{gpa_average}>0]]></printWhenExpression>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{gpa_average}]]></textFieldExpression>
+								</textField>
+								<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+									<reportElement key="textField-7" x="0" y="13" width="34" height="11" uuid="05caebe5-5daa-4528-8251-28cab62ea9c9">
+										<printWhenExpression><![CDATA[$V{cummcredit_average}>0]]></printWhenExpression>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{cummcredit_average}]]></textFieldExpression>
+								</textField>
+								<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+									<reportElement key="textField-7" x="34" y="13" width="45" height="11" uuid="27c897a5-f482-4609-afe0-2776ae3108bc">
+										<printWhenExpression><![CDATA[$V{cummgpa_average}>0]]></printWhenExpression>
+									</reportElement>
+									<box>
+										<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
+										<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+										<bottomPen lineWidth="0.0" lineColor="#000000"/>
+										<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									</box>
+									<textElement textAlignment="Center" verticalAlignment="Middle">
+										<font fontName="Times New Roman" size="8"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$V{cummgpa_average}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabCell>
+						<crosstabCell width="0" height="25" columnTotalGroup="quarter">
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</cellContents>
+						</crosstabCell>
+						<crosstabCell width="80" height="20" rowTotalGroup="quarteryear">
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</cellContents>
+						</crosstabCell>
+						<crosstabCell width="0" height="20" rowTotalGroup="quarteryear" columnTotalGroup="quarter">
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</cellContents>
+						</crosstabCell>
+						<whenNoDataCell>
+							<cellContents mode="Transparent">
+								<box>
+									<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="0.0" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</cellContents>
+						</whenNoDataCell>
+					</crosstab>
+					<subreport isUsingCache="true">
+						<reportElement key="subreport-2" positionType="Float" mode="Opaque" x="0" y="63" width="535" height="20" isPrintWhenDetailOverflows="true" uuid="a3618131-8d7f-497f-bc74-20515fa5026c"/>
+						<subreportParameter name="filterid">
+							<subreportParameterExpression><![CDATA[$P{filterid}]]></subreportParameterExpression>
+						</subreportParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						<subreportExpression><![CDATA[$P{reportpath} + "qgradeviewf.jasper"]]></subreportExpression>
+					</subreport>
+				</elementGroup>
+			</elementGroup>
+		</band>
+	</summary>
+</jasperReport>

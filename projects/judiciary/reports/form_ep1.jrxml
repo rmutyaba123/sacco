@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="activity_list" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="case_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[10912]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct vw_case_activity.court_station_name,(vw_case_activity.activity_date),vw_case_activity.case_id,
+vw_case_contacts.region_name,vw_case_activity.file_number,activity_time,vw_case_activity.details,vw_case_activity.county_name,vw_case_contacts.case_category_name,
+trim(leading ',' from getparties(vw_case_activity.case_id,4))  as accused,
+trim(leading ',' from getparties(vw_case_activity.case_id,2)) as procecutor,
+trim(leading ',' from getparties(vw_case_activity.case_id,3)) as witness,
+trim(leading ',' from getparties(vw_case_activity.case_id,1)) as judge,
+trim(leading ',' from getparties(vw_case_activity.case_id,8)) as respondent,
+trim(leading ',' from getparties(vw_case_activity.case_id,10)) as petitioner,
+activity_time,vw_case_activity.start_date,vw_case_contacts.date_of_elections,vw_case_contacts.election_winner
+from vw_case_activity inner join vw_case_contacts on vw_case_activity.case_id=vw_case_contacts.case_id
+where vw_case_contacts.case_id=$P{case_id}]]>
+	</queryString>
+	<field name="court_station_name" class="java.lang.String"/>
+	<field name="activity_date" class="java.sql.Date"/>
+	<field name="case_id" class="java.lang.Integer"/>
+	<field name="region_name" class="java.lang.String"/>
+	<field name="file_number" class="java.lang.String"/>
+	<field name="activity_time" class="java.sql.Time"/>
+	<field name="details" class="java.lang.String"/>
+	<field name="county_name" class="java.lang.String"/>
+	<field name="case_category_name" class="java.lang.String"/>
+	<field name="accused" class="java.lang.String"/>
+	<field name="procecutor" class="java.lang.String"/>
+	<field name="witness" class="java.lang.String"/>
+	<field name="judge" class="java.lang.String"/>
+	<field name="respondent" class="java.lang.String"/>
+	<field name="petitioner" class="java.lang.String"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="date_of_elections" class="java.sql.Date"/>
+	<field name="election_winner" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="-21" y="80" width="597" height="25"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[ACKNOWLEDGEMENT OF RECEIPT OF A PETITION]]></text>
+			</staticText>
+			<image>
+				<reportElement x="254" y="18" width="63" height="43"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{reportpath}+"coat-of-arms.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="61" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[The Judiciary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="3" width="553" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Republic of Kenya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="419" y="18" width="65" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[CASE NO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1" y="18" width="66" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[FORM EP1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="423" y="33" width="41" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[(r8)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnFooter>
+		<band height="4" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="74" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="14" width="91" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Received on the ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="29" width="406" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[at the Registry of hte High /Magistrate Court, a petition concerning the election of ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="213" y="44" width="135" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[purporting to be singed by ]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="92" y="14" width="449" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{activity_date}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="409" y="29" width="132" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{election_winner}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="44" width="26" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[for]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="59" width="335" height="15" forecolor="#736343"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Registrar (or other to whom the petition is delivered)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="348" y="44" width="193" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{petitioner}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="27" y="44" width="186" height="15"/>
+				<box>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case_category_name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

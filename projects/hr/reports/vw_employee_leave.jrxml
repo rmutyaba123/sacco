@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_employee_leave" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d413cad0-8b7e-4486-bf7c-f54ce8aa5bc9">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_employee_leave.entity_name, vw_employee_leave.leave_type_name, vw_employee_leave.leave_from, vw_employee_leave.leave_to, vw_employee_leave.approve_status, vw_employee_leave.Leave_days, vw_employee_leave.narrative,
+EXTRACT(YEAR FROM vw_employee_leave.leave_from) as leave_year
+FROM vw_employee_leave
+WHERE (vw_employee_leave.approve_status <> 'Rejected')
+$P!{organd}
+ORDER BY vw_employee_leave.entity_name, EXTRACT(YEAR FROM vw_employee_leave.leave_from) desc, vw_employee_leave.leave_type_id, vw_employee_leave.leave_from desc;]]>
+	</queryString>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="leave_type_name" class="java.lang.String"/>
+	<field name="leave_from" class="java.sql.Date"/>
+	<field name="leave_to" class="java.sql.Date"/>
+	<field name="approve_status" class="java.lang.String"/>
+	<field name="leave_days" class="java.lang.Double"/>
+	<field name="narrative" class="java.lang.String"/>
+	<field name="leave_year" class="java.lang.Double"/>
+	<variable name="leave_days_1" class="java.lang.Double" resetType="Group" resetGroup="entity_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{leave_days}]]></variableExpression>
+	</variable>
+	<variable name="leave_days_2" class="java.lang.Double" resetType="Group" resetGroup="leave_year" calculation="Sum">
+		<variableExpression><![CDATA[$F{leave_days}]]></variableExpression>
+	</variable>
+	<group name="entity_name">
+		<groupExpression><![CDATA[$F{entity_name}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="346" height="15" uuid="a0f8fae8-f937-4ca7-ad95-02f59f772e80"/>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="25">
+				<textField pattern="#,##0.0;-#,##0.0" isBlankWhenNull="true">
+					<reportElement x="343" y="3" width="56" height="20" uuid="cf8820db-27c8-4555-84a3-89c23a6a5cc0"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+						<bottomPen lineWidth="2.0" lineStyle="Double"/>
+					</box>
+					<textElement>
+						<font fontName="Times New Roman" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{leave_days_1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="leave_year">
+		<groupExpression><![CDATA[$F{leave_year}]]></groupExpression>
+		<groupHeader>
+			<band height="39">
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="36" width="555" height="1" uuid="07e0bbff-94b3-423a-a5d0-496ba3185989"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="1" y="21" width="136" height="15" forecolor="#000000" uuid="c540c2c1-2c93-4b6c-8d80-54280ca3f553"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Leave Type Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="137" y="21" width="75" height="15" forecolor="#000000" uuid="f1aa46c1-1a08-4b03-9805-c8440f930b60"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Leave From]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="212" y="21" width="75" height="15" forecolor="#000000" uuid="d66e897f-21cc-4c4a-b220-3b34dd64567f"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Leave To]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="287" y="21" width="56" height="15" forecolor="#000000" uuid="0ec98ac9-47fa-4e91-a811-e2ca66ec6005"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Approved]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="343" y="21" width="56" height="15" forecolor="#000000" uuid="a6c9e670-1217-4daf-acd7-32aaccb72cb3"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Days]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="399" y="21" width="153" height="15" forecolor="#000000" uuid="a8273963-b58f-4518-8a2e-4761d82b4e72"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Narrative]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="###0;-###0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="1" width="249" height="15" uuid="6131ff6f-485d-4111-b39e-1a536862d9da"/>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leave_year}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="26">
+				<textField pattern="#,##0.0;-#,##0.0" isBlankWhenNull="true">
+					<reportElement x="343" y="3" width="56" height="20" uuid="6ce8d714-63fc-47cd-b964-a2559f07e50c"/>
+					<box>
+						<topPen lineWidth="0.75"/>
+						<bottomPen lineWidth="1.0" lineStyle="Double"/>
+					</box>
+					<textElement>
+						<font fontName="Times New Roman" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{leave_days_2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="446" height="62" uuid="33de1d2d-f181-41b0-8191-0ddd48dae75a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Employee Leave Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="4" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="489000e4-d709-4f89-a3e6-271afc361352"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="136" height="15" uuid="fbed7d14-fe4b-4940-a75f-e959140f15f9"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leave_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="137" y="0" width="75" height="15" uuid="e519669a-6448-419e-8e2f-90a3fbdb03eb"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leave_from}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="212" y="0" width="75" height="15" uuid="0d982ce0-f407-4d66-b244-d888e6c5fa29"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leave_to}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="287" y="0" width="56" height="15" uuid="dd8f7e35-16b0-4b7b-b441-536b376abb38"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{approve_status}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0.0;-#,##0.0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="343" y="0" width="56" height="15" uuid="a0c99aca-92ec-434c-bc60-81bd7e6f9976"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{leave_days}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="399" y="0" width="153" height="15" uuid="e17d3449-2d89-4df7-9c25-58889a749cf6"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{narrative}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="ea8c2f15-705f-4685-a523-f1230f12b48f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="49aa4e7a-9cd3-4ff3-af83-bf4084beff34"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="e5b7f687-0e34-4149-973e-94a35cac4662"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="85c45c1c-79ad-4e67-b5d0-a29335a6737c"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="2edf2d2b-c94c-4572-bc30-d3797cc961a0"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Case_Details" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     vw_cases.case_type_id,
+     vw_cases.case_type_name ,
+     vw_cases.case_category_id,
+     vw_cases.case_category_name ,
+     vw_cases.case_category_title,
+     vw_cases.case_category_no ,
+     vw_cases.act_code ,
+     vw_cases.region_id ,
+     vw_cases.region_name ,
+     vw_cases.county_id ,
+     vw_cases.county_name,
+     vw_cases.court_rank_id,
+     vw_cases.court_rank_name  ,
+     vw_cases.court_station_id ,
+     vw_cases.court_station_name,
+     vw_cases.court_station_code ,
+     vw_cases.court_station ,
+     vw_cases.division_type_name,
+     vw_cases.court_division_id,
+     vw_cases.court_division_code,
+     vw_cases.court_division_num ,
+     vw_cases.court_division ,
+     vw_cases.file_location_id,
+     vw_cases.file_location_name,
+     vw_cases.police_station_id,
+     vw_cases.police_station_name,
+     vw_cases.org_id ,
+     vw_cases.case_id,
+     vw_cases.case_title,
+     vw_cases.file_number,
+     vw_cases.date_of_arrest,
+     vw_cases.ob_number,
+     vw_cases.warrant_of_arrest,
+     vw_cases.alleged_crime,
+     vw_cases.start_date ,
+     vw_cases.end_date,
+     vw_cases.nature_of_claim ,
+     vw_cases.value_of_claim ,
+     vw_cases.closed,
+     vw_cases.final_decision,
+     vw_cases.detail
+FROM vw_cases
+WHERE (vw_cases.case_id = '$P!{filterid}')]]>
+	</queryString>
+	<field name="case_type_id" class="java.lang.Integer"/>
+	<field name="case_type_name" class="java.lang.String"/>
+	<field name="case_category_id" class="java.lang.Integer"/>
+	<field name="case_category_name" class="java.lang.String"/>
+	<field name="case_category_title" class="java.lang.String"/>
+	<field name="case_category_no" class="java.lang.String"/>
+	<field name="act_code" class="java.lang.String"/>
+	<field name="region_id" class="java.lang.Integer"/>
+	<field name="region_name" class="java.lang.String"/>
+	<field name="county_id" class="java.lang.Integer"/>
+	<field name="county_name" class="java.lang.String"/>
+	<field name="court_rank_id" class="java.lang.Integer"/>
+	<field name="court_rank_name" class="java.lang.String"/>
+	<field name="court_station_id" class="java.lang.Integer"/>
+	<field name="court_station_name" class="java.lang.String"/>
+	<field name="court_station_code" class="java.lang.String"/>
+	<field name="court_station" class="java.lang.String"/>
+	<field name="division_type_name" class="java.lang.String"/>
+	<field name="court_division_id" class="java.lang.Integer"/>
+	<field name="court_division_code" class="java.lang.String"/>
+	<field name="court_division_num" class="java.lang.Integer"/>
+	<field name="court_division" class="java.lang.String"/>
+	<field name="file_location_id" class="java.lang.Integer"/>
+	<field name="file_location_name" class="java.lang.String"/>
+	<field name="police_station_id" class="java.lang.Integer"/>
+	<field name="police_station_name" class="java.lang.String"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="case_id" class="java.lang.Integer"/>
+	<field name="case_title" class="java.lang.String"/>
+	<field name="file_number" class="java.lang.String"/>
+	<field name="date_of_arrest" class="java.sql.Date"/>
+	<field name="ob_number" class="java.lang.String"/>
+	<field name="warrant_of_arrest" class="java.lang.Boolean"/>
+	<field name="alleged_crime" class="java.lang.String"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<field name="end_date" class="java.sql.Date"/>
+	<field name="nature_of_claim" class="java.lang.String"/>
+	<field name="value_of_claim" class="java.lang.Float"/>
+	<field name="closed" class="java.lang.Boolean"/>
+	<field name="final_decision" class="java.lang.String"/>
+	<field name="detail" class="java.lang.String"/>
+	<group name="subreport">
+		<groupExpression><![CDATA[$F{case_id}]]></groupExpression>
+		<groupFooter>
+			<band height="215">
+				<subreport>
+					<reportElement positionType="Float" x="0" y="0" width="555" height="33" isRemoveLineWhenBlank="true"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_contacts.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="33" width="555" height="36" isRemoveLineWhenBlank="true"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="reportpath">
+						<subreportParameterExpression><![CDATA[$P{reportpath}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_bench_sub.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="69" width="555" height="39" isRemoveLineWhenBlank="true"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="reportpath">
+						<subreportParameterExpression><![CDATA[$P{reportpath}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_proceedings_sub.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="143" width="555" height="36" isRemoveLineWhenBlank="true"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="reportpath">
+						<subreportParameterExpression><![CDATA[$P{reportpath}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_receipts_sub.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="179" width="555" height="36" isRemoveLineWhenBlank="true"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="reportpath">
+						<subreportParameterExpression><![CDATA[$P{reportpath}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_file_sub.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement positionType="Float" x="0" y="108" width="555" height="35"/>
+					<subreportParameter name="SUBREPORT_DIR">
+						<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="reportpath">
+						<subreportParameterExpression><![CDATA[$P{reportpath}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="filterid">
+						<subreportParameterExpression><![CDATA[$F{case_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "case_counts_sub.jasper"]]></subreportExpression>
+				</subreport>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="63" width="555" height="15" forecolor="#736343"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[The Judiciary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="5" width="555" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Republic of Kenya]]></text>
+			</staticText>
+			<image>
+				<reportElement x="249" y="20" width="63" height="43"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{reportpath}+"coat-of-arms.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="178" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="2" width="90" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Court Rank:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="18" width="90" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Court Station:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="34" width="90" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Case Type:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="50" width="90" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Case Category:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="66" width="90" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Case Title:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="82" width="90" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[File Number:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="99" width="90" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Start Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="116" width="90" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End Date:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="133" width="90" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Details]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement style="Detail" stretchType="RelativeToTallestObject" x="91" y="133" width="460" height="42"/>
+				<box leftPadding="1" rightPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{detail}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="18" width="460" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{court_station_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="2" width="460" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{court_rank_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="34" width="460" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case_type_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="50" width="460" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case_category_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="66" width="460" height="16"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{case_title}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="91" y="82" width="460" height="17"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{file_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="91" y="99" width="460" height="17"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{start_date}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="true">
+				<reportElement x="91" y="116" width="460" height="17"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[$F{end_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

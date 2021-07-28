@@ -1,0 +1,457 @@
+<APP auth.name="instructorid" name="UMIS" auth.id="instructorid" org="org_id" password="change_password" auth.table="instructors">
+	<MENU title="Lectures">
+		<MENU name="Information">
+			<MENU name="School">1</MENU>
+			<MENU name="Current Timetable">10</MENU>
+		</MENU>
+		<MENU name="Lectures" role="lecturer">
+			<MENU name="Contact Information">27</MENU>
+			<MENU name="Lectures">11</MENU>
+			<MENU name="Lectures Timetable">14</MENU>
+			<MENU name="Exam Timetable">15</MENU>
+			<MENU name="Grading">20</MENU>
+			<MENU name="Grade Book">23</MENU>
+		</MENU>
+		<MENU name="Course Advisor" role="major_advisor">
+			<MENU name="Course Approval">55</MENU>
+			<MENU name="Department List">50</MENU>
+		</MENU>
+		<MENU name="Department" role="department_head">
+			<MENU name="Department Class List">35</MENU>
+			<MENU name="Department Grading">30</MENU>
+			<MENU name="Grade Book">33</MENU>
+		</MENU>
+		<MENU name="School" role="school_dean">
+			<MENU name="Course Approval">56</MENU>
+			<MENU name="School List">51</MENU>
+			<MENU name="School Grading">32</MENU>
+			<MENU name="Grade Book">60</MENU>
+		</MENU>
+		<MENU name="Post Graduate" role="pgs_dean">
+			<MENU name="Course Approval">111</MENU>
+			<MENU name="Post Graduate List">110</MENU>
+		</MENU>
+	</MENU>
+	<DESK w="700" name="School" key="1" h="500">
+		<GRID name="School" keyfield="schoolid" orderby="schoolid" table="schools" noorg="true">
+			<TEXTFIELD w="75" title="School ID">schoolid</TEXTFIELD>
+			<TEXTFIELD w="250" title="School">schoolname</TEXTFIELD>
+			<GRID name="Department" keyfield="departmentid" orderby="departmentid" linkfield="schoolid" table="departmentview" noorg="true" reporttitle="schoolname">
+				<TEXTFIELD w="75" title="Department ID">Departmentid</TEXTFIELD>
+				<TEXTFIELD w="250" title="Department">departmentname</TEXTFIELD>
+				<GRID name="Majors" keyfield="majorid" linkfield="departmentid" table="majorview" noorg="true" reporttitle="departmentname">
+					<TEXTFIELD w="250" title="Majors Name">majorname</TEXTFIELD>
+					<CHECKBOX w="75" title="Core" format="boolean" ischar="true">major</CHECKBOX>
+					<GRID name="Majors Contents" keyfield="majorcontentid" orderby="courseid" linkfield="majorid" table="majorcontentview" noorg="true" where="(iscurrent = true)">
+						<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="75" title="Credit Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="75" title="Content Type">contenttypename</TEXTFIELD>
+						<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+						<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="majorcontentid" linkfield="majorcontentid" table="majorcontentview" noorg="true">
+							<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+							<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+							<TEXTFIELD w="70" title="Details">course_details</TEXTFIELD>
+							<GRID name="Prerequisite" keyfield="prerequisiteid" linkfield="majorcontentid" table="vw_major_prereq" noorg="true">
+								<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+								<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+								<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+								<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+							</GRID>
+						</FORMVIEW>
+					</GRID>
+				</GRID>
+				<GRID name="Courses Listing" keyfield="courseid" orderby="courseid" linkfield="departmentid" table="courses" noorg="true" where="(iscurrent = true)">
+					<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+					<TEXTFIELD w="250" title="Course Title">coursetitle</TEXTFIELD>
+					<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+					<CHECKBOX w="75" title="No GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+					<FORMVIEW w="570" name="Courses Details" lw="100" keyfield="courseid" linkfield="courseid" table="courses" noorg="true">
+						<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+						<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+						<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+						<TEXTFIELD w="70" title="Year Taken">yeartaken</TEXTFIELD>
+						<TEXTFIELD w="70" title="Details">details</TEXTFIELD>
+						<GRID name="Prerequisite" linkfield="courseid" table="prereqview" noorg="true">
+							<TEXTFIELD w="75" title="Course ID">courseid</TEXTFIELD>
+							<TEXTFIELD w="300" title="Course Title">coursetitle</TEXTFIELD>
+							<TEXTFIELD w="75" title="Level">optionlevel</TEXTFIELD>
+							<TEXTFIELD w="75" title="Grade">gradeid</TEXTFIELD>
+						</GRID>
+					</FORMVIEW>
+				</GRID>
+				<FORMVIEW w="570" name="Department Details" lw="100" keyfield="departmentid" linkfield="departmentid" table="departmentview" noorg="true">
+					<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+					<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+					<TEXTFIELD title="Department Name">Departmentname</TEXTFIELD>
+					<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+					<TEXTFIELD title="Vision">vision</TEXTFIELD>
+					<TEXTFIELD title="Mission">mission</TEXTFIELD>
+					<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+					<TEXTFIELD title="Exposures">exposures</TEXTFIELD>
+					<TEXTFIELD title="Oppotunities">oppotunities</TEXTFIELD>
+					<TEXTFIELD title="Details">details</TEXTFIELD>
+				</FORMVIEW>
+			</GRID>
+			<FORMVIEW w="550" name="School Details" lw="120" keyfield="schoolid" linkfield="schoolid" table="schools" noorg="true">
+				<TEXTFIELD title="School ID">schoolid</TEXTFIELD>
+				<TEXTFIELD title="School Name">schoolname</TEXTFIELD>
+				<TEXTFIELD title="Philosopy">philosopy</TEXTFIELD>
+				<TEXTFIELD title="Vision">vision</TEXTFIELD>
+				<TEXTFIELD title="Mission">mission</TEXTFIELD>
+				<TEXTFIELD title="Objectives">objectives</TEXTFIELD>
+				<TEXTFIELD title="Details">details</TEXTFIELD>
+			</FORMVIEW>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Current Timetable" key="10" h="500">
+		<GRID name="Current Timetable" table="currtimetableview">
+			<TEXTFIELD w="40" title="Start" format="time">starttime</TEXTFIELD>
+			<TEXTFIELD w="40" title="End" format="time">endtime</TEXTFIELD>
+			<TEXTFIELD w="40" title="Mo" format="boolcolor">cmonday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Tu" format="boolcolor">ctuesday</TEXTFIELD>
+			<TEXTFIELD w="40" title="We" format="boolcolor">cwednesday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Th" format="boolcolor">cthursday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Fr" format="boolcolor">cfriday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Su" format="boolcolor">csunday</TEXTFIELD>
+			<CHECKBOX w="40" title="Lab" format="boolean" ischar="true">lab</CHECKBOX>
+			<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="100" title="Instructor">instructorname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="75" title="Venue">assetname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Location">location</TEXTFIELD>
+			<TEXTFIELD w="75" title="Building">building</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Lectures" key="11" h="500">
+		<GRID name="Lectures" keyfield="qcourseid" orderby="courseid" table="qcourseview" noorg="true" where="(active = true)" user="instructorid">
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="25" title="Credit Hours">credithours</TEXTFIELD>
+			<CHECKBOX w="25" title="No. GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+			<TEXTFIELD w="70" title="Details" subreport="8">courseid</TEXTFIELD>
+			<GRID name="Selection List" orderby="studentname" linkfield="qcourseid" table="studentgradeview" noorg="true">
+				<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+				<TEXTFIELD w="200" title="Student Name">studentname</TEXTFIELD>
+				<TEXTFIELD w="70" title="GPA Hours">credit</TEXTFIELD>
+				<TEXTFIELD w="70" title="Charge Hours">hours</TEXTFIELD>
+				<TEXTFIELD w="70" title="Grade">gradeid</TEXTFIELD>
+				<CHECKBOX w="70" title="Approved">approved</CHECKBOX>
+			</GRID>
+			<JASPER name="Class List" showpdf="true" linkfield="filterid" reportfile="qgradeviewc.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Current Timetable" key="14" h="500">
+		<GRID name="Current Timetable" table="currtimetableview" noorg="true" user="instructorid">
+			<TEXTFIELD w="40" title="Start" format="time">starttime</TEXTFIELD>
+			<TEXTFIELD w="40" title="End" format="time">endtime</TEXTFIELD>
+			<TEXTFIELD w="40" title="Mo" format="boolcolor">cmonday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Tu" format="boolcolor">ctuesday</TEXTFIELD>
+			<TEXTFIELD w="40" title="We" format="boolcolor">cwednesday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Th" format="boolcolor">cthursday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Fr" format="boolcolor">cfriday</TEXTFIELD>
+			<TEXTFIELD w="40" title="Su" format="boolcolor">csunday</TEXTFIELD>
+			<CHECKBOX w="40" title="Lab" format="boolean" ischar="true">lab</CHECKBOX>
+			<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="75" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="100" title="Venue">assetname</TEXTFIELD>
+			<TEXTFIELD w="100" title="Location">location</TEXTFIELD>
+			<TEXTFIELD w="100" title="Building">building</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Exam Timetable" key="15" h="500">
+		<GRID name="Exam Timetable" table="vwqexamtimetable" noorg="true" where="(closed = false)" user="instructorid">
+			<TEXTFIELD w="40" title="Date" format="date">examdate</TEXTFIELD>
+			<TEXTFIELD w="40" title="Start" format="time">starttime</TEXTFIELD>
+			<TEXTFIELD w="40" title="End" format="time">endtime</TEXTFIELD>
+			<CHECKBOX w="40" title="Lab">lab</CHECKBOX>
+			<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Course Title">coursetitle</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Grading" key="20" h="500">
+		<GRID name="Grading" keyfield="qcourseid" orderby="quarterid, courseid" table="qcourseview" noorg="true" where="(submit_grades = false)" user="instructorid">
+			<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+			<GRID name="Class List" keyfield="qgradeid" updatetable="qgrades" orderby="studentid" linkfield="qcourseid" table="studentgradeview" noorg="true" where="(approved = true)">
+				<TEXTFIELD w="70" title="Student ID">studentid</TEXTFIELD>
+				<TEXTFIELD w="150" title="Student Name">studentname</TEXTFIELD>
+				<TEXTFIELD w="70" title="GPA Hours">credit</TEXTFIELD>
+				<EDITFIELD w="50" title="CAT Marks" editkey="qgradeid" editvalue="qgrades">lecture_cat_mark</EDITFIELD>
+				<EDITFIELD w="50" title="Exam Marks" editkey="qgradeid" editvalue="qgrades">lecture_marks</EDITFIELD>
+				<TEXTFIELD w="50" title="Lecture Grade">lecture_gradeid</TEXTFIELD>
+			</GRID>
+			<GRID name="Grading" keyfield="qcourseid" linkfield="qcourseid" table="qcourseview" noorg="true">
+				<TEXTFIELD w="250" title="Confrim Course submisions for course title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<ACTIONS jumpview="20:0">
+					<ACTION fnct="updComputeGrade" phase="1">Compute Grade</ACTION>
+					<ACTION fnct="updComputeGrade" phase="2">Compute PG Grade</ACTION>
+					<ACTION fnct="updqcoursegrade">Submit Grade</ACTION>
+				</ACTIONS>
+			</GRID>
+			<JASPER name="Lecturers Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewinsturctor.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Grade Book" key="23" h="500">
+		<GRID name="Grade Book" keyfield="quarterid" orderby="quarterid desc" table="quarterview" noorg="true">
+			<TEXTFIELD w="250" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="75" title="Starting" format="date">qstart</TEXTFIELD>
+			<TEXTFIELD w="75" title="Ending" format="date">qend</TEXTFIELD>
+			<CHECKBOX w="90" title="active" format="boolean" ischar="true">active</CHECKBOX>
+			<GRID name="Grade Book" keyfield="qcourseid" orderby="courseid" linkfield="quarterid" table="qcourseview" noorg="true" user="instructorid">
+				<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+				<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+				<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+				<TEXTFIELD w="150" title="Instructor">instructorname</TEXTFIELD>
+				<JASPER name="Grade Report" showpdf="false" linkfield="filterid" reportfile="qgradeviewd.jasper"></JASPER>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Department Class List" key="35" h="500">
+		<GRID user_field="departmentid" name="Department Class List" keyfield="qcourseid" orderby="courseid" user_fnct="get_instructor_department" table="qcourseview" noorg="true" where="(active = true)">
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="25" title="Credit Hours">credithours</TEXTFIELD>
+			<CHECKBOX w="25" title="No. GPA" format="boolean" ischar="true">nogpa</CHECKBOX>
+			<TEXTFIELD w="70" title="Details" subreport="8">courseid</TEXTFIELD>
+			<JASPER name="Class List" showpdf="true" linkfield="filterid" reportfile="qgradeviewc.jasper"></JASPER>
+			<GRID name="Selection List" orderby="studentname" linkfield="qcourseid" table="studentgradeview" noorg="true" where="(approved = true)">
+				<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+				<TEXTFIELD w="200" title="Student Name">studentname</TEXTFIELD>
+				<TEXTFIELD w="70" title="GPA Hours">credit</TEXTFIELD>
+				<TEXTFIELD w="70" title="Charge Hours">hours</TEXTFIELD>
+				<TEXTFIELD w="70" title="Grade">gradeid</TEXTFIELD>
+				<CHECKBOX w="70" title="Course Approved">crs_approved</CHECKBOX>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Department Grading" key="30" h="500">
+		<GRID user_field="departmentid" name="Grading" keyfield="qcourseid" orderby="quarterid, courseid" user_fnct="get_instructor_department" table="qcourseview" noorg="true" where="(submit_grades = true) AND (approved_grades = false) AND (department_head = false)">
+			<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+			<GRID name="Grading" keyfield="qcourseid" linkfield="qcourseid" table="qcourseview" noorg="true" reporttitle="instructorname">
+				<TEXTFIELD w="250" title="Confrim Course submisions for course title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<ACTIONS>
+					<ACTION fnct="updApproveGrade" auditid="sys_audit_trail_id">Submit Grade</ACTION>
+					<ACTION fnct="openqcoursedepartment">Open For Grading</ACTION>
+				</ACTIONS>
+			</GRID>
+			<JASPER name="Lecturers Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewinsturctor.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="School Grading" key="32" h="500">
+		<GRID user_field="schoolid" name="Department Head Grading" keyfield="qcourseid" orderby="quarterid, courseid" user_fnct="get_instructor_school" table="qcourseview" noorg="true" where="(submit_grades = true) AND (approved_grades = false) AND (department_head = true)">
+			<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+			<GRID name="Grading" keyfield="qcourseid" linkfield="qcourseid" table="qcourseview" noorg="true" reporttitle="instructorname">
+				<TEXTFIELD w="250" title="Confrim Course submisions for course title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<ACTIONS>
+					<ACTION fnct="updApproveGrade" auditid="sys_audit_trail_id">Submit Grade</ACTION>
+					<ACTION fnct="openqcoursedepartment">Open For Grading</ACTION>
+				</ACTIONS>
+			</GRID>
+			<JASPER name="Lecturers Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewinsturctor.jasper"></JASPER>
+		</GRID>
+		<GRID user_field="schoolid" name="School Grading" keyfield="qcourseid" orderby="quarterid, courseid" user_fnct="get_instructor_school" table="qcourseview" noorg="true" where="(submit_grades = true) AND (approved_grades = false) ">
+			<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+			<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+			<GRID name="Grading" keyfield="qcourseid" linkfield="qcourseid" table="qcourseview" noorg="true" reporttitle="instructorname">
+				<TEXTFIELD w="250" title="Confrim Course submisions for course title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Course Code">courseid</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<ACTIONS>
+					<ACTION fnct="updApproveGrade" auditid="sys_audit_trail_id">Submit Grade</ACTION>
+					<ACTION fnct="openqcoursedepartment">Open For Grading</ACTION>
+				</ACTIONS>
+			</GRID>
+			<JASPER name="Lecturers Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewinsturctor.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Grade Book" key="33" h="500">
+		<GRID name="Grade Book" keyfield="quarterid" orderby="quarterid desc" table="quarterview" noorg="true">
+			<TEXTFIELD w="250" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="75" title="Starting" format="date">qstart</TEXTFIELD>
+			<TEXTFIELD w="75" title="Ending" format="date">qend</TEXTFIELD>
+			<CHECKBOX w="90" title="active" format="boolean" ischar="true">active</CHECKBOX>
+			<GRID user_field="departmentid" name="Grade Book" keyfield="qcourseid" orderby="courseid" linkfield="quarterid" user_fnct="get_instructor_department" table="qcourseview">
+				<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+				<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+				<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+				<TEXTFIELD w="150" title="Instructor">instructorname</TEXTFIELD>
+				<JASPER name="Class List" showpdf="true" linkfield="filterid" reportfile="qgradeviewc.jasper"></JASPER>
+				<JASPER name="Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewd.jasper"></JASPER>
+			</GRID>
+			<JASPER name="Probation List" showpdf="true" linkfield="filterid" group="departmentid" reportfile="probationsc.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Department List" key="50" h="500">
+		<GRID limit="200" user_field="departmentid" name="Department List" keyfield="studentdegreeid" user_fnct="get_instructor_department" table="primajorstudentview" noorg="true">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="40" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="200" title="Programme">majorname</TEXTFIELD>
+			<JASPER name="Unofficial Transcript" showpdf="false" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" showpdf="false" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="School List" key="51" h="500">
+		<GRID limit="200" user_field="schoolid" name="School List" keyfield="studentdegreeid" user_fnct="get_instructor_school" table="primajorstudentview">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="40" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="200" title="Programme">majorname</TEXTFIELD>
+			<JASPER name="Unofficial Transcript" showpdf="false" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" showpdf="false" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Trimester List" key="52" h="500">
+		<GRID name="Trimester List" table="qstudentsummary" filterkey="studentdegreeid" reporttitle="studentname">
+			<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+			<CHECKBOX w="50" title="Approved" format="boolean" ischar="true">approved</CHECKBOX>
+			<TEXTFIELD w="40" title="Hours">credit</TEXTFIELD>
+			<TEXTFIELD w="40" title="gpa" format="double">gpa</TEXTFIELD>
+			<TEXTFIELD w="40" title="C. Hours">cummcredit</TEXTFIELD>
+			<TEXTFIELD w="40" title="C. gpa" format="double">cummgpa</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course List" subreport="20">qstudentid</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Course List" key="53" h="500">
+		<GRID name="Course List" table="studentgradeview" filterkey="studentdegreeid" reporttitle="studentname">
+			<TEXTFIELD w="40" title="Trimester ID">quarterid</TEXTFIELD>
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="50" title="Instuctor">instructorname</TEXTFIELD>
+			<TEXTFIELD w="25" title="Credit">credit</TEXTFIELD>
+			<TEXTFIELD w="25" title="Grade">gradeid</TEXTFIELD>
+			<TEXTFIELD w="25" title="GP">gpa</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Check Listing" key="54" h="500">
+		<GRID name="Check Listing" table="studentchecklist" filterkey="studentdegreeid" reporttitle="studentname">
+			<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+			<TEXTFIELD w="70" title="Course Title">coursetitle</TEXTFIELD>
+			<TEXTFIELD w="70" title="Hours">credithours</TEXTFIELD>
+			<CHECKBOX w="50" title="Course Passed" format="boolean" ischar="true">coursepased</CHECKBOX>
+			<CHECKBOX w="50" title="Prereq. Passed" format="boolean" ischar="true">prereqpassed</CHECKBOX>
+			<TEXTFIELD w="70" title="Details" subreport="6">courseid</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Major Approvals" key="55" h="500">
+		<GRID user_field="departmentid" name="Major Approvals" keyfield="qstudentid" user_fnct="get_instructor_department" table="qprimajorstudentview" noorg="true">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="30" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="75" title="Major">majorname</TEXTFIELD>
+			<EDITFIELD w="200" title="Not Approved" editkey="qstudentid" editvalue="qstudents">noapproval</EDITFIELD>
+			<ACTIONS>
+				<ACTION fnct="updatemajorapproval">Approve</ACTION>
+			</ACTIONS>
+			<JASPER name="Unofficial Transcript" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+			<JASPER name="Selections" linkfield="filterid" reportfile="qstudentviewca.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Major School Approvals" key="56" h="500">
+		<GRID user_field="schoolid" name="Major School Approvals" keyfield="qstudentid" user_fnct="get_instructor_school" table="qprimajorstudentview" noorg="true">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="30" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="75" title="Major">majorname</TEXTFIELD>
+			<EDITFIELD w="100" title="Not Approved" editkey="qstudentid" editvalue="qstudents">noapproval</EDITFIELD>
+			<ACTIONS>
+				<ACTION fnct="updatemajorapproval">Course Approve</ACTION>
+			</ACTIONS>
+			<ACTIONS>
+				<ACTION fnct="updOverLoadApproval">Overload Approval</ACTION>
+			</ACTIONS>
+			<JASPER name="Unofficial Transcript" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+			<JASPER name="Selections" linkfield="filterid" reportfile="qstudentviewca.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Grade Book" key="60" h="500">
+		<GRID name="Grade Book" keyfield="quarterid" orderby="quarterid desc" table="quarterview" noorg="true">
+			<TEXTFIELD w="250" title="Trimester">quarterid</TEXTFIELD>
+			<TEXTFIELD w="75" title="Starting" format="date">qstart</TEXTFIELD>
+			<TEXTFIELD w="75" title="Ending" format="date">qend</TEXTFIELD>
+			<CHECKBOX w="90" title="active" format="boolean" ischar="true">active</CHECKBOX>
+			<GRID user_field="schoolid" name="Grade Book" keyfield="qcourseid" orderby="courseid" linkfield="quarterid" user_fnct="get_instructor_school" table="qcourseview">
+				<TEXTFIELD w="40" title="Trimester">quarterid</TEXTFIELD>
+				<TEXTFIELD w="40" title="Course ID">courseid</TEXTFIELD>
+				<TEXTFIELD w="200" title="Course Title">coursetitle</TEXTFIELD>
+				<TEXTFIELD w="50" title="Option">classoption</TEXTFIELD>
+				<TEXTFIELD w="50" title="Credit Hours">credithours</TEXTFIELD>
+				<TEXTFIELD w="150" title="Instructor">instructorname</TEXTFIELD>
+				<JASPER name="Class List" showpdf="true" linkfield="filterid" reportfile="qgradeviewc.jasper"></JASPER>
+				<JASPER name="Grade Report" showpdf="true" linkfield="filterid" reportfile="qgradeviewd.jasper"></JASPER>
+			</GRID>
+			<JASPER name="Probation List" showpdf="true" linkfield="filterid" group="departmentid" reportfile="probationsc.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Post Graduate List" key="110" h="500">
+		<GRID name="Post Graduate List" keyfield="studentdegreeid" table="studentmajorview" noorg="true" where="(degreelevelid = 'PGD') or (degreelevelid = 'MAS') or (degreelevelid = 'PhD') or (degreelevelid = 'PHD')">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="200" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="40" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="200" title="Programme">majorname</TEXTFIELD>
+			<JASPER name="Unofficial Transcript" showpdf="false" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" showpdf="false" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Major Approvals" key="111" h="500">
+		<GRID name="Major Approvals" keyfield="qstudentid" table="qstudentmajorview" where="(active = true) AND (finalised = true) AND (majorapproval = false) AND ((degreelevelid = 'PGD') or (degreelevelid = 'MAS') or (degreelevelid = 'PhD') or (degreelevelid = 'PHD'))">
+			<TEXTFIELD w="40" title="Student ID">studentid</TEXTFIELD>
+			<TEXTFIELD w="100" title="Student Name">studentname</TEXTFIELD>
+			<TEXTFIELD w="30" title="Sex">sex</TEXTFIELD>
+			<TEXTFIELD w="75" title="Major">majorname</TEXTFIELD>
+			<EDITFIELD w="100" title="Not Approved" editkey="qstudentid" editvalue="qstudents">noapproval</EDITFIELD>
+			<ACTIONS>
+				<ACTION fnct="updatemajorapproval">Approve</ACTION>
+			</ACTIONS>
+			<JASPER name="Unofficial Transcript" showpdf="false" linkfield="filterid" reportfile="studentquarterview.jasper"></JASPER>
+			<JASPER name="Check List" showpdf="false" linkfield="filterid" reportfile="studentdegreeviewb.jasper"></JASPER>
+			<JASPER name="Selections" showpdf="false" linkfield="filterid" reportfile="qstudentviewca.jasper"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" name="Contact Information" key="27" h="500">
+		<FORM foredit="true" name="Contact Information" keyfield="instructorid" delete="false" table="instructors" noorg="true" user="instructorid">
+			<TEXTFIELD w="430" title="Email" y="1" h="20" x="10">email</TEXTFIELD>
+			<TEXTFIELD w="150" title="P.O. Box" y="21" h="20" x="10">post_office_box</TEXTFIELD>
+			<TEXTFIELD w="150" title="Postal Code" y="21" h="20" x="290">postal_code</TEXTFIELD>
+			<TEXTFIELD w="430" title="Premises" y="41" h="20" x="10">premises</TEXTFIELD>
+			<TEXTFIELD w="430" title="Street" y="61" h="20" x="10">street</TEXTFIELD>
+			<TEXTFIELD w="150" title="Town" y="81" h="20" x="10">town</TEXTFIELD>
+			<COMBOBOX w="200" title="Country" default="KE" lptable="sys_countrys" noorg="true" y="81" h="20" x="290" lpfield="sys_country_name">sys_country_id</COMBOBOX>
+			<TEXTFIELD w="150" title="Phone" y="101" h="20" x="10">phone_number</TEXTFIELD>
+			<TEXTFIELD w="150" title="Mobile" y="101" h="20" x="290">mobile</TEXTFIELD>
+		</FORM>
+	</DESK>
+</APP>

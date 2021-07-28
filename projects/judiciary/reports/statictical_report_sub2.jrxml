@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="statictical_report_sub2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="startdate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="enddate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select
+case_id,vw_cases.case_category_id,end_date,
+case_title,case_category.case_category_name,
+date_trunc('MONTH', start_date)::date as firstdateofmonth,
+start_date
+from vw_cases
+INNER JOIN case_category on vw_cases.case_category_id=case_category.case_category_id
+where date_trunc('MONTH', start_date)::date<=$P{startdate}]]>
+	</queryString>
+	<field name="case_id" class="java.lang.Integer"/>
+	<field name="case_category_id" class="java.lang.Integer"/>
+	<field name="end_date" class="java.sql.Date"/>
+	<field name="case_title" class="java.lang.String"/>
+	<field name="case_category_name" class="java.lang.String"/>
+	<field name="firstdateofmonth" class="java.sql.Date"/>
+	<field name="start_date" class="java.sql.Date"/>
+	<variable name="case_id_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{case_id}]]></variableExpression>
+	</variable>
+	<variable name="case_title_1" class="java.lang.Integer" resetType="Group" resetGroup="category" calculation="Count">
+		<variableExpression><![CDATA[$F{case_title}]]></variableExpression>
+	</variable>
+	<group name="category">
+		<groupExpression><![CDATA[$F{case_category_id}]]></groupExpression>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement x="185" y="0" width="55" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{case_title_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="185" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{case_category_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="240" y="0" width="55" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{case_title_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="295" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{firstdateofmonth}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="395" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{end_date}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="112" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="185" height="112"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CASE CATEGORY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="0" width="55" height="112"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMBER
+OF CASES
+PENDING
+ON THE
+FIRST
+DAY OF
+THE
+MONTH
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="0" width="55" height="112"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMBER
+OF CASES
+FILED
+DURING
+THE
+MONTH
+]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="20" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

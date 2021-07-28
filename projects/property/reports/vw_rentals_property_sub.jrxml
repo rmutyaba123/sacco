@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_rentals_property_sub" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT vw_rentals_a.rental_id, vw_rentals_a.property_id, vw_rentals_a.tenant_id, vw_rentals_a.org_id, vw_rentals_a.start_rent, vw_rentals_a.unit_id, vw_rentals_a.is_active, vw_rentals_a.rental_value, vw_rentals_a.service_fees, vw_rentals_a.deposit_fee, vw_rentals_a.deposit_fee_date, vw_rentals_a.deposit_refund, vw_rentals_a.deposit_refund_date, vw_rentals_a.tenant_name, vw_rentals_a.tenant_email, vw_rentals_a.telephone_number, vw_rentals_a.property_type_name, vw_rentals_a.property_name, vw_rentals_a.unit_name
+FROM vw_rentals_a]]>
+	</queryString>
+	<field name="rental_id" class="java.lang.Integer"/>
+	<field name="property_id" class="java.lang.Integer"/>
+	<field name="tenant_id" class="java.lang.Integer"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="start_rent" class="java.sql.Date"/>
+	<field name="unit_id" class="java.lang.Integer"/>
+	<field name="is_active" class="java.lang.Boolean"/>
+	<field name="rental_value" class="java.lang.Double"/>
+	<field name="service_fees" class="java.lang.Double"/>
+	<field name="deposit_fee" class="java.lang.Double"/>
+	<field name="deposit_fee_date" class="java.sql.Date"/>
+	<field name="deposit_refund" class="java.lang.Double"/>
+	<field name="deposit_refund_date" class="java.sql.Date"/>
+	<field name="tenant_name" class="java.lang.String"/>
+	<field name="tenant_email" class="java.lang.String"/>
+	<field name="telephone_number" class="java.lang.String"/>
+	<field name="property_type_name" class="java.lang.String"/>
+	<field name="property_name" class="java.lang.String"/>
+	<field name="unit_name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="1" y="0" width="446" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Rentals Property Sub]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="1" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Rental ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="28" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Property ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="55" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Tenant ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="82" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Org ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="109" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Start Rent]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="136" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Unit ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="163" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Active]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="190" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Rental Value]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="217" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Service Fees]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="244" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Deposit Fee]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="271" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Deposit Fee Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="298" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Deposit Refund]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="325" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Deposit Refund Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="352" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Tenant Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="379" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Tenant Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="406" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Telephone Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="433" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Property Type Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="460" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Property Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="487" y="0" width="27" height="15" forecolor="#000000"/>
+				<textElement>
+					<font size="10" fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Unit Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{rental_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="28" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{property_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="55" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{tenant_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="82" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{org_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="109" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{start_rent}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="136" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{unit_id}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="163" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Boolean"><![CDATA[$F{is_active}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="190" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{rental_value}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="217" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{service_fees}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="244" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{deposit_fee}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="271" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{deposit_fee_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="298" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Double"><![CDATA[$F{deposit_refund}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="325" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[$F{deposit_refund_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="352" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tenant_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="379" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tenant_email}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="406" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{telephone_number}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="433" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{property_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="460" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{property_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="487" y="0" width="27" height="15"/>
+					<textElement>
+						<font size="10" fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{unit_name}]]></textFieldExpression>
+				</textField>
+		</band>
+	</detail>
+</jasperReport>

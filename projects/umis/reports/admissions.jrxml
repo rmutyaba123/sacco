@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="admissions" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="453" leftMargin="28" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="81fb2e84-f44f-4fe0-bb90-6ab7f22b5286">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="77"/>
+	<parameter name="filterid" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     studentmajorview.studentid,
+     studentmajorview.studentname,
+     studentmajorview.schoolname,
+     studentmajorview.degreename,
+     studentmajorview.majorname,
+     to_char(coalesce(studentmajorview.started, current_date), 'Month dd, YYYY ') as admission_date
+FROM
+     studentmajorview
+WHERE
+     studentid = '$P!{filterid}']]>
+	</queryString>
+	<field name="studentid" class="java.lang.String"/>
+	<field name="studentname" class="java.lang.String"/>
+	<field name="schoolname" class="java.lang.String"/>
+	<field name="degreename" class="java.lang.String"/>
+	<field name="majorname" class="java.lang.String"/>
+	<field name="admission_date" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<image>
+				<reportElement x="193" y="4" width="122" height="95" uuid="aea7bb28-7258-4861-9bb3-80d12b51deeb"/>
+				<imageExpression><![CDATA[$P{SUBREPORT_DIR} + "baraza_logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="15" width="547" height="14" uuid="85f951cb-69a0-4286-b84f-6e0f6b18c4a5"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[P.O. BOX 2500 - 30100 ELDORET, KENYA, EAST AFRICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="29" width="160" height="20" uuid="79f7331b-8245-4d8f-996e-15bc19792eeb"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[TELEPHONE: 0721423592]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="29" width="214" height="20" uuid="eeb641f1-144a-4278-bf63-eb6f8ab8b7c1"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Email: admissions@ueab.ac.ke]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="75" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="547" height="20" uuid="63f1131c-a758-4765-b002-2debc841dcea"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[ADMISSION LETTER]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="55" width="547" height="20" uuid="4fb691fa-7b92-45a9-89f9-bfce8d05cdbf"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dear Pr/Mr/Mrs/Miss "+ "<b><u>"+$F{studentname}+"</b>" + " (ID NO:" +"<u><b>" +$F{studentid}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy" isBlankWhenNull="true">
+				<reportElement x="0" y="26" width="284" height="20" uuid="e15f4888-77bc-4a9c-a24e-5be9738916a8"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="389" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="6" width="547" height="327" isPrintWhenDetailOverflows="true" uuid="1175411d-342d-48a5-97c2-83170a395ee4"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["I am happy to inform you that you have been admitted into the " +"<b>"+" School of " + $F{schoolname} +"</b>"+ "  to pursue a "+"<b>" +$F{degreename}+"</b>" + " in " +"<b>"+ $F{majorname}+"</b>" + " subject to presentation of your original academic certificate for Verification on the day of registration.<br><p>You are expected to report to the University on " + $F{admission_date}+"." + " Kindly visit http://ueab.ac.ke/index/node/83 to access the fee structure. On the registration day you are required to pay the fees before you are registered.  All payments must be made in banker’s cheque or money order only payable to the University of Eastern Africa, Baraton." +"<br><p>You will be required to abide by the rules and regulations as stipulated in the Student Handbook and the correct Academic Bulletin."+"<p><br>Boarding facilities are available for interested students at a fee as stipulated in the free structure. Borders are advised to come with their own bedding: blankets, bed sheets, pillow and pillowcase and other personal items. A mattress may be purchased at the University Bookstore. Rental facilities are available outside the University for day students.<br></p>" + "<p>Interested students are advised to apply for HELB loans by 30th September 2016. To apply visit www.helb.co.ke for more information.</p>" + "<p>During the orientation week, you will be required to do a full medical checkup at the University Hospital at a cost of Ksh 2500 (Two thousand five hundred shillings only).</p>" +"<p>We look forward to seeing you here as a student and trust that you will find your studies enjoyable and fulfilling in a Christian environment.</p>" +"<p>Yours faithfully,</p>"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="6" y="334" width="132" height="27" uuid="8ffaef93-103e-43e6-a36a-ea277df85d70"/>
+				<imageExpression><![CDATA[$P{SUBREPORT_DIR} + "registrarsignature.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="361" width="193" height="28" uuid="732e1d9c-ab5a-4aa2-b0b3-5effb54bb94f"/>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[CAROLYN HURST,
+REGISTRAR.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="547" height="35" uuid="002e163a-6fd9-4604-ae85-e57ad2a62e91"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[A SEVENTH-DAY ADVENTIST INSTITUTION OF HIGHER LEARNING
+CHARTERED IN 1991]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

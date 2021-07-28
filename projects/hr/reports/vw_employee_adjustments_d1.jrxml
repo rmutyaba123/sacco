@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_employee_adjustments" language="groovy" printOrder="Horizontal" pageWidth="524" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="524" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="1adf57f8-66ac-4947-b22f-3a9236896c9a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="employee_month_id" class="java.lang.Integer"/>
+	<parameter name="is_inpayroll" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="is_adjustment_type" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new Integer(1)]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_employee_adjustments.adjustment_name, vw_employee_adjustments.amount, vw_employee_adjustments.balance,
+vw_employee_adjustments.adjustment_type,
+(CASE WHEN adjustment_type = 1 THEN 'Allowances' WHEN adjustment_type = 2 THEN 'Other Deductions' ELSE 'Expenses' END) as adjustment_type_name,
+vw_employee_adjustments.In_payroll,
+base_amount, currency_symbol,
+tax_relief_amount
+FROM vw_employee_adjustments
+WHERE (employee_month_id = $P{employee_month_id}) AND (Visible = true)
+AND (vw_employee_adjustments.In_payroll = '$P!{is_inpayroll}'::boolean)
+AND (adjustment_type = $P{is_adjustment_type})
+$P!{organd}
+ORDER BY vw_employee_adjustments.adjustment_type, vw_employee_adjustments.adjustment_name;]]>
+	</queryString>
+	<field name="adjustment_name" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="balance" class="java.lang.Double"/>
+	<field name="adjustment_type" class="java.lang.Integer"/>
+	<field name="adjustment_type_name" class="java.lang.String"/>
+	<field name="in_payroll" class="java.lang.Boolean"/>
+	<field name="base_amount" class="java.lang.Double"/>
+	<field name="currency_symbol" class="java.lang.String"/>
+	<field name="tax_relief_amount" class="java.lang.Double"/>
+	<variable name="amount_1" class="java.lang.Double" resetType="Group" resetGroup="adjustment_type_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{amount}]]></variableExpression>
+	</variable>
+	<variable name="tot_base_amount" class="java.lang.Double" resetType="Group" resetGroup="adjustment_type_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{base_amount}]]></variableExpression>
+	</variable>
+	<variable name="tot_tax_relief" class="java.lang.Double" resetType="Group" resetGroup="adjustment_type_name" calculation="Sum">
+		<variableExpression><![CDATA[$F{tax_relief_amount}]]></variableExpression>
+	</variable>
+	<group name="adjustment_type_name">
+		<groupExpression><![CDATA[$F{adjustment_type_name}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" mode="Opaque" x="1" y="2" width="363" height="15" backcolor="#E7E7E7" uuid="5bb34262-82d2-47d9-9837-bb44ea335250">
+						<printWhenExpression><![CDATA[$P{is_inpayroll} == true]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="4">
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{adjustment_type_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+					<reportElement x="261" y="3" width="103" height="20" uuid="3755e55e-703d-4ccf-a05f-ca5186215f2c">
+						<printWhenExpression><![CDATA[$F{adjustment_type} == 1]]></printWhenExpression>
+					</reportElement>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{amount_1}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="3" width="192" height="20" uuid="281ab6fc-7ed7-4432-9300-756fcd82840d">
+						<printWhenExpression><![CDATA[$F{adjustment_type} == 1]]></printWhenExpression>
+					</reportElement>
+					<box leftPadding="4"/>
+					<textElement verticalAlignment="Top">
+						<font fontName="Times New Roman" isBold="false" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Total " + $F{adjustment_type_name}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" x="1" y="0" width="192" height="15" uuid="2d89eb18-72c0-469f-b360-0d913081ddaf"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{adjustment_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="true">
+				<reportElement style="Detail" x="193" y="0" width="68" height="15" uuid="0d37ca4a-f838-49b7-a4ab-5ee29a6db076"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

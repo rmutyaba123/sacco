@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="degree_comp_letter" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" whenResourceMissingType="Empty" uuid="51496e27-3492-4761-b5e2-d96941b5f404">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="348"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DS1" whenResourceMissingType="Empty" uuid="e8586906-1212-481a-b6de-1ae5722e155c">
+		<parameter name="filterid" class="java.lang.String">
+			<defaultValueExpression><![CDATA["16571"]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT majors.majorname,
+(CASE WHEN majors.major = true THEN 'MAJOR' ELSE 'MINOR' END)::varchar as major_type
+FROM studentmajors INNER JOIN majors ON studentmajors.majorid = majors.majorid
+WHERE (studentmajors.studentdegreeid = '$P!{filterid}')
+ORDER BY majors.major desc;]]>
+		</queryString>
+		<field name="majorname" class="java.lang.String"/>
+		<field name="major_type" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["16571"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT studentid, studentname, degreelevelid, degreelevelname,
+	sublevelid, sublevelname, degreeid, degreename, studentdegreeid,
+	completed, started, cleared, clearedate, graduated, graduatedate,
+	(CASE WHEN degreeid = 'CERT' THEN 'Certificate in '
+	WHEN degreeid = 'DIPL' THEN 'Diploma In '
+	ELSE ' degree of <b>'  || upper (Degreename) || '</b>' END)::varchar as degree_type
+
+FROM studentdegreeview
+WHERE studentdegreeid = '$P!{filterid}';]]>
+	</queryString>
+	<field name="studentid" class="java.lang.String"/>
+	<field name="studentname" class="java.lang.String"/>
+	<field name="degreelevelid" class="java.lang.String"/>
+	<field name="degreelevelname" class="java.lang.String"/>
+	<field name="sublevelid" class="java.lang.String"/>
+	<field name="sublevelname" class="java.lang.String"/>
+	<field name="degreeid" class="java.lang.String"/>
+	<field name="degreename" class="java.lang.String"/>
+	<field name="studentdegreeid" class="java.lang.Integer"/>
+	<field name="completed" class="java.lang.Boolean"/>
+	<field name="started" class="java.sql.Date"/>
+	<field name="cleared" class="java.lang.Boolean"/>
+	<field name="clearedate" class="java.sql.Date"/>
+	<field name="graduated" class="java.lang.Boolean"/>
+	<field name="graduatedate" class="java.sql.Date"/>
+	<field name="degree_type" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="144" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="129" width="555" height="15" uuid="6351ed14-78d3-4234-8fc7-64893578d46a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[P.O. BOX 2500-30100 ELDORET, KENYA, EAST AFRICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="110" width="555" height="19" uuid="f915079d-26c6-4996-b398-880a71a21559"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="15" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSITY OF EASTERN AFRICA, BARATON
+]]></text>
+			</staticText>
+			<image hAlign="Center">
+				<reportElement x="204" y="0" width="148" height="110" uuid="9cae2485-2eb1-4068-9b68-11fea5b6ff8c"/>
+				<imageExpression><![CDATA[$P{SUBREPORT_DIR} + "baraza_logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="395">
+			<staticText>
+				<reportElement x="36" y="1" width="63" height="11" uuid="0bcdde47-013f-457d-8cb8-a8af31269e6e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[TELEPHONE :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="0" width="26" height="12" uuid="5a745036-57f4-47c4-a503-07b4c655ade3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[FAX :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="22" width="144" height="20" isPrintInFirstWholeBand="true" uuid="0467657d-8729-49ae-87dc-2aaa5266500d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Office Of the Registrar]]></text>
+			</staticText>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="0" y="44" width="144" height="20" uuid="4d3e9e44-6b76-4ad7-9cc0-7ccaa7bf7a41"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="81" width="555" height="20" uuid="4678773e-97f1-4d3c-81b9-3476b4158a6e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[LETTER OF COMPLETION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="121" width="555" height="16" uuid="b3b9a7c8-b563-47a3-83fc-578f340b9277"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[TO WHOM IT MAY CONCERN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="247" width="555" height="29" uuid="ce63ed2b-2e9d-4d6c-b4a6-23e60c26ba65"/>
+				<textElement markup="html">
+					<font fontName="Times New Roman" size="12" isUnderline="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[The University of Eastern Africa, Baraton is fully chartered by the Government of the Republic of Kenya, Legal Notice No. 111, 1991.
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="363" width="555" height="15" uuid="6dbd11a1-41e7-4194-9b3f-b61ea5ce6c57"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Carolyn Hurst]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="378" width="555" height="17" uuid="2276244d-5789-498f-b691-b677fa7116d8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[REGISTRAR]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3" y="148" width="551" height="41" uuid="2b98eaff-a352-44cf-8c5d-332c2441bfaf"/>
+				<textElement verticalAlignment="Middle" markup="html">
+					<font fontName="Times New Roman" size="12" isBold="false" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["This is to certify that <b>" + $F{studentname} + "  ID #  " +  $F{studentid} + "</b> completed the requirements for the " + $F{degree_type} ]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="-1" y="279" width="555" height="34" uuid="2dd4cd81-24d2-4a08-8204-234fc43c0a9c"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["The degree will be conferred in "  + $F{graduatedate} + "  and the degree certificate will be issued at a later date subject to financial clearance."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="99" y="0" width="104" height="12" uuid="afd3ed57-1c73-4690-bcee-f3eea7545198"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[254-20-8023017 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="1" width="151" height="11" uuid="58e47655-97e7-4e7b-bd46-9b1fbfa4c4b4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[254-20-8023084]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" mode="Transparent" x="41" y="192" width="462" height="54" uuid="74f4f9d5-08e2-49aa-a588-239ee1ca9f32"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DS1" uuid="a412a06b-3232-4d9c-8921-e19612df4515">
+						<datasetParameter name="filterid">
+							<datasetParameterExpression><![CDATA[$P{filterid}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="802eb229-953f-43b8-b18c-d706d4da2885">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="a185cb9d-6a34-47ac-b93d-99d64e00c73a"/>
+								<textElement textAlignment="Justified" verticalAlignment="Bottom">
+									<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{major_type} + ':']]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="339" uuid="12080b8a-4cfd-420c-b914-a859a2fab5ca">
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<box>
+								<topPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+							</box>
+							<textField isBlankWhenNull="true">
+								<reportElement isPrintRepeatedValues="false" x="0" y="0" width="339" height="20" uuid="3f7d43d7-89f1-4a4d-8665-65be0711b2ac"/>
+								<textElement verticalAlignment="Bottom">
+									<font fontName="Times New Roman" size="13" isBold="true" pdfFontName="Times-Bold" isPdfEmbedded="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{majorname}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="0" y="337" width="555" height="15" uuid="a3a2ff35-aff6-48a2-a371-a97736140686"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" pdfFontName="Times-Roman" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Sincerely,]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="36" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="3" width="555" height="33" forecolor="#3809E5" backcolor="#FFFFFF" uuid="79f67870-229d-46d9-adfe-7ecb8742619e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="7"/>
+				</textElement>
+				<text><![CDATA[A SEVENTH-DAY ADVENTIST INSTITUTION OF HIGHER LEARNING
+CHARTERED 1991]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

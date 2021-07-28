@@ -1,0 +1,6 @@
+#ignore report binaries
+build/webapps/work/
+build/baraza.jar
+build/baraza.app.jar
+baraza.log
+

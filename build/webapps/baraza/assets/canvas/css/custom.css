@@ -1,0 +1,429 @@
+body {
+    background-color: rgb(0, 121, 191);
+}
+
+body[data-sidebar=dark] .navbar-brand-box {
+    background: #fff;
+}
+
+
+/* Trying to make all height the same */
+
+
+/* https://stackoverflow.com/questions/19695784/how-can-i-make-bootstrap-columns-all-the-same-height */
+
+
+/* .row {
+    display: table;
+}
+
+.row [class*="col-"] {
+    float: none;
+    display: table-cell;
+    vertical-align: top;
+} */
+
+
+/* Big column */
+
+.card {
+    background-color: #ebecf0 !important;
+    border-radius: 0rem;
+    border: 1px solid black;
+    /* border: 2px solid black; */
+}
+
+
+/* Small cards */
+
+.task-list .card {
+    border-radius: 0.25rem !important;
+    box-shadow: 0 1px 0 rgba(9, 30, 66, .25);
+    border: 0px;
+}
+
+.col-lg-2 .card.task-box,
+.col-lg-6 .card.task-box,
+.col-lg-12 .card.task-box {
+    margin-bottom: 10px;
+    /* background: #eee; */
+    background: #fff !important;
+}
+
+.task-box {
+    background-color: #fff;
+}
+
+.card.task-box.an {
+    /* background: #bad9f9; */
+    border-left: 8px solid #bad9f9;
+}
+
+.card.task-box.gn {
+    /* background: #c1e57c; */
+    border-left: 8px solid #c1e57c;
+}
+
+.card.task-box.yn {
+    /* background: #fdf67c; */
+    border-left: 8px solid #fdf67c;
+}
+
+.card.task-box.rn {
+    /* background: #fa8065; */
+    border-left: 8px solid #fa8065;
+}
+
+.card.task-box.en {
+    /* background: #b0b0b0; */
+    border-left: 8px solid #b0b0b0;
+}
+
+.card.task-box.wn {
+    background: #fff;
+}
+
+.page-title-box h4 {
+    color: #fff;
+}
+
+
+/* Mak full screen */
+
+.main-content {
+    margin-left: 0px;
+    overflow: hidden;
+}
+
+.breadcrumb-item>a {
+    color: #00c2e0;
+}
+
+.breadcrumb-item.active {
+    color: #ffffff;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    display: inline-block;
+    padding-right: .5rem;
+    color: #FFFFFF;
+    content: "/";
+}
+
+.col-lg-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.66667%;
+    flex: 0 0 99.66667%;
+    max-width: 19.99667%;
+    /* max-width: 19.66667%; */
+    padding: 0px;
+}
+
+.col-lg-2 .card {
+    margin-bottom: 0px;
+}
+
+.col-lg-6 .card.task-box,
+.col-lg-12 .card.task-box {
+    /* max-width: 230px; */
+    max-width: 100%;
+}
+
+.col-lg-6 {
+    padding: 0px;
+}
+
+.footer {
+    left: 0px;
+}
+
+.even.card-body {
+    /* min-height: 840px; */
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.odd.card-body {
+    min-height: 419px;
+    /* min-height: 420px; */
+}
+
+.card.task-box .card-body {
+    min-height: 10px;
+    padding: 0.5rem !important;
+}
+
+
+/* Color Code css in Card */
+
+.note-color-pick {
+    display: -ms-flexbox;
+    display: flex;
+    padding: 0.5em 0.25em;
+    background-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    width: 100%;
+}
+
+.note-color-pick .color-square {
+    width: 1.2em;
+    height: 1.2em;
+    margin: 0 0.25em;
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.2em;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.note-color-pick .color-square.an {
+    background: #bad9f9;
+}
+
+.note-color-pick .color-square.gn {
+    background: #c1e57c;
+}
+
+.note-color-pick .color-square.yn {
+    background: #fdf67c;
+}
+
+.note-color-pick .color-square.rn {
+    background: #fa8065;
+}
+
+.note-color-pick .color-square.en {
+    background: #b0b0b0;
+}
+
+.note-color-pick .color-square:hover {
+    border: 1px solid #bbb;
+}
+
+
+/* upload icon */
+
+.note-color-pick>.image-upload-button {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #bbb;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    padding-top: 2px;
+}
+
+.note-color-pick>.note-edit-button {
+    margin-left: auto;
+    color: #bbb;
+    font-weight: 800;
+    cursor: pointer;
+    padding-right: 0.5rem;
+}
+
+
+/* .card-body .note-color-pick{
+    display: none; 
+     visibility: hidden;
+}
+
+.card-body:hover .note-color-pick{
+    display: block; 
+    visibility: visible;
+} */
+
+.text-muted {
+    color: #000 !important;
+    font-size: 12px;
+}
+
+.description {
+    font-size: 1.1rem;
+}
+
+.steps {
+    font-size: 1.2rem;
+}
+
+.board-name {
+    color: #464e5f;
+    background-color: #E0E0E0;
+}
+
+.board-name:hover {
+    background-color: #464e5f;
+    color: #ebecf0;
+}
+
+.board-name:focus {
+    background-color: #464e5f;
+    color: #ebecf0;
+}
+
+.search {
+    border: 2px solid #E0E0E0;
+}
+
+.search:hover {
+    border: 2px solid #464e5f;
+}
+
+hr,
+h3 {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.message-box:hover {
+    background-color: #F5F5F5;
+}
+
+.messages {
+    overflow-x: auto;
+    height: 53vh;
+}
+
+.right-steps {
+    min-height: 75vh;
+}
+
+.m-textarea {
+    font-size: 1.1rem;
+}
+
+
+/* reduce modal whitespace */
+
+.modal-header,
+.modal-body,
+.modal-footer {
+    padding: 0.5rem;
+}
+
+.modal-header {
+    background: rgb(0, 121, 191);
+}
+
+.modal-title,
+.modal-header .close {
+    color: #fff;
+}
+
+.modal .modal-content .modal-header .modal-title {
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: .2rem;
+}
+
+#note_content_view>span,
+#note_add_det_view>span {
+    padding: 10px;
+    background: #eee;
+    border-radius: 5px;
+}
+
+.note_content_view,
+.note_add_det_view {
+    padding: 10px;
+    background: #eee;
+    border-radius: 5px;
+}
+
+
+/* Make summer note content darker */
+
+.note-editor.note-frame .note-editing-area .note-codable,
+.note-editor.note-frame .note-editing-area .note-editable {
+    color: #000;
+}
+
+.dropdown-menu {
+    padding: .0rem 0;
+    font-size: .7125rem;
+    min-width: 5rem;
+}
+
+.dropdown-menu i {
+    font-size: .8125rem;
+}
+
+.delete {
+    color: red;
+}
+
+
+/* bmc for easy drag */
+
+#key-partners,
+#value-propositions,
+#customer-segments {
+    min-height: 780px;
+}
+
+#key-activities,
+#key-resources,
+#customer-relationships,
+#channels {
+    min-height: 360px;
+}
+
+.avatar-xs {
+    height: 1.2rem;
+    width: 1.2rem;
+}
+
+
+/* Top Menu Smaller height */
+
+.navbar-brand-box {
+    height: 50px;
+}
+
+.navbar-header {
+    height: 50px;
+}
+
+.logo {
+    line-height: 45px;
+}
+
+
+/* Scroll Bar */
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #dadce2;
+    border-radius: 10px;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #bfc4ce;
+    border-radius: 10px;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #bfc4ce;
+}

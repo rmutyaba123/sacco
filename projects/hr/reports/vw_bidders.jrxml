@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vw_bidders" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="637f519a-ac67-4695-8721-cb1dbd5ca90f">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="filterid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="orgwhere" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="organd" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vw_bidders.tender_type_name, vw_bidders.tender_id, vw_bidders.tender_name, vw_bidders.tender_number, vw_bidders.tender_date, vw_bidders.tender_end_date, vw_bidders.entity_name, vw_bidders.tender_amount, vw_bidders.bind_bond, vw_bidders.bind_bond_amount, vw_bidders.return_date, vw_bidders.points, vw_bidders.is_awarded, vw_bidders.award_reference
+
+FROM vw_bidders
+
+WHERE vw_bidders.tender_id = '$P!{filterid}'
+$P!{organd}]]>
+	</queryString>
+	<field name="tender_type_name" class="java.lang.String"/>
+	<field name="tender_id" class="java.lang.Integer"/>
+	<field name="tender_name" class="java.lang.String"/>
+	<field name="tender_number" class="java.lang.String"/>
+	<field name="tender_date" class="java.sql.Date"/>
+	<field name="tender_end_date" class="java.sql.Date"/>
+	<field name="entity_name" class="java.lang.String"/>
+	<field name="tender_amount" class="java.lang.Float"/>
+	<field name="bind_bond" class="java.lang.String"/>
+	<field name="bind_bond_amount" class="java.lang.Float"/>
+	<field name="return_date" class="java.sql.Date"/>
+	<field name="points" class="java.lang.Float"/>
+	<field name="is_awarded" class="java.lang.Boolean"/>
+	<field name="award_reference" class="java.lang.String"/>
+	<group name="tender">
+		<groupExpression><![CDATA[$F{tender_id}]]></groupExpression>
+		<groupHeader>
+			<band height="68">
+				<staticText>
+					<reportElement style="Column header" x="1" y="0" width="74" height="15" forecolor="#000000" uuid="ce4ce6fd-d19e-48c4-8402-0247ab3ddeb8"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="252" y="0" width="75" height="15" forecolor="#000000" uuid="b2f108ae-6163-4334-b35f-347300227e3e"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender Type]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="327" y="0" width="185" height="15" uuid="fdb4f5ec-3974-490d-b58e-800b4289f0d3"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_type_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="75" y="0" width="177" height="15" uuid="27747760-a531-4c1a-8daf-b467d00b7110"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_id}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="1" y="15" width="74" height="15" forecolor="#000000" uuid="e789a8ae-4b93-411f-830c-0f456e7bfc44"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender Name]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="75" y="15" width="177" height="15" uuid="7dcb37bb-04d3-4fbb-b932-38ca5065c7c7"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="252" y="15" width="75" height="15" forecolor="#000000" uuid="fc495bd5-7f4e-4a64-95e9-c25bff828bb9"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender Number]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="327" y="15" width="185" height="15" uuid="6a6a36ce-a0a8-4594-afd6-303912c55774"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_number}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="1" y="30" width="74" height="15" forecolor="#000000" uuid="a0fd775b-6bf2-4944-b50d-6f8d3dfdff73"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender Date]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="75" y="30" width="177" height="15" uuid="98c6341a-e1e7-48b2-905a-8871f3ebc554"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_date}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="Column header" x="252" y="30" width="75" height="15" forecolor="#000000" uuid="26b62342-5a91-424c-a276-c8637071cf36"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[End Date]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="327" y="30" width="185" height="15" uuid="098405e3-0a8a-42cf-ae92-7e670bbe34b1"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_end_date}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement positionType="FixRelativeToBottom" x="0" y="67" width="555" height="1" uuid="c72d0d3c-f230-46cb-bb60-f2e822c046b5"/>
+					<graphicElement>
+						<pen lineWidth="0.5" lineColor="#999999"/>
+					</graphicElement>
+				</line>
+				<staticText>
+					<reportElement style="Column header" x="1" y="52" width="147" height="15" forecolor="#000000" uuid="5dc23ce4-2aba-4e14-b57f-f297396ffa08"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Supplier]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="148" y="52" width="77" height="15" forecolor="#000000" uuid="c689d83d-df66-445f-b79e-faf9d48abdbf"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Tender Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="225" y="52" width="90" height="15" forecolor="#000000" uuid="d7136ca3-437b-41a3-923f-1409fcfa6292"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[BindBond Amount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="315" y="52" width="59" height="15" forecolor="#000000" uuid="e65c5997-e98f-40f3-b95f-a1f41cac100e"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Return Date]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="374" y="52" width="33" height="15" forecolor="#000000" uuid="e7a8cd97-90fa-4569-8dcc-0c517f972e58"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Points]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="407" y="52" width="48" height="15" forecolor="#000000" uuid="14374315-e0f8-439c-860b-cf11690c888c"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Awarded]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="455" y="52" width="99" height="15" forecolor="#000000" uuid="9234887b-425e-48ce-8018-d444a72be98c"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<text><![CDATA[Award Reference]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="9"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="66" y="0" width="261" height="62" uuid="4743897c-8b0b-4c13-8cc4-4ccaaeffed14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="24" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Bidders Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="e6a1b7a4-ef9b-4097-940b-22a1136ae173"/>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="1" y="0" width="147" height="15" uuid="b77ad3ff-99a7-45b1-82b4-17a3438ae588"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{entity_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="148" y="0" width="77" height="15" uuid="7067c95c-5563-4242-8f9f-6028dbbd099e"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tender_amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true">
+					<reportElement style="Detail" x="225" y="0" width="90" height="15" uuid="24dad81c-6a8a-4920-a20e-c653368b91d7"/>
+					<box rightPadding="2"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{bind_bond_amount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+					<reportElement style="Detail" x="315" y="0" width="59" height="15" uuid="858d7dd6-8587-4527-a357-e367c3c456f2"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{return_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="374" y="0" width="33" height="15" uuid="e3ea6c22-294e-48dd-9f2a-13dc5109474d"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{points}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="407" y="0" width="48" height="15" uuid="12376f0a-5345-4f6e-8f10-bdabfb6a3119"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{is_awarded}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement style="Detail" x="455" y="0" width="99" height="15" uuid="da924087-a823-44ff-9661-995f55e79374"/>
+					<textElement>
+						<font fontName="Times New Roman" size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{award_reference}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="71063c7e-cb53-4e8d-9fb8-2727d534f36f"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="ff85a9e5-091b-4349-99db-0769808c3b42"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="eb0e3b6c-0411-4831-9993-56b8f98948db"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="9f13a148-ef2d-456d-8611-3552367cec1e"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE, d MMMMM yyyy HH:mm:ss Z">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="1115d1fd-3025-419a-9900-8f5983fc4dab"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

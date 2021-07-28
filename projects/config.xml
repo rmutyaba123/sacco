@@ -1,0 +1,19 @@
+<APPLIST mode="run" encryption="accessbaaccessba" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbtemplate="baraza" logfile="baraza.log" greeting="Open Baraza Server" loglevel="info" dbusername="postgres" dbpath="jdbc:postgresql://localhost/postgres">
+	<APP path="hr" dbname="hr" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" xmlfile="business.xml">Business</APP>
+	<APP path="hr" dbname="hr" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" key="hr" xmlfile="hr.xml">Human Resources</APP>
+	<APP path="hr" dbname="hr" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" xmlfile="payroll.xml">Payroll</APP>
+	<APP path="hr" dbname="hr" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" xmlfile="projects.xml">Projects</APP>
+	<APP path="chama" dbname="chama" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/chama" key="chama" xmlfile="chama.xml">Chama</APP>
+	<APP path="sacco" dbname="sacco" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/sacco" key="sacco" xmlfile="sacco.xml">SACCO</APP>
+	<APP path="banking" dbname="banking" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/banking" key="banking" xmlfile="banking.xml">Banking</APP>
+	<APP path="property" dbname="property" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/property" key="property" xmlfile="property.xml">Property</APP>
+	<APP path="sms" dbname="sms" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/sms" key="sms" xmlfile="sms.xml">SMS</APP>
+	<APP path="judiciary" dbname="judiciary" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/judiciary" key="judiciary" xmlfile="judiciary.xml">Judiciary</APP>
+	<APP path="umis" dbname="umis" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/umis" xmlfile="umis.xml">UMIS</APP>
+	<APP path="umis" dbname="umis" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/umis" xmlfile="finance.xml">UMIS Finance</APP>
+	<APP path="umis" dbname="umis" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" org="org_id" dbusername="postgres" dbpath="jdbc:postgresql://localhost/umis" xmlfile="web/students.xml">UMIS Students</APP>
+	<APP path="schools" dbname="schools" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/schools" key="school" xmlfile="schools.xml">Schools</APP>
+	<APP path="baraza" dbname="baraza" auth="entity" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" dbusername="postgres" dbpath="jdbc:postgresql://localhost/baraza" key="baraza" xmlfile="baraza.xml">Baraza</APP>
+	<SERVER path="hr" dbname="hr" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" disable="false" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" xmlfile="tomcat.xml">HR Tomcat Server</SERVER>
+	<SERVER path="hr" dbname="hr" dbclass="org.postgresql.Driver" dbpassword="Baraza2011" disable="true" dbusername="postgres" dbpath="jdbc:postgresql://localhost/hr" xmlfile="mail.xml">HR Mailing Server</SERVER>
+</APPLIST>

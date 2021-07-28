@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dc_statistical_summary_monthly" language="groovy" pageWidth="1694" pageHeight="842" orientation="Landscape" whenNoDataType="BlankPage" columnWidth="1654" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="485"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="reportpath" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="starttime" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2012-10-10"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endtime" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2012-12-17"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT aa.dc_category_id, aa.dc_category_name, aa.category_type, aa.court_level,
+
+    aa.region_id, aa.region_name, aa.county_id, aa.county_name,
+    aa.court_rank_id, aa.court_rank_name,
+    aa.court_station_id, aa.court_station_name, aa.court_station, aa.court_division_id,
+
+    aa.male_litigants, aa.female_litigant,
+    aa.openedThismonth, aa.opened_TM_resolved, aa.opened_TM_not_resolved,
+
+    aa.legal_representation_count, aa.adjorn_count, aa.solved_at_application, aa.not_bailed_count,
+
+    ab.org_id,
+
+    ab.months3, ab.months3to6, ab.months6to9, ab.months9to12, ab.months12to24, ab.months24to60, ab.months60andabove,
+    ab.months3r, ab.months3to6r, ab.months6to9r, ab.months9to12r, ab.months12to24r, ab.months24to60r, ab.months60andabover
+
+FROM (SELECT dc_category.dc_category_id, dc_category.dc_category_name, dc_category.category_type, dc_category.court_level,
+
+        vw_court_divisions.region_id, vw_court_divisions.region_name, vw_court_divisions.county_id, vw_court_divisions.county_name,
+        vw_court_divisions.court_rank_id, vw_court_divisions.court_rank_name,
+        vw_court_divisions.court_station_id, vw_court_divisions.court_station_name, vw_court_divisions.court_station, vw_court_divisions.court_division_id,
+
+        sum(dc_cases.male_litigants) as male_litigants, sum(dc_cases.female_litigant) as female_litigant,
+        count(dc_cases.dc_case_id) as openedThismonth,
+        sum(CASE WHEN (dc_cases.end_date < '2010-01-01'::date) THEN 1 ELSE 0 END) as opened_TM_resolved,
+        sum(CASE WHEN (dc_cases.end_date > '2010-01-01'::date) THEN 1 ELSE 0 END) as opened_TM_not_resolved,
+
+        sum(CASE WHEN (dc_cases.legal_representation = true) THEN 1 ELSE 0 END) as legal_representation_count,
+        sum(CASE WHEN (dc_cases.dc_judgment_id = 2) THEN 1 ELSE 0 END) as adjorn_count,
+        sum(CASE WHEN (dc_cases.dc_judgment_id = 3) THEN 1 ELSE 0 END) as solved_at_application,
+        sum(CASE WHEN (dc_cases.dc_judgment_id != 4) THEN 1 ELSE 0 END) as not_bailed_count
+
+    FROM dc_cases INNER JOIN dc_category ON dc_cases.dc_category_id = dc_category.dc_category_id
+        INNER JOIN vw_court_divisions ON dc_cases.court_division_id = vw_court_divisions.court_division_id
+    GROUP BY dc_category.dc_category_id, dc_category.dc_category_name, dc_category.category_type, dc_category.court_level,
+
+        vw_court_divisions.region_id, vw_court_divisions.region_name, vw_court_divisions.county_id, vw_court_divisions.county_name,
+        vw_court_divisions.court_rank_id, vw_court_divisions.court_rank_name,
+        vw_court_divisions.court_station_id, vw_court_divisions.court_station_name, vw_court_divisions.court_station, vw_court_divisions.court_division_id) as aa
+INNER JOIN
+    (SELECT a.dc_category_id, a.court_division_id, a.org_id,
+        sum(CASE WHEN (a.case_age < 4) THEN 1 ELSE 0 END) as months3,
+        sum(CASE WHEN (a.case_age > 3) AND (a.case_age < 7) THEN 1 ELSE 0 END) as months3to6,
+        sum(CASE WHEN (a.case_age > 6) AND (a.case_age < 10) THEN 1 ELSE 0 END) as months6to9,
+        sum(CASE WHEN (a.case_age > 9) AND (a.case_age < 13) THEN 1 ELSE 0 END) as months9to12,
+        sum(CASE WHEN (a.case_age > 12) AND (a.case_age < 25) THEN 1 ELSE 0 END) as months12to24,
+        sum(CASE WHEN (a.case_age > 24) AND (a.case_age < 60) THEN 1 ELSE 0 END) as months24to60,
+        sum(CASE WHEN (a.case_age > 60) THEN 1 ELSE 0 END) as months60andabove,
+
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age < 4) THEN 1 ELSE 0 END) as months3r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 3) AND (a.case_age < 7) THEN 1 ELSE 0 END) as months3to6r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 6) AND (a.case_age < 10) THEN 1 ELSE 0 END) as months6to9r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 9) AND (a.case_age < 13) THEN 1 ELSE 0 END) as months9to12r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 12) AND (a.case_age < 25) THEN 1 ELSE 0 END) as months12to24r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 24) AND (a.case_age < 60) THEN 1 ELSE 0 END) as months24to60r,
+        sum(CASE WHEN (a.case_closure > '2010-01-01'::date) AND (a.case_age > 60) THEN 1 ELSE 0 END) as months60andabover
+
+    FROM (SELECT dc_cases.dc_category_id, dc_cases.court_division_id, dc_cases.org_id,
+            dc_cases.dc_case_id, dc_cases.case_title, dc_cases.file_number,
+            dc_cases.start_date, dc_cases.end_date,
+            dc_cases.male_litigants, dc_cases.female_litigant, dc_cases.legal_representation,
+            dc_cases.closed,
+            COALESCE(dc_cases.end_date, current_date) as case_closure,
+            month_diff(dc_cases.start_date, COALESCE(dc_cases.end_date, current_date)) as case_age
+        FROM dc_cases) as a
+    GROUP BY a.dc_category_id, a.court_division_id, a.org_id) as ab
+
+ON (aa.dc_category_id = ab.dc_category_id) AND (aa.court_division_id = ab.court_division_id);]]>
+	</queryString>
+	<field name="dc_category_id" class="java.lang.Integer"/>
+	<field name="dc_category_name" class="java.lang.String"/>
+	<field name="category_type" class="java.lang.Integer"/>
+	<field name="court_level" class="java.lang.Integer"/>
+	<field name="region_id" class="java.lang.Integer"/>
+	<field name="region_name" class="java.lang.String"/>
+	<field name="county_id" class="java.lang.Integer"/>
+	<field name="county_name" class="java.lang.String"/>
+	<field name="court_rank_id" class="java.lang.Integer"/>
+	<field name="court_rank_name" class="java.lang.String"/>
+	<field name="court_station_id" class="java.lang.Integer"/>
+	<field name="court_station_name" class="java.lang.String"/>
+	<field name="court_station" class="java.lang.String"/>
+	<field name="court_division_id" class="java.lang.Integer"/>
+	<field name="male_litigants" class="java.lang.Long"/>
+	<field name="female_litigant" class="java.lang.Long"/>
+	<field name="openedthismonth" class="java.lang.Long"/>
+	<field name="opened_tm_resolved" class="java.lang.Long"/>
+	<field name="opened_tm_not_resolved" class="java.lang.Long"/>
+	<field name="legal_representation_count" class="java.lang.Long"/>
+	<field name="adjorn_count" class="java.lang.Long"/>
+	<field name="solved_at_application" class="java.lang.Long"/>
+	<field name="not_bailed_count" class="java.lang.Long"/>
+	<field name="org_id" class="java.lang.Integer"/>
+	<field name="months3" class="java.lang.Long"/>
+	<field name="months3to6" class="java.lang.Long"/>
+	<field name="months6to9" class="java.lang.Long"/>
+	<field name="months9to12" class="java.lang.Long"/>
+	<field name="months12to24" class="java.lang.Long"/>
+	<field name="months24to60" class="java.lang.Long"/>
+	<field name="months60andabove" class="java.lang.Long"/>
+	<field name="months3r" class="java.lang.Long"/>
+	<field name="months3to6r" class="java.lang.Long"/>
+	<field name="months6to9r" class="java.lang.Long"/>
+	<field name="months9to12r" class="java.lang.Long"/>
+	<field name="months12to24r" class="java.lang.Long"/>
+	<field name="months24to60r" class="java.lang.Long"/>
+	<field name="months60andabover" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="-21" y="88" width="1675" height="22"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Statistical Summary]]></text>
+			</staticText>
+			<image>
+				<reportElement x="801" y="21" width="63" height="43"/>
+				<imageExpression class="java.lang.String"><![CDATA[$P{reportpath}+"coat-of-arms.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="2" y="6" width="1651" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Republic of Kenya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="64" width="1651" height="15" forecolor="#736343"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[The Judiciary]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="121" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="3" width="130" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Type of case]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="130" y="44" width="37" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[<3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="167" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[3 to < 6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="215" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[6 to < 9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="263" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[9 to < 12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="311" y="44" width="62" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[12 to < 24]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="373" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[24 < 60]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="421" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[60 and Above]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="130" y="3" width="339" height="41" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases outstanding at the start of the month (Age of outstanding cases are in months)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="469" y="3" width="47" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases initiated during the month]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="516" y="3" width="47" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of Male Litigants]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="563" y="3" width="47" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of Female Litigants]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="610" y="3" width="48" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases initiated during the month and resolved ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="695" y="43" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[3 to < 6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1058" y="2" width="76" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases with legal representation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="743" y="43" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[6 to < 9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="791" y="43" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[9 to < 12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="839" y="43" width="62" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[12 to < 24]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1134" y="2" width="56" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases adjourned]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="997" y="2" width="61" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases resolved at application]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="949" y="43" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[60 and Above]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1190" y="2" width="48" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of accusedNOT on bail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="901" y="43" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[24 < 60]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="658" y="3" width="339" height="41" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases outstanding at the start of the month and resolved (Age of outstanding cases are in months)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="658" y="43" width="37" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[<3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1238" y="2" width="58" height="118" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases initiated during the month unresolved ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1477" y="44" width="62" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[12 to < 24]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1429" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[9 to < 12]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1539" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[24 < 60]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1381" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[6 to < 9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1296" y="3" width="339" height="41" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Number of cases outstanding and unresolved during the month  (Age of outstanding cases are in months)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1587" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[60 and Above]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1333" y="44" width="48" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[3 to < 6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1296" y="44" width="37" height="77" forecolor="#736343"/>
+				<box leftPadding="0">
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[<3]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="1635" height="15"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1" y="0" width="130" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{dc_category_name}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="129" y="0" width="38" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="215" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months6to9}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="263" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months9to12}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="311" y="0" width="62" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months12to24}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="373" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months24to60}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="469" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{openedthismonth}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="517" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{male_litigants}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="565" y="0" width="46" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{female_litigant}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="611" y="0" width="46" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{opened_tm_resolved}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="658" y="0" width="37" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="695" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3to6r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="743" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months6to9r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="791" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months9to12r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="839" y="0" width="62" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months12to24r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="901" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months24to60r}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="949" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months60andabover}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1058" y="0" width="76" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{legal_representation_count}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1134" y="0" width="56" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{adjorn_count}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1190" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{not_bailed_count}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1238" y="0" width="58" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{opened_tm_not_resolved}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1296" y="0" width="37" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1333" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3to6}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1381" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months6to9}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1429" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months9to12}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1477" y="0" width="62" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months12to24}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="1539" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months24to60}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="167" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months3to6}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="421" y="0" width="48" height="15"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<textFieldExpression class="java.lang.Long"><![CDATA[$F{months60andabove}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" x="1587" y="0" width="48" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Long"><![CDATA[$F{months60andabove}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="1675" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="1616" y="1" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="1536" y="1" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

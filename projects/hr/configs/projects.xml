@@ -1,0 +1,1035 @@
+<APP password="change_password" org="org_id" name="Projects">
+	<MENU name="Projects">
+		<MENU name="Project">
+			<MENU name="Project">5</MENU>
+			<MENU name="Clients">10</MENU>
+			<MENU name="My Tasks">20</MENU>
+			<MENU name="Farming">30</MENU>
+		</MENU>
+		<MENU role="hr,admin" name="Attendance">
+			<MENU name="Shifts">25</MENU>
+			<MENU name="Attendance">15</MENU>
+			<MENU name="Attendance Import">17</MENU>
+		</MENU>
+		<MENU role="finance,business" name="Travel">
+			<MENU role="finance,business" name="Employee Travels">35</MENU>
+			<MENU role="finance,business" name="Travel Definations">40</MENU>
+		</MENU>
+		<MENU name="Reports">
+			<MENU name="Project Types">101</MENU>
+			<MENU name="Define Phases">102</MENU>
+			<MENU name="Project Tasks">103</MENU>
+			<MENU name="Project Staff">104</MENU>
+			<MENU name="Attendance">115</MENU>
+			<MENU name="Travel">120</MENU>
+		</MENU>
+		<MENU xml="hr.xml" name="HR">0</MENU>
+		<MENU role="finance" xml="business.xml" name="Business">0</MENU>
+	</MENU>
+	<CONFIGS name="Full system configurations">
+		<AUDIT name="Full Table Audits">
+			<TABLE>employees</TABLE>
+			<TABLE>employee_month</TABLE>
+			<TABLE>employee_adjustments</TABLE>
+			<TABLE>employee_tax_types</TABLE>
+			<TABLE>employee_advances</TABLE>
+			<TABLE>advance_deductions</TABLE>
+		</AUDIT>
+	</CONFIGS>
+	<DESK access="open" w="700" h="500" name="Dashboard" key="1">
+		<DASHBOARD w="700" name="Dashboard">
+			<TILE noorg.query="true" role="staff" name="Number of Staff" where="(active = true)" table="employees">
+				<TEXTFIELD w="75" fnct="COALESCE(count(entity_id), 0)" title="Total Staff">total_staff</TEXTFIELD>
+			</TILE>
+			<TILE noorg.query="true" role="staff" name="Pending Tasks" where="(completed = true)" groupby="entity_id" user="entity_id" table="tasks">
+				<TEXTFIELD w="75" fnct="COALESCE(count(task_id), 0)" title="Pending Tasks">pending_tasks</TEXTFIELD>
+			</TILE>
+			<TILE noorg.query="true" role="staff,applicant" name="Available Jobs" where="(closing_date > current_date)" table="vw_intake">
+				<TEXTFIELD w="75" fnct="COALESCE(count(intake_id), 0)" title="Jobs Available">jobs_available</TEXTFIELD>
+			</TILE>
+			<TILE noorg.query="true" role="applicant" name="Available Internships" where="(closing_date > current_date)" table="vw_internships">
+				<TEXTFIELD w="75" fnct="COALESCE(count(internship_id), 0)" title="Jobs Available">jobs_available</TEXTFIELD>
+			</TILE>
+			<TILELIST role="staff" keyfield="sys_news_id" name="News" where="(publish = true)" table="sys_news">
+				<TEXTFIELD w="75" title="News Title">sys_news_title</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="70" title="Details">details</TEXTAREA>
+			</TILELIST>
+			<TILELIST role="staff" keyfield="employee_leave_id" name="Out of Office" orderby="leave_from" where="((approve_status = 'Approved') AND (leave_to >= current_date))" table="vw_employee_leave">
+				<TEXTFIELD w="75" title="Employee Name">entity_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Leave From">leave_from</TEXTDATE>
+				<TEXTDATE w="75" title="Leave To">leave_to</TEXTDATE>
+			</TILELIST>
+		</DASHBOARD>
+	</DESK>
+	<DESK w="700" h="500" name="Projects" key="5">
+		<GRID keyfield="project_id" name="Projects" table="vw_projects">
+			<TEXTFIELD w="75" title="Project ID">project_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Client Name">client_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Type Name">project_type_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Name">project_name</TEXTFIELD>
+			<CHECKBOX w="75" title="Signed">signed</CHECKBOX>
+			<TEXTDECIMAL w="75" title="Full Amount">full_amount</TEXTDECIMAL>
+			<TEXTDECIMAL w="75" title="Project Cost">project_cost</TEXTDECIMAL>
+			<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+			<GRID keyfield="phase_id" name="Phases" linkfield="project_id" table="vw_phases">
+				<TEXTFIELD w="75" title="Phase ID">phase_id</TEXTFIELD>
+				<TEXTFIELD w="275" title="Phase Name">phase_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Phase Start Date">phase_start_date</TEXTDATE>
+				<TEXTDATE w="75" title="Phase End Date">phase_end_date</TEXTDATE>
+				<TEXTDECIMAL w="75" title="Phase Cost">phase_cost</TEXTDECIMAL>
+				<GRID keyfield="task_id" name="Tasks" linkfield="phase_id" table="vw_tasks">
+					<TEXTFIELD w="45" title="Task ID">task_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Staff">entity_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="Task Name">task_name</TEXTFIELD>
+					<TEXTDATE w="75" title="Start Date">task_start_date</TEXTDATE>
+					<TEXTDATE w="75" title="Dead Line">task_dead_line</TEXTDATE>
+					<TEXTDATE w="75" title="End Date">task_end_date</TEXTDATE>
+					<CHECKBOX w="45" title="Completed">task_completed</CHECKBOX>
+					<TEXTFIELD w="55" title="Hours Taken">hours_taken</TEXTFIELD>
+					<TEXTDECIMAL w="55" title="Task Cost">total_task_cost</TEXTDECIMAL>
+					<TEXTDECIMAL w="55" title="Task Price">total_task_price</TEXTDECIMAL>
+					<FORM keyfield="task_id" name="Tasks" linkfield="phase_id" table="tasks">
+						<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Staff">entity_id</COMBOBOX>
+						<COMBOBOX w="430" h="20" lpfield="task_type_name" x="10" y="30" lptable="task_types" title="Task Type">task_type_id</COMBOBOX>
+						<TEXTFIELD w="430" h="20" x="10" y="50" title="Task Name">task_name</TEXTFIELD>
+						<TEXTDATE w="150" h="20" x="10" y="70" title="Start Date">start_date</TEXTDATE>
+						<TEXTDATE w="150" h="20" x="290" y="70" title="Dead Line">dead_line</TEXTDATE>
+						<TEXTDATE w="150" h="20" x="10" y="90" title="End Date">end_date</TEXTDATE>
+						<CHECKBOX w="150" h="20" x="290" y="90" title="Completed">completed</CHECKBOX>
+						<TEXTFIELD w="150" h="20" x="10" y="110" title="Hours Taken">hours_taken</TEXTFIELD>
+						<EDITOR w="430" h="70" x="10" y="130" title="Details">details</EDITOR>
+					</FORM>
+					<GRID keyfield="timesheet_id" name="Timesheet" linkfield="task_id" table="vw_timesheet">
+						<TEXTDATE w="75" title="Date">ts_date</TEXTDATE>
+						<SPINTIME w="75" title="Start Time">ts_start_time</SPINTIME>
+						<SPINTIME w="75" title="End Time">ts_end_time</SPINTIME>
+						<TEXTDECIMAL w="75" title="Hours">ts_hours</TEXTDECIMAL>
+						<TEXTFIELD w="275" title="Narrative">ts_narrative</TEXTFIELD>
+					</GRID>
+				</GRID>
+				<GRID keyfield="project_cost_id" name="Phase Costs" linkfield="phase_id" table="vw_project_cost">
+					<TEXTFIELD w="75" title="Project Cost ID">project_cost_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Project Cost">project_cost_name</TEXTFIELD>
+					<TEXTDECIMAL w="75" title="Amount">amount</TEXTDECIMAL>
+					<TEXTDATE w="75" title="Cost Date">cost_date</TEXTDATE>
+					<CHECKBOX w="75" title="Cost Approved">cost_approved</CHECKBOX>
+					<FORM keyfield="project_cost_id" name="Phase Costs" linkfield="phase_id" table="project_cost">
+						<TEXTFIELD w="430" h="20" x="10" y="10" title="Project Cost">project_cost_name</TEXTFIELD>
+						<TEXTDECIMAL w="150" h="20" x="10" y="30" title="Amount">amount</TEXTDECIMAL>
+						<TEXTDATE w="150" h="20" x="290" y="30" title="Cost Date">cost_date</TEXTDATE>
+						<CHECKBOX w="150" h="20" x="10" y="50" title="Cost Approved">cost_approved</CHECKBOX>
+						<TEXTAREA w="430" h="70" x="10" y="70" title="Details">details</TEXTAREA>
+					</FORM>
+				</GRID>
+				<FORM keyfield="phase_id" name="Phases" linkfield="project_id" table="phases">
+					<TEXTFIELD w="430" h="20" x="10" y="10" title="Phase Name">phase_name</TEXTFIELD>
+					<TEXTDATE w="150" h="20" x="10" y="30" title="Start Date">start_date</TEXTDATE>
+					<TEXTDATE w="150" h="20" x="290" y="30" title="End Date">end_date</TEXTDATE>
+					<TEXTDECIMAL w="150" h="20" x="10" y="50" title="Phase Cost">phase_cost</TEXTDECIMAL>
+					<TEXTAREA w="430" h="70" x="10" y="70" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<GRID keyfield="project_staff_id" name="Project Staff" linkfield="project_id" table="vw_project_staff">
+				<TEXTFIELD w="75" title="Project Staff ID">project_staff_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Staff ID">staff_id</TEXTFIELD>
+				<TEXTFIELD w="175" title="Staff Name">staff_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Project Role">project_role</TEXTFIELD>
+				<TEXTFIELD w="75" title="Payroll %">payroll_ps</TEXTFIELD>
+				<FORM keyfield="project_staff_id" name="Project Staff" linkfield="project_id" table="project_staff">
+					<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Staff">entity_id</COMBOBOX>
+					<TEXTFIELD w="430" h="20" x="10" y="30" title="Project Role">project_role</TEXTFIELD>
+					<CHECKBOX w="150" h="20" x="10" y="50" title="Monthly Cost">monthly_cost</CHECKBOX>
+					<TEXTDECIMAL w="150" h="20" x="290" y="50" title="Payroll %">payroll_ps</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="10" y="70" title="Staff Cost">staff_cost</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="290" y="70" title="Tax Cost">tax_cost</TEXTDECIMAL>
+					<CHECKBOX w="50" h="20" x="10" y="90" title="Active">is_active</CHECKBOX>
+					<TEXTAREA w="430" h="90" x="10" y="110" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<GRID keyfield="entity_id" name="Add Staff" orderby="first_name" where="(active = true)" table="vw_employees">
+				<TEXTFIELD w="45" title="ID">employee_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+				<TEXTFIELD w="75" title="Gender">gender_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Designation">department_role_name</TEXTFIELD>
+				<ACTIONS>
+					<ACTION fnct="add_project_staff">Add to Project</ACTION>
+				</ACTIONS>
+			</GRID>
+			<FORM keyfield="project_id" name="Projects" table="projects">
+				<COMBOBOX w="430" h="20" lpfield="project_type_name" x="10" y="10" lptable="project_types" title="Project Type">project_type_id</COMBOBOX>
+				<COMBOBOX w="430" h="20" lpfield="entity_name" x="10" y="30" lptable="entitys" where="(use_key_id = 2)" title="Client">entity_id</COMBOBOX>
+				<TEXTFIELD w="430" h="20" x="10" y="50" title="Project Name">project_name</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="70" title="Contract Ref">contract_ref</TEXTFIELD>
+				<TEXTDECIMAL w="150" h="20" x="10" y="90" title="Monthly Amount">monthly_amount</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="290" y="90" title="Full Amount">full_amount</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="10" y="110" title="Project Cost">project_cost</TEXTDECIMAL>
+				<CHECKBOX w="150" h="20" x="290" y="110" title="Signed">signed</CHECKBOX>
+				<TEXTFIELD w="430" h="20" x="10" y="130" title="Narrative">narrative</TEXTFIELD>
+				<TEXTDATE w="150" h="20" x="10" y="150" title="Start Date">start_date</TEXTDATE>
+				<TEXTDATE w="150" h="20" x="290" y="150" title="Ending Date">ending_date</TEXTDATE>
+				<TEXTFIELD w="150" h="20" x="10" y="170" title="Project Account">project_account</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="190" title="Details">details</TEXTAREA>
+			</FORM>
+			<GRID keyfield="shift_id" name="Shifts" linkfield="project_id" table="vw_shifts">
+				<TEXTFIELD w="75" title="Shift ID">shift_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Shift Name">shift_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Shift Hours">shift_hours</TEXTFIELD>
+				<CHECKBOX w="75" title="Include Holiday">include_holiday</CHECKBOX>
+				<CHECKBOX w="75" title="Include Mon">include_mon</CHECKBOX>
+				<CHECKBOX w="75" title="Include Tue">include_tue</CHECKBOX>
+				<CHECKBOX w="75" title="Include Wed">include_wed</CHECKBOX>
+				<CHECKBOX w="75" title="Include Thu">include_thu</CHECKBOX>
+				<CHECKBOX w="75" title="Include Fri">include_fri</CHECKBOX>
+				<CHECKBOX w="75" title="Include Sat">include_sat</CHECKBOX>
+				<CHECKBOX w="75" title="Include Sun">include_sun</CHECKBOX>
+				<SPINTIME w="75" title="Time In">time_in</SPINTIME>
+				<SPINTIME w="75" title="Time Out">time_out</SPINTIME>
+				<FORM keyfield="shift_id" name="Shifts" linkfield="project_id" table="shifts">
+					<TEXTFIELD w="150" h="20" x="10" y="10" title="Shift Name">shift_name</TEXTFIELD>
+					<TEXTFIELD w="150" h="20" x="290" y="10" title="Shift Hours">shift_hours</TEXTFIELD>
+					<CHECKBOX w="150" h="20" x="10" y="30" title="Include Holiday">include_holiday</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="290" y="30" title="Include Mon">include_mon</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="10" y="50" title="Include Tue">include_tue</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="290" y="50" title="Include Wed">include_wed</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="10" y="70" title="Include Thu">include_thu</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="290" y="70" title="Include Fri">include_fri</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="10" y="90" title="Include Sat">include_sat</CHECKBOX>
+					<CHECKBOX w="150" h="20" x="290" y="90" title="Include Sun">include_sun</CHECKBOX>
+					<SPINTIME w="150" h="20" x="10" y="110" title="Time In">time_in</SPINTIME>
+					<SPINTIME w="150" h="20" x="290" y="110" title="Time Out">time_out</SPINTIME>
+					<TEXTAREA w="430" h="70" x="10" y="130" title="Details">details</TEXTAREA>
+				</FORM>
+				<GRID keyfield="shift_schedule_id" name="Shift Schedule" linkfield="shift_id" table="vw_shift_schedule">
+					<TEXTFIELD w="75" title="Shift Schedule ID">shift_schedule_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Entity Name">entity_name</TEXTFIELD>
+					<CHECKBOX w="75" title="Active">is_active</CHECKBOX>
+					<FORM keyfield="shift_schedule_id" name="Shift Schedule" linkfield="shift_id" table="shift_schedule">
+						<COMBOBOX w="430" h="20" lpfield="entity_name" x="10" y="10" lptable="vw_employees" where="(active = true)" title="Entity">entity_id</COMBOBOX>
+						<CHECKBOX w="150" h="20" x="10" y="30" title="Active">is_active</CHECKBOX>
+						<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+					</FORM>
+				</GRID>
+			</GRID>
+		</GRID>
+		<GRID keyfield="project_type_id" name="Project Types" table="project_types">
+			<TEXTFIELD w="75" title="Project Type ID">project_type_id</TEXTFIELD>
+			<TEXTFIELD w="175" title="Project Type Name">project_type_name</TEXTFIELD>
+			<GRID keyfield="define_phase_id" name="Define Phases" linkfield="project_type_id" table="vw_define_phases">
+				<TEXTFIELD w="75" title="Define Phase ID">define_phase_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Group Name">entity_type_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Phase Name">define_phase_name</TEXTFIELD>
+				<TEXTDECIMAL w="75" title="Phase Time %">define_phase_time</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Phase Cost %">define_phase_cost</TEXTDECIMAL>
+				<GRID keyfield="define_task_id" name="Define Tasks" linkfield="define_phase_id" table="vw_define_tasks">
+					<TEXTFIELD w="75" title="Define Task ID">define_task_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Define Task Name">define_task_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+					<FORM keyfield="define_task_id" name="Define Tasks" linkfield="define_phase_id" table="define_tasks">
+						<TEXTFIELD w="430" h="20" x="10" y="10" title="Define Task Name">define_task_name</TEXTFIELD>
+						<TEXTFIELD w="430" h="20" x="10" y="30" title="Narrative">narrative</TEXTFIELD>
+						<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+					</FORM>
+				</GRID>
+				<FORM keyfield="define_phase_id" name="Define Phases" linkfield="project_type_id" table="define_phases">
+					<COMBOBOX w="430" h="20" lpfield="entity_type_name" x="10" y="10" lptable="entity_types" title="Group">entity_type_id</COMBOBOX>
+					<TEXTFIELD w="430" h="20" x="10" y="30" title="Phase Name">define_phase_name</TEXTFIELD>
+					<TEXTDECIMAL w="150" h="20" x="10" y="50" title="Phase Time">define_phase_time</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="290" y="50" title="Phase Cost">define_phase_cost</TEXTDECIMAL>
+					<TEXTFIELD w="150" h="20" x="10" y="70" title="Phase Order">phase_order</TEXTFIELD>
+					<TEXTAREA w="430" h="70" x="10" y="90" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<FORM keyfield="project_type_id" name="Project Types" table="project_types">
+				<TEXTFIELD w="430" h="20" x="10" y="10" title="Project Type Name">project_type_name</TEXTFIELD>
+				<TEXTAREA w="430" h="270" x="10" y="30" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+		<GRID keyfield="task_type_id" name="Task Types" table="task_types">
+			<TEXTFIELD w="45" title="Task Type ID">task_type_id</TEXTFIELD>
+			<TEXTFIELD w="175" title="Task Type Name">task_type_name</TEXTFIELD>
+			<TEXTDECIMAL w="75" title="Default Cost">default_cost</TEXTDECIMAL>
+			<TEXTDECIMAL w="75" title="Default Price">default_price</TEXTDECIMAL>
+			<FORM keyfield="task_type_id" name="Task Types" table="task_types">
+				<TEXTFIELD w="430" h="20" x="10" y="10" title="Task Type Name">task_type_name</TEXTFIELD>
+				<TEXTDECIMAL w="150" h="20" x="10" y="30" title="Default Cost">default_cost</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="290" y="30" title="Default Price">default_price</TEXTDECIMAL>
+				<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+			</FORM>
+			<GRID keyfield="task_entity_id" name="Task Entitys" linkfield="task_type_id" table="vw_task_entitys">
+				<TEXTFIELD w="75" title="Task Entity ID">task_entity_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Staff Name">entity_name</TEXTFIELD>
+				<TEXTDECIMAL w="75" title="Task Entity Cost">task_entity_cost</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Task Entity Price">task_entity_price</TEXTDECIMAL>
+				<FORM keyfield="task_entity_id" name="Task Entitys" linkfield="task_type_id" table="task_entitys">
+					<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Staff">entity_id</COMBOBOX>
+					<TEXTDECIMAL w="150" h="20" x="10" y="30" title="Task Entity Cost">task_entity_cost</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="290" y="30" title="Task Entity Price">task_entity_price</TEXTDECIMAL>
+					<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="My Tasks" key="20">
+		<GRID keyfield="task_id" name="Open Tasks" where="(task_completed = false)" linkfield="phase_id" user="entity_id" table="vw_tasks">
+			<TEXTFIELD w="75" title="Project">project_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Phase">phase_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Task Name">task_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Task Start Date">task_start_date</TEXTDATE>
+			<TEXTDATE w="75" title="Task Dead Line">task_dead_line</TEXTDATE>
+			<TEXTDATE w="75" title="Task End Date">task_end_date</TEXTDATE>
+			<GRID keyfield="timesheet_id" name="Timesheet" linkfield="task_id" table="vw_timesheet">
+				<TEXTDATE w="75" title="Date">ts_date</TEXTDATE>
+				<SPINTIME w="75" title="Start Time">ts_start_time</SPINTIME>
+				<SPINTIME w="75" title="End Time">ts_end_time</SPINTIME>
+				<TEXTDECIMAL w="75" title="Hours">ts_hours</TEXTDECIMAL>
+				<TEXTFIELD w="275" title="Narrative">ts_narrative</TEXTFIELD>
+				<FORM keyfield="timesheet_id" name="Timesheet" linkfield="task_id" table="timesheet">
+					<TEXTDATE w="150" h="20" x="10" y="10" title="Date">ts_date</TEXTDATE>
+					<SPINTIME w="150" h="20" x="10" y="30" title="Start Time">ts_start_time</SPINTIME>
+					<SPINTIME w="150" h="20" x="290" y="30" title="End Time">ts_end_time</SPINTIME>
+					<TEXTFIELD w="430" h="20" x="10" y="70" title="Narrative">ts_narrative</TEXTFIELD>
+					<EDITOR w="430" h="70" x="10" y="90" title="Details">details</EDITOR>
+				</FORM>
+			</GRID>
+		</GRID>
+		<GRID keyfield="project_id" name="My Projects" user="staff_id" table="vw_project_staff">
+			<TEXTFIELD w="75" title="Project ID">project_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Client Name">client_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Type">project_type_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Name">project_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Account">project_account</TEXTFIELD>
+			<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+			<GRID keyfield="phase_id" name="Phases" linkfield="project_id" table="vw_phases">
+				<TEXTFIELD w="75" title="Phase ID">phase_id</TEXTFIELD>
+				<TEXTFIELD w="275" title="Phase Name">phase_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Phase Start Date">phase_start_date</TEXTDATE>
+				<TEXTDATE w="75" title="Phase End Date">phase_end_date</TEXTDATE>
+				<GRID keyfield="task_id" name="Tasks" linkfield="phase_id" table="vw_tasks">
+					<TEXTFIELD w="75" title="Task ID">task_id</TEXTFIELD>
+					<TEXTFIELD w="75" title="Staff">entity_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="Task Name">task_name</TEXTFIELD>
+					<TEXTDATE w="75" title="Start Date">task_start_date</TEXTDATE>
+					<TEXTDATE w="75" title="Dead Line">task_dead_line</TEXTDATE>
+					<TEXTDATE w="75" title="End Date">task_end_date</TEXTDATE>
+					<CHECKBOX w="45" title="Completed">task_completed</CHECKBOX>
+					<TEXTFIELD w="75" title="Hours Taken">hours_taken</TEXTFIELD>
+					<FORM keyfield="task_id" name="Tasks" linkfield="phase_id" table="tasks">
+						<USERFIELD>entity_id</USERFIELD>
+						<TEXTFIELD w="430" h="20" x="10" y="30" title="Task Name">task_name</TEXTFIELD>
+						<TEXTDATE w="150" h="20" x="10" y="50" title="Start Date">start_date</TEXTDATE>
+						<TEXTDATE w="150" h="20" x="290" y="50" title="Dead Line">dead_line</TEXTDATE>
+						<TEXTDATE w="150" h="20" x="10" y="70" title="End Date">end_date</TEXTDATE>
+						<CHECKBOX w="150" h="20" x="290" y="70" title="Completed">completed</CHECKBOX>
+						<TEXTFIELD w="150" h="20" x="10" y="90" title="Hours Taken">hours_taken</TEXTFIELD>
+						<EDITOR w="430" h="70" x="10" y="110" title="Details">details</EDITOR>
+					</FORM>
+					<GRID keyfield="timesheet_id" name="Timesheet" linkfield="task_id" table="vw_timesheet">
+						<TEXTDATE w="75" title="Date">ts_date</TEXTDATE>
+						<SPINTIME w="75" title="Start Time">ts_start_time</SPINTIME>
+						<SPINTIME w="75" title="End Time">ts_end_time</SPINTIME>
+						<TEXTDECIMAL w="75" title="Hours">ts_hours</TEXTDECIMAL>
+						<TEXTFIELD w="275" title="Narrative">ts_narrative</TEXTFIELD>
+					</GRID>
+				</GRID>
+			</GRID>
+		</GRID>
+		<GRID keyfield="task_id" name="All Tasks" linkfield="phase_id" user="entity_id" table="vw_tasks">
+			<TEXTFIELD w="75" title="Project">project_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Phase">phase_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Task Name">task_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Task Start Date">task_start_date</TEXTDATE>
+			<TEXTDATE w="75" title="Task Dead Line">task_dead_line</TEXTDATE>
+			<TEXTDATE w="75" title="Task End Date">task_end_date</TEXTDATE>
+			<GRID keyfield="timesheet_id" name="Timesheet" linkfield="task_id" table="vw_timesheet">
+				<TEXTDATE w="75" title="Date">ts_date</TEXTDATE>
+				<SPINTIME w="75" title="Start Time">ts_start_time</SPINTIME>
+				<SPINTIME w="75" title="End Time">ts_end_time</SPINTIME>
+				<TEXTDECIMAL w="75" title="Hours">ts_hours</TEXTDECIMAL>
+				<TEXTFIELD w="275" title="Narrative">ts_narrative</TEXTFIELD>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="500" name="Client" key="10">
+		<GRID keyfield="entity_id" name="Clients" where="(use_key_id = 2)" table="entitys">
+			<TEXTFIELD w="75" title="Client ID">entity_id</TEXTFIELD>
+			<TEXTFIELD w="140" title="Client Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="100" title="User Name">user_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Attention">attention</TEXTFIELD>
+			<TEXTFIELD w="75" title="Email">primary_email</TEXTFIELD>
+			<TEXTFIELD w="75" title="Telephone">primary_telephone</TEXTFIELD>
+			<TEXTTIMESTAMP w="175" format="timestamp" title="Date Enroled">date_enroled</TEXTTIMESTAMP>
+			<CHECKBOX w="75" format="boolean" title="Active">is_active</CHECKBOX>
+			<ACTIONS>
+				<ACTION approval="2" fnct="add_client">Add to Pipeline</ACTION>
+			</ACTIONS>
+			<GRID wheresql="table_name = 'entitys'" keyfield="address_id" name="Address" linkfield="table_id" table="vw_address">
+				<TEXTFIELD w="100" title="Postal Code">postal_code</TEXTFIELD>
+				<TEXTFIELD w="100" title="Town">town</TEXTFIELD>
+				<TEXTFIELD w="100" title="Country">sys_country_name</TEXTFIELD>
+				<TEXTFIELD w="100" title="Phone Number">phone_number</TEXTFIELD>
+				<TEXTFIELD w="100" title="Mobile">mobile</TEXTFIELD>
+				<TEXTFIELD w="140" title="Email">email</TEXTFIELD>
+				<TEXTFIELD w="140" title="Default">is_default</TEXTFIELD>
+				<FORM keyfield="address_id" name="Address" linkfield="table_id" table="address">
+					<DEFAULT default="entitys">table_name</DEFAULT>
+					<COMBOBOX noorg="true" default="KE" w="430" h="20" lpfield="sys_country_name" x="10" y="10" lptable="sys_countrys" title="Country">sys_country_id</COMBOBOX>
+					<TEXTFIELD w="150" h="20" x="10" y="30" title="Post Office Box">post_office_box</TEXTFIELD>
+					<TEXTFIELD w="150" h="20" x="290" y="30" title="Postal Code">postal_code</TEXTFIELD>
+					<TEXTFIELD w="150" h="20" x="10" y="50" title="Town">town</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="70" title="Premises">premises</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="90" title="Street">street</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="110" title="Phone Number">phone_number</TEXTFIELD>
+					<TEXTFIELD w="150" h="20" x="10" y="130" title="Extension">extension</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="150" title="Mobile">mobile</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="170" title="Fax">fax</TEXTFIELD>
+					<TEXTFIELD w="430" h="20" x="10" y="190" title="Email">email</TEXTFIELD>
+					<TEXTFIELD w="250" h="20" x="10" y="210" title="Website">website</TEXTFIELD>
+					<CHECKBOX w="50" h="20" x="390" y="210" title="Default">is_default</CHECKBOX>
+					<TEXTAREA w="430" h="70" x="10" y="230" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<FORM keyfield="entity_id" name="Clients" table="entitys">
+				<DEFAULT default="client">function_role</DEFAULT>
+				<DEFAULT default="2">use_key_id</DEFAULT>
+				<COMBOBOX w="430" h="20" lpfield="entity_type_name" x="10" y="10" lptable="entity_types" where="(use_key_id = 2)" title="Type">entity_type_id</COMBOBOX>
+				<COMBOBOX w="430" h="20" lpfield="account_description" x="10" y="10" lptable="vw_accounts" default_org_fnct="get_default_account_id(51" title="Account" webgrid="90">account_id</COMBOBOX>
+				<TEXTFIELD w="430" h="20" x="10" y="30" title="Client Name">entity_name</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="50" title="User Name">user_name</TEXTFIELD>
+				<TEXTFIELD w="350" h="20" x="10" y="70" title="Attention">attention</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="90" title="Primary Email">primary_email</TEXTFIELD>
+				<TEXTFIELD w="150" h="20" x="10" y="110" title="Primary Telephone">primary_telephone</TEXTFIELD>
+				<CHECKBOX w="150" h="20" x="10" y="130" title="Active">is_active</CHECKBOX>
+				<TEXTFIELD w="150" h="20" x="290" y="130" title="First Password">first_password</TEXTFIELD>
+				<TEXTAREA w="430" h="150" x="10" y="110" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="Shifts" key="25">
+		<GRID keyfield="shift_id" name="Shifts" table="vw_shifts">
+			<TEXTFIELD w="75" title="Project Name">project_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Shift Name">shift_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Shift Hours">shift_hours</TEXTFIELD>
+			<CHECKBOX w="75" title="Monday">include_mon</CHECKBOX>
+			<CHECKBOX w="75" title="Tuesday">include_tue</CHECKBOX>
+			<CHECKBOX w="75" title="Wednesday">include_wed</CHECKBOX>
+			<CHECKBOX w="75" title="Thursday">include_thu</CHECKBOX>
+			<CHECKBOX w="75" title="Friday">include_fri</CHECKBOX>
+			<CHECKBOX w="75" title="Saturday">include_sat</CHECKBOX>
+			<CHECKBOX w="75" title="Sunday">include_sun</CHECKBOX>
+			<CHECKBOX w="75" title="Include Holiday">include_holiday</CHECKBOX>
+			<SPINTIME w="75" title="Time In">time_in</SPINTIME>
+			<SPINTIME w="75" title="Time Out">time_out</SPINTIME>
+			<FORM keyfield="shift_id" name="Shifts" cols="2" table="shifts">
+				<TEXTFIELD w="150" h="20" x="10" y="10" title="Shift Name" required="true" span="true">shift_name</TEXTFIELD>
+				<TEXTDECIMAL default="9" w="150" h="20" x="290" y="10" title="Shift Hours">shift_hours</TEXTDECIMAL>
+				<TEXTDECIMAL default="1" w="150" h="20" x="10" y="30" title="Break Hours" span="true">break_hours</TEXTDECIMAL>
+				<CHECKBOX default="true" w="150" h="20" x="290" y="30" title="Paid Lunch Hour">paid_lunch_hour</CHECKBOX>
+				<CHECKBOX default="true" w="150" h="20" x="10" y="50" title="Monday" span="true">include_mon</CHECKBOX>
+				<CHECKBOX default="true" w="150" h="20" x="290" y="50" title="Tuesday">include_tue</CHECKBOX>
+				<CHECKBOX default="true" w="150" h="20" x="10" y="70" title="Wednesday" span="true">include_wed</CHECKBOX>
+				<CHECKBOX default="true" w="150" h="20" x="290" y="70" title="Thursday">include_thu</CHECKBOX>
+				<CHECKBOX default="true" w="150" h="20" x="10" y="90" title="Friday" span="true">include_fri</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="290" y="90" title="Saturday">include_sat</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="10" y="110" title="Sunday" span="true">include_sun</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="290" y="110" title="Include Holiday">include_holiday</CHECKBOX>
+				<SPINTIME default="08:00" w="150" h="20" x="10" y="130" title="Time In" span="true">time_in</SPINTIME>
+				<SPINTIME default="05:00 PM" w="150" h="20" x="290" y="130" title="Time Out">time_out</SPINTIME>
+				<SPINTIME default="09:00" w="150" h="20" x="10" y="150" title="Weekend In" span="true">weekend_in</SPINTIME>
+				<SPINTIME default="01:00 PM" w="150" h="20" x="290" y="150" title="Weekend Out">weekend_out</SPINTIME>
+				<TEXTAREA w="430" h="70" x="10" y="170" title="Details">details</TEXTAREA>
+			</FORM>
+			<GRID keyfield="shift_schedule_id" name="Shift Schedule" linkfield="shift_id" table="vw_shift_schedule">
+				<TEXTFIELD w="75" title="Shift Schedule ID">shift_schedule_id</TEXTFIELD>
+				<TEXTFIELD w="175" title="Entity Name">entity_name</TEXTFIELD>
+				<CHECKBOX w="75" title="Active">is_active</CHECKBOX>
+				<FORM keyfield="shift_schedule_id" name="Shift Schedule" linkfield="shift_id" table="shift_schedule">
+					<COMBOBOX w="430" h="20" lpfield="entity_name" x="10" y="10" lptable="vw_employees" where="(active = true)" title="Entity">entity_id</COMBOBOX>
+					<CHECKBOX w="150" h="20" x="10" y="30" title="Active">is_active</CHECKBOX>
+					<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<GRID keyfield="entity_id" name="Add Staff" orderby="first_name" where="(active = true)" table="vw_employees">
+				<TEXTFIELD w="45" title="ID">employee_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+				<TEXTFIELD w="75" title="Gender">gender_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Designation">department_role_name</TEXTFIELD>
+				<ACTIONS>
+					<ACTION fnct="add_shift_staff">Add to Shift</ACTION>
+				</ACTIONS>
+			</GRID>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="500" name="Attendance" key="15">
+		<GRID keyfield="entity_id" name="Employees" orderby="first_name" table="vw_employees">
+			<TEXTFIELD w="75" title="ID">employee_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Gender">gender_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Marital Status">marital_status_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department Role">department_role_name</TEXTFIELD>
+			<CHECKBOX w="75" title="Active">active</CHECKBOX>
+			<GRID keyfield="attendance_id" limit="200" name="Attendance" orderby="attendance_date desc, entity_name" linkfield="entity_id" table="vw_attendance_shifts">
+				<TEXTFIELD w="75" title="Shift">shift_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Attendance Date">attendance_date</TEXTDATE>
+				<SPINTIME w="75" title="Time In">time_in</SPINTIME>
+				<SPINTIME w="75" title="Time Out">time_out</SPINTIME>
+				<TEXTDECIMAL w="50" title="Late">late</TEXTDECIMAL>
+				<TEXTDECIMAL w="50" title="Overtime">overtime</TEXTDECIMAL>
+				<TEXTFIELD w="150" title="Narrative">narrative</TEXTFIELD>
+				<FORM keyfield="attendance_id" name="Attendance" linkfield="entity_id" table="attendance">
+					<TEXTDATE w="150" h="20" x="290" y="10" title="Attendance Date">attendance_date</TEXTDATE>
+					<SPINTIME w="150" h="20" x="10" y="30" title="Time In" type="2">time_in</SPINTIME>
+					<SPINTIME w="150" h="20" x="290" y="30" title="Time Out" type="2">time_out</SPINTIME>
+					<TEXTDECIMAL w="150" h="20" x="10" y="50" title="Late">late</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="290" y="50" title="Overtime">overtime</TEXTDECIMAL>
+					<TEXTFIELD w="430" h="20" x="10" y="70" title="Narrative">narrative</TEXTFIELD>
+					<TEXTAREA w="430" h="70" x="10" y="90" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+			<GRID keyfield="absent_id" name="Absent" linkfield="entity_id" table="vw_absent">
+				<TEXTFIELD w="75" title="Absent ID">absent_id</TEXTFIELD>
+				<TEXTDATE w="75" title="Absent Date">absent_date</TEXTDATE>
+				<SPINTIME w="75" title="Time In">time_in</SPINTIME>
+				<SPINTIME w="75" title="Time Out">time_out</SPINTIME>
+				<CHECKBOX w="75" title="Accepted">is_accepted</CHECKBOX>
+				<TEXTTIMESTAMP w="75" title="Acceptance Date">acceptance_date</TEXTTIMESTAMP>
+				<CHECKBOX w="75" title="Deduct Payroll">deduct_payroll</CHECKBOX>
+				<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+				<FORM keyfield="absent_id" name="Absent" linkfield="entity_id" table="absent">
+					<TEXTDATE w="150" h="20" x="10" y="10" title="Absent Date">absent_date</TEXTDATE>
+					<SPINTIME w="150" h="20" x="10" y="30" title="Time In">time_in</SPINTIME>
+					<SPINTIME w="150" h="20" x="290" y="30" title="Time Out">time_out</SPINTIME>
+					<CHECKBOX w="150" h="20" x="10" y="50" title="Deduct Payroll">deduct_payroll</CHECKBOX>
+					<TEXTDATE w="150" h="20" x="290" y="50" title="Deduction Date">deduction_date</TEXTDATE>
+					<TEXTFIELD w="430" h="20" x="10" y="70" title="Narrative">narrative</TEXTFIELD>
+					<TEXTAREA w="430" h="70" x="10" y="90" title="Details">details</TEXTAREA>
+				</FORM>
+			</GRID>
+		</GRID>
+		<GRID keyfield="attendance_id" limit="200" name="Attendance" orderby="attendance_date desc, entity_name" table="vw_attendance">
+			<TEXTFIELD w="75" title="Entity ID">entity_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Entity Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Attendance ID">attendance_id</TEXTFIELD>
+			<TEXTDATE w="75" title="Attendance Date">attendance_date</TEXTDATE>
+			<SPINTIME w="75" title="Time In">time_in</SPINTIME>
+			<SPINTIME w="75" title="Time Out">time_out</SPINTIME>
+			<TEXTDECIMAL w="50" title="Late">late</TEXTDECIMAL>
+			<TEXTDECIMAL w="50" title="Overtime">overtime</TEXTDECIMAL>
+			<FORM keyfield="attendance_id" name="Attendance" table="attendance">
+				<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Staff">entity_id</COMBOBOX>
+				<TEXTDATE w="150" h="20" x="290" y="10" title="Attendance Date">attendance_date</TEXTDATE>
+				<SPINTIME w="150" h="20" x="10" y="30" title="Time In" type="2">time_in</SPINTIME>
+				<SPINTIME w="150" h="20" x="290" y="30" title="Time Out" type="2">time_out</SPINTIME>
+				<TEXTDECIMAL w="150" h="20" x="10" y="70" title="Late">late</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="290" y="70" title="Overtime">overtime</TEXTDECIMAL>
+				<TEXTAREA w="430" h="90" x="10" y="50" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="500" name="Attendance Import" key="17">
+		<GRID process="process_bio_imports1" import="text" delimiter="," keyfield="bio_imports1_id" limit="200" name="Import BioMetric" orderby="bio_imports1_id desc" table="bio_imports1">
+			<TEXTFIELD w="75" title="Col1">col1</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col2">col2</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col3">col3</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col4">col4</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col5">col5</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col6">col6</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col7">col7</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col8">col8</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col9">col9</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col10">col10</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col11">col11</TEXTFIELD>
+		</GRID>
+		<GRID process="process_bio_imports2" firstrow="1" import="excel" keyfield="bio_imports2_id" limit="200" name="Import Attendance" orderby="bio_imports2_id desc" table="bio_imports2">
+			<TEXTFIELD w="75" title="Col1">col1</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col2">col2</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col3">col3</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col4">col4</TEXTFIELD>
+		</GRID>
+		<GRID process="process_bio_imports3" import="text" delimiter="," keyfield="bio_imports2_id" limit="200" name="Import Logs" orderby="bio_imports2_id desc" table="bio_imports2">
+			<TEXTFIELD w="75" title="Col1">col1</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col2">col2</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col3">col3</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col4">col4</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col5">col5</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col6">col6</TEXTFIELD>
+			<TEXTFIELD w="75" title="Col7">col7</TEXTFIELD>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="Farming" key="30">
+		<GRID keyfield="period_id" name="Farm Work" orderby="start_date desc" where="(closed = false)" table="vw_periods">
+			<TEXTFIELD w="45" title="Period ID">period_id</TEXTFIELD>
+			<TEXTFIELD w="45" title="Period Code">period_code</TEXTFIELD>
+			<TEXTDATE w="75" title="Start Date">start_date</TEXTDATE>
+			<TEXTDATE w="75" title="End Date">end_date</TEXTDATE>
+			<TEXTDECIMAL w="75" title="Overtime Rate">overtime_rate</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Activated">activated</CHECKBOX>
+			<ACTIONS>
+				<ACTION role="payroll" approval="1" fnct="farm_payroll">Generate Payroll</ACTION>
+				<ACTION role="payroll" approval="2" fnct="farm_payroll">Generate Advances</ACTION>
+			</ACTIONS>
+			<GRID keyfield="day_work_id" name="Day Works" linkfield="period_id" table="vw_day_works">
+				<TEXTFIELD w="35" title="ID">day_work_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Batch Ref">batch_ref</TEXTFIELD>
+				<TEXTFIELD w="75" title="Supervisor">supervisor_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Farm Field">farm_field_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Work Date">work_date</TEXTDATE>
+				<SPINTIME w="55" title="Work Start">work_start</SPINTIME>
+				<SPINTIME w="55" title="Work End">work_end</SPINTIME>
+				<TEXTDECIMAL w="75" title="Farm Weight">farm_weight</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Factory Weight">factory_weight</TEXTDECIMAL>
+				<GRID keyfield="work_id" name="Works" linkfield="day_work_id" table="vw_works">
+					<TEXTFIELD w="75" title="Worker Name">worker_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="Work">work_rate_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="WR Code">work_rate_code</TEXTFIELD>
+					<TEXTFIELD w="75" title="Work ID">work_id</TEXTFIELD>
+					<TEXTDECIMAL w="75" title="Work Weight">work_weight</TEXTDECIMAL>
+					<TEXTFIELD w="75" title="Work Pay">work_pay</TEXTFIELD>
+					<TEXTDECIMAL w="75" title="Overtime">overtime</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Special Time">special_time</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Work Amount">work_amount</TEXTDECIMAL>
+					<FORM keyfield="work_id" name="Works" linkfield="day_work_id" table="works">
+						<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Worker">entity_id</COMBOBOX>
+						<COMBOBOX w="430" h="20" lpfield="work_rate_name" x="10" y="30" lptable="work_rates" where="(group_rate = false)" title="Work">work_rate_id</COMBOBOX>
+						<TEXTDECIMAL w="150" h="20" x="10" y="50" title="Work Weight">work_weight</TEXTDECIMAL>
+						<TEXTFIELD w="150" h="20" x="290" y="50" title="Work Pay">work_pay</TEXTFIELD>
+						<TEXTDECIMAL w="150" h="20" x="10" y="70" title="Overtime">overtime</TEXTDECIMAL>
+						<TEXTDECIMAL w="150" h="20" x="290" y="70" title="Special Time">special_time</TEXTDECIMAL>
+						<TEXTDECIMAL w="150" h="20" x="10" y="90" title="Work Amount">work_amount</TEXTDECIMAL>
+						<TEXTFIELD w="430" h="20" x="10" y="110" title="Narrative">narrative</TEXTFIELD>
+					</FORM>
+				</GRID>
+				<GRID keyfield="work_group_id" name="Work Groups" linkfield="day_work_id" table="vw_work_groups">
+					<TEXTFIELD w="75" title="Work Group ID">work_group_id</TEXTFIELD>
+					<TEXTDECIMAL w="75" title="Work Weight">work_weight</TEXTDECIMAL>
+					<TEXTFIELD w="75" title="Work Pay">work_pay</TEXTFIELD>
+					<TEXTDECIMAL w="75" title="Overtime">overtime</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Special Time">special_time</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Work Amount">work_amount</TEXTDECIMAL>
+					<TEXTFIELD w="75" title="Group Number">group_number</TEXTFIELD>
+					<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+					<FORM keyfield="work_group_id" name="Work Groups" linkfield="day_work_id" table="work_groups">
+						<COMBOBOX w="430" h="20" lpfield="work_rate_name" x="10" y="10" lptable="work_rates" where="(group_rate = true)" title="Work">work_rate_id</COMBOBOX>
+						<TEXTFIELD w="150" h="20" x="10" y="30" title="Group Number">group_number</TEXTFIELD>
+						<TEXTDECIMAL w="150" h="20" x="290" y="30" title="Work Weight">work_weight</TEXTDECIMAL>
+						<TEXTFIELD w="150" h="20" x="10" y="50" title="Work Pay">work_pay</TEXTFIELD>
+						<TEXTDECIMAL w="150" h="20" x="290" y="50" title="Overtime">overtime</TEXTDECIMAL>
+						<TEXTDECIMAL w="150" h="20" x="10" y="70" title="Special Time">special_time</TEXTDECIMAL>
+						<TEXTDECIMAL w="150" h="20" x="290" y="70" title="Work Amount">work_amount</TEXTDECIMAL>
+						<TEXTFIELD w="430" h="20" x="10" y="90" title="Narrative">narrative</TEXTFIELD>
+					</FORM>
+					<GRID keyfield="work_member_id" name="Work Members" linkfield="work_group_id" table="vw_work_members">
+						<TEXTFIELD w="75" title="Group Number">group_number</TEXTFIELD>
+						<TEXTFIELD w="75" title="Worker ID">worker_id</TEXTFIELD>
+						<TEXTFIELD w="75" title="Worker">worker_name</TEXTFIELD>
+						<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+						<FORM keyfield="work_member_id" name="Work Members" linkfield="work_group_id" table="work_members">
+							<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Worker">entity_id</COMBOBOX>
+							<TEXTFIELD w="430" h="20" x="10" y="30" title="Narrative">narrative</TEXTFIELD>
+						</FORM>
+					</GRID>
+				</GRID>
+				<FORM keyfield="day_work_id" name="Day Works" linkfield="period_id" table="day_works">
+					<COMBOBOX w="430" h="20" lpfield="employee_name" x="10" y="10" lptable="vw_employees" title="Supervisor">entity_id</COMBOBOX>
+					<COMBOBOX w="430" h="20" lpfield="farm_field_name" x="10" y="30" lptable="farm_fields" title="Farm Field">farm_field_id</COMBOBOX>
+					<TEXTFIELD w="150" h="20" x="10" y="50" title="Batch Ref">batch_ref</TEXTFIELD>
+					<TEXTDATE default="now" w="150" h="20" x="290" y="50" title="Work Date">work_date</TEXTDATE>
+					<SPINTIME default="08:00 am" w="150" h="20" x="10" y="70" title="Work Start">work_start</SPINTIME>
+					<SPINTIME default="05:00 pm" w="150" h="20" x="290" y="70" title="Work End">work_end</SPINTIME>
+					<TEXTDECIMAL w="150" h="20" x="10" y="90" title="Farm Weight">farm_weight</TEXTDECIMAL>
+					<TEXTDECIMAL w="150" h="20" x="290" y="90" title="Factory Weight">factory_weight</TEXTDECIMAL>
+					<TEXTAREA w="430" h="70" x="10" y="110" title="Details">details</TEXTAREA>
+				</FORM>
+				<JASPER reportfile="vw_day_works.jasper" name="Report" linkfield="filterid"></JASPER>
+			</GRID>
+		</GRID>
+		<GRID keyfield="work_rate_id" name="Work Rates" table="work_rates">
+			<TEXTFIELD w="35" title="WR ID">work_rate_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Work Rate Name">work_rate_name</TEXTFIELD>
+			<TEXTFIELD w="35" title="WR Code">work_rate_code</TEXTFIELD>
+			<TEXTDECIMAL w="75" title="Weight Rate">weight_rate</TEXTDECIMAL>
+			<TEXTDECIMAL w="75" title="Work Rate">work_rate</TEXTDECIMAL>
+			<TEXTDECIMAL w="75" title="Overtime Rate">overtime_rate</TEXTDECIMAL>
+			<TEXTDECIMAL w="75" title="Special Rate">special_rate</TEXTDECIMAL>
+			<FORM keyfield="work_rate_id" name="Work Rates" table="work_rates">
+				<TEXTFIELD w="150" h="20" x="10" y="10" title="Work Rate Name">work_rate_name</TEXTFIELD>
+				<TEXTFIELD w="150" h="20" x="290" y="10" title="Work Rate Code">work_rate_code</TEXTFIELD>
+				<TEXTDECIMAL w="150" h="20" x="10" y="30" title="Weight Rate">weight_rate</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="290" y="30" title="Work Rate">work_rate</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="10" y="50" title="Overtime Rate">overtime_rate</TEXTDECIMAL>
+				<TEXTDECIMAL w="150" h="20" x="290" y="50" title="Special Rate">special_rate</TEXTDECIMAL>
+				<CHECKBOX w="150" h="20" x="10" y="70" title="Group Rate">group_rate</CHECKBOX>
+				<TEXTAREA w="430" h="70" x="10" y="90" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+		<GRID keyfield="farm_field_id" name="Farm Fields" table="farm_fields">
+			<TEXTFIELD w="75" title="Farm Field ID">farm_field_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Farm Field Name">farm_field_name</TEXTFIELD>
+			<FORM keyfield="farm_field_id" name="Farm Fields" table="farm_fields">
+				<TEXTFIELD w="150" h="20" x="10" y="10" title="Farm Field Name">farm_field_name</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="30" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="Travel Definations" key="40">
+		<GRID keyfield="travel_type_id" name="Travel Types" table="travel_types">
+			<TEXTFIELD w="75" title="Travel Type ID">travel_type_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Type">travel_type_name</TEXTFIELD>
+			<ACCORDION keyfield="travel_type_id" name="Travel Types">
+				<FORM keyfield="travel_type_id" name="Travel Types" collapse="in" table="travel_types">
+					<TEXTFIELD w="150" h="20" x="10" y="10" title="Travel Type">travel_type_name</TEXTFIELD>
+					<TEXTAREA w="430" h="50" x="10" y="30" rows="5" title="Details">details</TEXTAREA>
+				</FORM>
+				<GRID table_code="1" keyfield="et_field_id" name="Travel Details" linkfield="table_link" collapse="in" table="et_fields">
+					<DEFAULT default="111">table_code</DEFAULT>
+					<DEFAULT default="travel_types">table_name</DEFAULT>
+					<TEXTFIELD w="175" title="Travel Detail">et_field_name</TEXTFIELD>
+					<CHECKBOX w="45" title="Active">is_active</CHECKBOX>
+				</GRID>
+			</ACCORDION>
+		</GRID>
+		<GRID keyfield="travel_funding_id" name="Travel Funding" table="travel_funding">
+			<TEXTFIELD w="75" title="Travel Funding ID">travel_funding_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Funding">travel_funding_name</TEXTFIELD>
+			<CHECKBOX w="75" title="Require Details">require_details</CHECKBOX>
+			<CHECKBOX w="75" title="Travel Funded">travel_funded</CHECKBOX>
+			<FORM keyfield="travel_funding_id" name="Travel Funding" table="travel_funding">
+				<TEXTFIELD w="150" h="20" x="10" y="10" title="Travel Funding">travel_funding_name</TEXTFIELD>
+				<CHECKBOX w="150" h="20" x="10" y="30" title="Require Details">require_details</CHECKBOX>
+				<CHECKBOX w="150" h="20" x="290" y="30" title="Travel Funded">travel_funded</CHECKBOX>
+				<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+		<GRID keyfield="claim_type_id" name="Claim Types" table="vw_claim_types">
+			<TEXTFIELD w="75" title="Adjustment">adjustment_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+			<FORM keyfield="claim_type_id" name="Claim Types" table="claim_types">
+				<COMBOBOX w="430" h="20" lpfield="adjustment_name" x="10" y="10" lptable="adjustments" where="(adjustment_type = 3)" title="Adjustment">adjustment_id</COMBOBOX>
+				<TEXTFIELD w="150" h="20" x="10" y="30" title="Claim Type">claim_type_name</TEXTFIELD>
+				<TEXTAREA w="430" h="70" x="10" y="50" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+		<GRID keyfield="travel_agency_id" name="Travel Agencies" table="travel_agencys">
+			<TEXTFIELD w="75" title="Travel Agency ID">travel_agency_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Agency Name">travel_agency_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Agency Phone">travel_agency_phone</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Agency Contact">travel_agency_contact</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Agency Email">travel_agency_email</TEXTFIELD>
+			<CHECKBOX w="75" title="Active">is_active</CHECKBOX>
+			<FORM keyfield="travel_agency_id" name="Travel Agency" table="travel_agencys">
+				<TEXTFIELD w="430" h="20" x="10" y="10" title="Travel Agency Name">travel_agency_name</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="30" title="Travel Agency Phone">travel_agency_phone</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="50" title="Travel Agency Contact">travel_agency_contact</TEXTFIELD>
+				<TEXTFIELD w="430" h="20" x="10" y="70" title="Travel Agency Email">travel_agency_email</TEXTFIELD>
+				<CHECKBOX w="150" h="20" x="10" y="90" title="Active">is_active</CHECKBOX>
+				<TEXTAREA w="430" h="70" x="10" y="110" title="Details">details</TEXTAREA>
+			</FORM>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="Employee Travels" key="35">
+		<GRID keyfield="employee_travel_id" name="Employee Travels" orderby="employee_travel_id desc" table="vw_employee_travels">
+			<TEXTFIELD w="35" title="ID">employee_travel_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Type">travel_type_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Staff Name">entity_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Project Name">project_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Travel Funding">travel_funding_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Purpose Of Trip">purpose_of_trip</TEXTFIELD>
+			<TEXTDATE w="75" title="Departure Date">departure_date</TEXTDATE>
+			<TEXTDATE w="75" title="Arrival Date">arrival_date</TEXTDATE>
+			<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+			<ACTIONS>
+				<ACTION approval="2" fnct="travel_aplication">Open Travel</ACTION>
+			</ACTIONS>
+			<ACCORDION keyfield="employee_travel_id" name="Employee Travels">
+				<FORM keyfield="employee_travel_id" name="Employee Travels" cols="2" collapse="in" table="employee_travels">
+					<COMBOBOX w="150" h="20" lpfield="travel_type_name" x="10" y="10" lptable="travel_types" title="Travel Type" span="true">travel_type_id</COMBOBOX>
+					<COMBOBOX w="150" h="20" lpfield="employee_name" x="10" y="30" lptable="vw_employees" title="Staff">entity_id</COMBOBOX>
+					<COMBOBOX w="150" h="20" lpfield="project_disp" x="10" y="30" lptable="vw_projects" title="Project" span="true">project_id</COMBOBOX>
+					<TEXTFIELD w="150" h="20" x="290" y="30" title="Purpose Of Trip" required="true">purpose_of_trip</TEXTFIELD>
+					<COMBOBOX w="150" h="20" lpfield="travel_funding_name" x="10" y="50" lptable="travel_funding" title="Travel Funding" span="true">travel_funding_id</COMBOBOX>
+					<TEXTFIELD w="150" h="20" x="290" y="50" title="Funding Details">funding_details</TEXTFIELD>
+					<COMBOBOX w="150" h="20" lpfield="travel_agency_name" x="10" y="70" lptable="travel_agencys" title="Travel Agency" span="true">travel_agency_id</COMBOBOX>
+					<TEXTFIELD w="150" h="20" x="290" y="70" title="Other (Specify)">other_travel_agency</TEXTFIELD>
+					<COMBOBOX w="150" h="20" lpfield="currency_name" x="10" y="90" lptable="currency" default_org_fnct="get_default_currency" title="Currency" span="true">currency_id</COMBOBOX>
+					<TEXTDECIMAL w="150" h="20" x="10" y="90" title="Ticket Cost">ticket_cost</TEXTDECIMAL>
+					<TEXTFIELD w="150" h="20" x="10" y="110" title="Airline 1" span="true">airline1</TEXTFIELD>
+					<TEXTDECIMAL w="150" h="20" x="290" y="110" title="Airline 1 Cost">airline1_cost</TEXTDECIMAL>
+					<TEXTFIELD w="150" h="20" x="10" y="130" title="Airline 2" span="true">airline2</TEXTFIELD>
+					<TEXTDECIMAL w="150" h="20" x="290" y="130" title="Airline 2 Cost">airline2_cost</TEXTDECIMAL>
+					<TEXTAREA w="430" h="70" x="10" y="150" rows="2" title="Details">details</TEXTAREA>
+				</FORM>
+				<GRID keyfield="employee_itinerary_id" name="Employee Itinerary" linkfield="employee_travel_id" collapse="in" table="employee_itinerary">
+					<TEXTDATE w="120" pattern="yyyy-MM-dd" title="Travel Date">travel_date</TEXTDATE>
+					<TEXTFIELD w="150" title="Departure">departure</TEXTFIELD>
+					<TEXTFIELD w="150" title="Arrival">arrival</TEXTFIELD>
+					<SPINTIME w="75" pattern="hh:mm a" title="Departure Time">departure_time</SPINTIME>
+					<SPINTIME w="75" pattern="hh:mm a" title="Arrival Time">arrival_time</SPINTIME>
+					<TEXTFIELD w="100" title="Carrier">carrier</TEXTFIELD>
+					<TEXTFIELD w="75" title="Flight Number">flight_number</TEXTFIELD>
+				</GRID>
+				<GRID new="false" keyfield="e_field_id" name="Travel Details" orderby="et_field_id" del="false" where="(table_code = 111)" linkfield="table_id" collapse="in" table="e_fields">
+					<FUNCTION w="175" fnct="get_et_field_name(et_field_id)" title="Travel Detail">et_field_disp</FUNCTION>
+					<TEXTFIELD w="175" title="Value">e_field_value</TEXTFIELD>
+				</GRID>
+			</ACCORDION>
+			<GRID keyfield="claim_id" name="Claims" linkfield="employee_travel_id" table="vw_claims">
+				<TEXTFIELD w="75" title="Claim ID">claim_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+				<TEXTDATE w="75" title="Claim Date">claim_date</TEXTDATE>
+				<CHECKBOX w="75" title="Add to Payroll">in_payroll</CHECKBOX>
+				<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+				<CHECKBOX w="75" title="Process Claim">process_claim</CHECKBOX>
+				<TEXTDECIMAL w="75" title="Advance Given">advance_given</TEXTDECIMAL>
+				<CHECKBOX w="75" title="Reconciled">reconciled</CHECKBOX>
+				<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+				<JASPER reportfile="vw_claims.jasper" name="Claim Report"></JASPER>
+				<ACCORDION keyfield="claim_id" name="Claims" linkfield="employee_travel_id">
+					<FORM keyfield="claim_id" name="Claims" linkfield="employee_travel_id" cols="2" collapse="in" table="claims">
+						<COMBOBOX w="150" h="20" lpfield="claim_type_name" x="10" y="10" lptable="claim_types" title="Claim Type" span="true">claim_type_id</COMBOBOX>
+						<TEXTDATE default="now" w="150" h="20" x="10" y="90" title="Claim Date">claim_date</TEXTDATE>
+						<CHECKBOX w="150" h="20" x="290" y="90" title="Add to Payroll" span="true">in_payroll</CHECKBOX>
+						<TEXTFIELD w="150" h="20" x="10" y="110" title="Narrative">narrative</TEXTFIELD>
+						<CHECKBOX w="150" h="20" x="10" y="130" title="Process Claim" span="true">process_claim</CHECKBOX>
+						<TEXTDATE w="150" h="20" x="290" y="130" title="Process Date">process_date</TEXTDATE>
+						<TEXTDECIMAL w="150" h="20" x="10" y="150" title="Advance Given">advance_given</TEXTDECIMAL>
+						<CHECKBOX w="150" h="20" x="290" y="150" title="Validated" span="true">validated</CHECKBOX>
+						<TEXTDATE w="150" h="20" x="10" y="170" title="Validated Date">validated_date</TEXTDATE>
+						<TEXTAREA w="430" h="70" x="10" y="230" rows="5" title="Details">details</TEXTAREA>
+					</FORM>
+					<GRID keyfield="claim_detail_id" name="Claim Details" linkfield="claim_id" collapse="in" table="claim_details">
+						<COMBOBOX w="100" lpfield="currency_symbol" lptable="currency" title="Currency">currency_id</COMBOBOX>
+						<TEXTFIELD w="150" title="Nature Of Expence">nature_of_expence</TEXTFIELD>
+						<TEXTFIELD w="120" title="Receipt Number">receipt_number</TEXTFIELD>
+						<TEXTDECIMAL w="100" title="Requested Amount">requested_amount</TEXTDECIMAL>
+						<TEXTDECIMAL w="100" title="Amount">amount</TEXTDECIMAL>
+						<TEXTDECIMAL default="1" w="75" title="Exchange Rate">exchange_rate</TEXTDECIMAL>
+						<TEXTFIELD w="75" title="Expense Code">expense_code</TEXTFIELD>
+					</GRID>
+				</ACCORDION>
+				<FILES password="baraza" keyfield="sys_file_id" filetable="claims" name="Documents" where="(table_name='claims')" linkfield="table_id" params="table_name" repository="/repository/webdav/files/" table="sys_files" username="repository">
+					<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+					<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+					<TEXTFIELD w="75" title="File Type">file_type</TEXTFIELD>
+					<TEXTFIELD w="75" title="File Size">file_size</TEXTFIELD>
+				</FILES>
+			</GRID>
+		</GRID>
+		<GRID keyfield="claim_id" name="Process Claims" where="(approve_status = 'Approved') AND (process_claim = false)" table="vw_claims">
+			<TEXTFIELD w="75" title="Claim ID">claim_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Claim Date">claim_date</TEXTDATE>
+			<CHECKBOX w="75" title="Add to Payroll">in_payroll</CHECKBOX>
+			<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+			<CHECKBOX w="75" title="Process Claim">process_claim</CHECKBOX>
+			<TEXTDECIMAL w="75" title="Advance Given">advance_given</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Reconciled">reconciled</CHECKBOX>
+			<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+			<JASPER reportfile="vw_claims.jasper" name="Claim Report"></JASPER>
+			<ACCORDION keyfield="claim_id" name="Claims" linkfield="employee_travel_id">
+				<FORM keyfield="claim_id" name="Claims" cols="2" collapse="in" table="claims">
+					<COMBOBOX w="150" h="20" lpfield="claim_type_name" x="10" y="10" lptable="claim_types" title="Claim Type" span="true">claim_type_id</COMBOBOX>
+					<TEXTDATE default="now" w="150" h="20" x="10" y="90" title="Claim Date">claim_date</TEXTDATE>
+					<CHECKBOX w="150" h="20" x="290" y="90" title="Add to Payroll" span="true">in_payroll</CHECKBOX>
+					<TEXTFIELD w="150" h="20" x="10" y="110" title="Narrative">narrative</TEXTFIELD>
+					<CHECKBOX w="150" h="20" x="10" y="130" title="Processed" span="true">process_claim</CHECKBOX>
+					<TEXTDATE w="150" h="20" x="290" y="130" title="Process Date">process_date</TEXTDATE>
+					<TEXTDECIMAL w="150" h="20" x="10" y="150" title="Advance Given">advance_given</TEXTDECIMAL>
+					<CHECKBOX w="150" h="20" x="290" y="150" title="Reconciled" span="true">reconciled</CHECKBOX>
+					<TEXTDATE w="150" h="20" x="10" y="170" title="Reconciled Date">reconciled_date</TEXTDATE>
+					<TEXTAREA w="430" h="70" x="10" y="230" rows="5" title="Details">details</TEXTAREA>
+				</FORM>
+				<GRID keyfield="claim_detail_id" name="Claim Details" linkfield="claim_id" collapse="in" table="claim_details">
+					<COMBOBOX w="100" lpfield="currency_symbol" lptable="currency" title="Currency">currency_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Nature Of Expence">nature_of_expence</TEXTFIELD>
+					<TEXTFIELD w="120" title="Receipt Number">receipt_number</TEXTFIELD>
+					<TEXTDECIMAL w="100" title="Requested Amount">requested_amount</TEXTDECIMAL>
+					<TEXTDECIMAL w="100" title="Amount">amount</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Exchange Rate">exchange_rate</TEXTDECIMAL>
+					<TEXTFIELD w="75" title="Expense Code">expense_code</TEXTFIELD>
+				</GRID>
+			</ACCORDION>
+			<FILES password="baraza" keyfield="sys_file_id" filetable="claims" name="Documents" where="(table_name='claims')" linkfield="table_id" params="table_name" repository="/repository/webdav/files/" table="sys_files" username="repository">
+				<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+				<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Type">file_type</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Size">file_size</TEXTFIELD>
+			</FILES>
+		</GRID>
+		<GRID keyfield="claim_id" name="Validate Claims" where="(reconciled = true) AND (validated = false)" table="vw_claims">
+			<TEXTFIELD w="75" title="Claim ID">claim_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Claim Date">claim_date</TEXTDATE>
+			<CHECKBOX w="75" title="Add to Payroll">in_payroll</CHECKBOX>
+			<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+			<CHECKBOX w="75" title="Process Claim">process_claim</CHECKBOX>
+			<TEXTDECIMAL w="75" title="Advance Given">advance_given</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Reconciled">reconciled</CHECKBOX>
+			<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+			<JASPER reportfile="vw_claims.jasper" name="Claim Report"></JASPER>
+			<ACCORDION keyfield="claim_id" name="Claims" linkfield="employee_travel_id">
+				<FORM keyfield="claim_id" name="Claims" cols="2" collapse="in" table="claims">
+					<COMBOBOX w="150" h="20" lpfield="claim_type_name" x="10" y="10" lptable="claim_types" title="Claim Type" span="true">claim_type_id</COMBOBOX>
+					<TEXTDATE default="now" w="150" h="20" x="10" y="90" title="Claim Date">claim_date</TEXTDATE>
+					<CHECKBOX w="150" h="20" x="290" y="90" title="Add to Payroll" span="true">in_payroll</CHECKBOX>
+					<TEXTFIELD w="150" h="20" x="10" y="110" title="Narrative">narrative</TEXTFIELD>
+					<CHECKBOX w="150" h="20" x="10" y="130" title="Processed" span="true">process_claim</CHECKBOX>
+					<TEXTDATE w="150" h="20" x="290" y="130" title="Process Date">process_date</TEXTDATE>
+					<TEXTDECIMAL w="150" h="20" x="10" y="150" title="Advance Given">advance_given</TEXTDECIMAL>
+					<CHECKBOX w="150" h="20" x="290" y="150" title="Validated" span="true">validated</CHECKBOX>
+					<TEXTDATE w="150" h="20" x="10" y="170" title="Validated Date">validated_date</TEXTDATE>
+					<TEXTAREA w="430" h="70" x="10" y="230" rows="5" title="Details">details</TEXTAREA>
+				</FORM>
+				<GRID keyfield="claim_detail_id" name="Claim Details" linkfield="claim_id" collapse="in" table="claim_details">
+					<COMBOBOX w="100" lpfield="currency_symbol" lptable="currency" title="Currency">currency_id</COMBOBOX>
+					<TEXTFIELD w="150" title="Nature Of Expence">nature_of_expence</TEXTFIELD>
+					<TEXTFIELD w="120" title="Receipt Number">receipt_number</TEXTFIELD>
+					<TEXTDECIMAL w="100" title="Requested Amount">requested_amount</TEXTDECIMAL>
+					<TEXTDECIMAL w="100" title="Amount">amount</TEXTDECIMAL>
+					<TEXTDECIMAL w="75" title="Exchange Rate">exchange_rate</TEXTDECIMAL>
+					<TEXTFIELD w="75" title="Expense Code">expense_code</TEXTFIELD>
+				</GRID>
+			</ACCORDION>
+			<FILES password="baraza" keyfield="sys_file_id" filetable="claims" name="Documents" where="(table_name='claims')" linkfield="table_id" params="table_name" repository="/repository/webdav/files/" table="sys_files" username="repository">
+				<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+				<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Type">file_type</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Size">file_size</TEXTFIELD>
+			</FILES>
+		</GRID>
+		<GRID keyfield="claim_id" limit="200" name="Completed Claims" orderby="claim_id desc" where="(reconciled = true) AND (validated = true)" table="vw_claims">
+			<TEXTFIELD w="75" title="Claim ID">claim_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Claim Date">claim_date</TEXTDATE>
+			<CHECKBOX w="75" title="Add to Payroll">in_payroll</CHECKBOX>
+			<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+			<CHECKBOX w="75" title="Process Claim">process_claim</CHECKBOX>
+			<TEXTDECIMAL w="75" title="Advance Given">advance_given</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Reconciled">reconciled</CHECKBOX>
+			<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+			<JASPER reportfile="vw_claims.jasper" name="Claim Report"></JASPER>
+			<FILES password="baraza" edit="false" keyfield="sys_file_id" filetable="claims" name="Documents" where="(table_name='claims')" linkfield="table_id" params="table_name" repository="/repository/webdav/files/" table="sys_files" username="repository">
+				<TEXTFIELD w="75" title="File ID">sys_file_id</TEXTFIELD>
+				<TEXTFIELD w="175" title="File Name">file_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Type">file_type</TEXTFIELD>
+				<TEXTFIELD w="75" title="File Size">file_size</TEXTFIELD>
+			</FILES>
+		</GRID>
+		<GRID keyfield="claim_id" name="Claims" orderby="claim_id desc" where="(process_claim = true) AND (reconciled = true)" table="vw_claims">
+			<TEXTFIELD w="75" title="Claim ID">claim_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Claim Type">claim_type_name</TEXTFIELD>
+			<TEXTDATE w="75" title="Claim Date">claim_date</TEXTDATE>
+			<CHECKBOX w="75" title="Add to Payroll">in_payroll</CHECKBOX>
+			<TEXTFIELD w="75" title="Narrative">narrative</TEXTFIELD>
+			<CHECKBOX w="75" title="Process Claim">process_claim</CHECKBOX>
+			<TEXTDECIMAL w="75" title="Advance Given">advance_given</TEXTDECIMAL>
+			<CHECKBOX w="75" title="Reconciled">reconciled</CHECKBOX>
+			<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+			<JASPER reportfile="vw_claims.jasper" name="Claim Report"></JASPER>
+		</GRID>
+	</DESK>
+	<DESK w="700" h="550" name="Project Types" key="101">
+		<JASPER reportfile="project_types.jasper" name="Project Types"></JASPER>
+	</DESK>
+	<DESK w="700" h="550" name="Define Phases" key="102">
+		<JASPER reportfile="vw_define_phases.jasper" name="Define Phases"></JASPER>
+	</DESK>
+	<DESK w="700" h="550" name="Project Tasks" key="103">
+		<JASPER reportfile="vw_tasks.jasper" name="Project Tasks"></JASPER>
+	</DESK>
+	<DESK w="700" h="550" name="Project Staff" key="104">
+		<JASPER reportfile="vw_project_staff.jasper" name="Project Staff"></JASPER>
+	</DESK>
+	<DESK w="700" h="750" name="Attendance" key="115">
+		<FILTER split="150" w="700" h="550" name="Attendance by Month" type="horl" key="6">
+			<DRILLDOWN pos="top" keyfield="period_year" name="Year" listfield="period_year" table="vw_Period_Year">
+				<DRILLDOWN pos="top" wherefield="Period_Year" keyfield="Period_ID" name="Month" orderby="month_id" listfield="Period_Month" table="vw_periods"></DRILLDOWN>
+			</DRILLDOWN>
+			<JASPER reportfile="vw_week_attendance_a.jasper" name="Active Attendance"></JASPER>
+			<JASPER reportfile="vw_week_attendance.jasper" name="Attendance"></JASPER>
+		</FILTER>
+		<GRID keyfield="entity_id" name="Attendance by Staff" orderby="first_name" table="vw_employees">
+			<TEXTFIELD w="75" title="ID">employee_id</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Department Role">department_role_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="First Name">first_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Surname">surname</TEXTFIELD>
+			<TEXTFIELD w="75" title="Gender">gender_name</TEXTFIELD>
+			<TEXTFIELD w="75" title="Marital Status">marital_status_name</TEXTFIELD>
+			<CHECKBOX w="75" title="Active">active</CHECKBOX>
+			<JASPER reportfile="vw_week_attendance_b.jasper" name="Attendance"></JASPER>
+		</GRID>
+		<FILTER split="150" w="700" h="550" name="Attendance Schedule" type="horl" key="6">
+			<DRILLDOWN pos="top" keyfield="period_year" name="Year" listfield="period_year" table="vw_Period_Year">
+				<DRILLDOWN pos="top" wherefield="period_year" keyfield="period_id" name="Month" orderby="month_id" listfield="Period_Month" table="vw_periods"></DRILLDOWN>
+			</DRILLDOWN>
+			<JASPER reportfile="vw_attendance_schedule.jasper" name="Attendance Schedule"></JASPER>
+		</FILTER>
+	</DESK>
+	<DESK w="700" h="550" name="Travel" key="120">
+		<FILTER split="150" w="700" h="550" name="Travel" type="vert">
+			<FILTERFORM name="Date Range">
+				<TEXTDATE default_fnct="get_start_year" filterfield="departure_date" w="150" h="20" x="10" y="10" title="Starting From" filtertype=">=">startrange</TEXTDATE>
+				<TEXTDATE default_fnct="get_end_year" filterfield="departure_date" w="150" h="20" x="290" y="10" title="Ending At" filtertype="&lt;=">endrange</TEXTDATE>
+			</FILTERFORM>
+			<JASPER reportfile="vw_employee_travels_a.jasper" name="Travel List"></JASPER>
+			<JASPER reportfile="vw_employee_travels.jasper" name="Travel"></JASPER>
+			<GRID keyfield="travel_type_id" name="Travel List" orderby="employee_travel_id desc" table="vw_employee_travels">
+				<TEXTFIELD w="75" title="ID">employee_travel_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department Role">department_role_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Staff">entity_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Type">travel_type_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Project">project_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Funding">travel_funding_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Funding Details">funding_details</TEXTFIELD>
+				<TEXTFIELD w="75" title="Purpose Of Trip">purpose_of_trip</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Agent">travel_agency_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Other Agent">other_travel_agency</TEXTFIELD>
+				<TEXTDECIMAL w="75" title="Ticket Cost">ticket_cost</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Requested Amount">t_requested_amount</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Amount">t_amount</TEXTDECIMAL>
+				<TEXTDATE w="75" title="Departure Date">departure_date</TEXTDATE>
+				<TEXTDATE w="75" title="Arrival Date">arrival_date</TEXTDATE>
+				<TEXTDECIMAL w="150" h="20" x="10" y="290" title="Ticket Cost">ticket_cost</TEXTDECIMAL>
+				<TEXTFIELD w="430" h="20" x="10" y="310" title="Airline 1">airline1</TEXTFIELD>
+				<TEXTDECIMAL w="150" h="20" x="10" y="330" title="Airline 1 Cost">airline1_cost</TEXTDECIMAL>
+				<TEXTFIELD w="430" h="20" x="10" y="350" title="Airline 2">airline2</TEXTFIELD>
+				<TEXTDECIMAL w="150" h="20" x="10" y="370" title="Airline 2 Cost">airline2_cost</TEXTDECIMAL>
+				<TEXTTIMESTAMP w="75" title="Application Date">application_date</TEXTTIMESTAMP>
+				<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+				<TEXTTIMESTAMP w="75" title="Action Date">action_date</TEXTTIMESTAMP>
+			</GRID>
+			<GRID keyfield="travel_type_id" name="Unreconciled Travel" orderby="employee_travel_id desc" where="(un_reconciled > 0)" table="vw_employee_travels">
+				<TEXTFIELD w="75" title="ID">employee_travel_id</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department">department_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Department Role">department_role_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Staff">entity_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Type">travel_type_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Project">project_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Funding">travel_funding_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Funding Details">funding_details</TEXTFIELD>
+				<TEXTFIELD w="75" title="Purpose Of Trip">purpose_of_trip</TEXTFIELD>
+				<TEXTFIELD w="75" title="Travel Agent">travel_agency_name</TEXTFIELD>
+				<TEXTFIELD w="75" title="Other Agent">other_travel_agency</TEXTFIELD>
+				<TEXTDECIMAL w="75" title="Ticket Cost">ticket_cost</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Requested Amount">t_requested_amount</TEXTDECIMAL>
+				<TEXTDECIMAL w="75" title="Amount">t_amount</TEXTDECIMAL>
+				<TEXTDATE w="75" title="Departure Date">departure_date</TEXTDATE>
+				<TEXTDATE w="75" title="Arrival Date">arrival_date</TEXTDATE>
+				<TEXTTIMESTAMP w="75" title="Application Date">application_date</TEXTTIMESTAMP>
+				<TEXTFIELD w="75" title="Approve Status">approve_status</TEXTFIELD>
+				<TEXTTIMESTAMP w="75" title="Action Date">action_date</TEXTTIMESTAMP>
+			</GRID>
+		</FILTER>
+		<FILTER split="150" w="700" h="550" name="Travel Days" type="horl">
+			<DRILLDOWN pos="top" keyfield="period_year" name="Year" listfield="period_year" table="vw_period_year"></DRILLDOWN>
+			<JASPER reportfile="vw_travel_summary.jasper" name="Travel Days"></JASPER>
+		</FILTER>
+	</DESK>
+</APP>

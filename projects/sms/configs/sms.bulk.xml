@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<SOAPSMS spid="601520" serviceid="6015202000075606" sppassword="DewCIS7SMS" sendername="21180" 
+	endpoint="http://62.24.122.19:9090/kannel/smsnotice" 
+	smsreceiver="http://62.24.122.19:9090/kannel/smslisten" 
+	serverip="41.90.0.130"
+	duration="10000">
+
+</SOAPSMS>
+
+

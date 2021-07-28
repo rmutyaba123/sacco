@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<REPORTS reportpath="/opt/baraza/projects/cases/reports/" delay="30" output="/var/www/html/docs/">
+	
+	<JASPER name="Report" reportfile="all_open_cases.jasper" output="all_open_cases.html" html="true"></JASPER>
+	<JASPER name="Report" reportfile="all_open_cases.jasper" output="all_open_cases.pdf"></JASPER>
+
+	<JASPER name="Report" reportfile="cases_summary_categories.jasper" output="cases_summary_categories.html" html="true"></JASPER>
+	<JASPER name="Report" reportfile="cases_summary_categories.jasper" output="cases_summary_categories.pdf"></JASPER>
+
+	<JASPER name="Report" reportfile="all_case_activity.jasper" output="all_case_activity.html" html="true"></JASPER>
+	<JASPER name="Report" reportfile="all_case_activity.jasper" output="all_case_activity.pdf"></JASPER>
+
+	<JASPER name="Report" reportfile="gazatte.jasper" output="case_summary.html" html="true"></JASPER>
+	<JASPER name="Report" reportfile="gazatte.jasper" output="case_summary.pdf"></JASPER>
+
+</REPORTS>

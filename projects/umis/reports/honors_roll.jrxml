@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="honors_roll" language="groovy" pageWidth="792" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="75202cca-b00e-4795-9580-8a5d0a22ee77">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="academicyear" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="award_date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="studentdegreeid" class="java.lang.String">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT studentid, studentname,studentdegreeid, cummgpahonours, academicyear
+FROM honorsview
+WHERE studentdegreeid = '$P!{studentdegreeid}']]>
+	</queryString>
+	<field name="studentid" class="java.lang.String"/>
+	<field name="studentname" class="java.lang.String"/>
+	<field name="studentdegreeid" class="java.lang.Integer"/>
+	<field name="cummgpahonours" class="java.lang.Integer"/>
+	<field name="academicyear" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="142" splitType="Stretch">
+			<staticText>
+				<reportElement x="-1" y="1" width="752" height="36" uuid="f74c2c15-bb42-46fe-ba0d-e2b816b9bd94"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSITY OF EASTERN AFRICA, BARATON]]></text>
+			</staticText>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="281" y="37" width="198" height="105" uuid="edd2ae14-ecad-47bb-a76c-e4cb66a46611"/>
+				<imageExpression><![CDATA["/opt/baraza/projects/ueab/reports/bara_logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="168" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="13" width="752" height="86" uuid="865f2c33-9756-4250-b886-6ef352fa87d4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font fontName="Times New Roman" size="18" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Presents to<br><i>" +  $F{studentname} + "</i><br>Certificate of academic achievement</br> <br>For <b><i>Honors Roll</b></i><br> With a Cumulative G.P.A of 3.6<br> In the " + $F{academicyear} +  " Academic Year<br> Awarded on this " + $P{award_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="120" width="752" height="19" uuid="4305f2aa-7cc7-416f-b53d-f7271880848e"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Prof. Mwangi Wa-Githumo ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="138" width="752" height="23" uuid="2de20fb6-da48-41cb-b5fc-3aafff7530f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deputy Vice Chancellor]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="Float" x="221" y="118" width="310" height="1" uuid="826b9a3c-eaed-415b-aa50-3d200c85609b"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+</jasperReport>

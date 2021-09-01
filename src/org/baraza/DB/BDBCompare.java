@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
@@ -80,10 +81,10 @@ public class BDBCompare {
 		List<String> cltb = getTableNames(cdb, isType);
 		
 		List<String> mmFields = new ArrayList<String>();
-		for(String tb : mltb) mmFields.addAll(getFieldNames(mdb, tb));
+		for(String tb : mltb) mmFields.addAll(getFieldNames(mdb, tb, false));
 		
 		List<String> cmFields = new ArrayList<String>();
-		for(String tb : cltb) cmFields.addAll(getFieldNames(cdb, tb));
+		for(String tb : cltb) cmFields.addAll(getFieldNames(cdb, tb, false));
 		
 		mmFields.removeAll(cmFields);
 		
@@ -158,27 +159,33 @@ public class BDBCompare {
 		return lTriggers;
 	}
 	
-	public List<String> getFieldNames(Connection conn, String tableName) {
+	public List<String> getFieldNames(Connection conn, String tableName, boolean checkTime) {
 		List<String> mFields = new ArrayList<String>();
 		
 		try {
 			Date startTime = new Date();
-			Statement stmt = conn.createStatement();
-			ResultSet rst = stmt.executeQuery("SELECT * FROM " + tableName + " LIMIT 1");
-			ResultSetMetaData rsmd = rst.getMetaData();
+					
+			if(checkTime) {
+				Statement stmt = conn.createStatement();
+				ResultSet rst = stmt.executeQuery("SELECT * FROM " + tableName + " LIMIT 1");
+				rst.close();
+				stmt.close();
+			}
+			
+			PreparedStatement pst = conn.prepareStatement("SELECT * FROM " + tableName);
+			ResultSetMetaData rsmd = pst.getMetaData();
+			
 			int numberOfCols = rsmd.getColumnCount();
 			Date stopTime = new Date();
 			long timeDiff = stopTime.getTime() - startTime.getTime();
 			
 			System.out.println("Checking : " + tableName + " : " + timeDiff);
-
 			for(int i = 1; i <= numberOfCols; i++) {
 				String field_name = rsmd.getColumnName(i);
 				String column_type = rsmd.getColumnTypeName(i);
 				mFields.add(tableName + "." + field_name);
 			}
-			rst.close();
-			stmt.close();
+			pst.close();
 		} catch (SQLException ex) {
 			System.out.println("Database error : " + tableName + " : " + ex);
 		}

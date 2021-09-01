@@ -614,18 +614,18 @@ public class BDB {
 		return views;	
 	}
 
-    public String getViewSQL(String tablename) {
+	public String getViewSQL(String tablename) {
 		String mystr = "\n\nCREATE VIEW vw_" + tablename + " AS";
 		mystr += "\n\tSELECT ";
-   		try {
+		try {
 			String mysql = "SELECT * FROM " + tablename;
 			ResultSet tablemd = dbmd.getImportedKeys(null, null, tablename);
-            Statement st = db.createStatement();
+			Statement st = db.createStatement();
 			st.setFetchSize(50);
-            ResultSet rs = st.executeQuery(mysql);
-            ResultSetMetaData rsmd = rs.getMetaData();
+			ResultSet rs = st.executeQuery(mysql);
+			ResultSetMetaData rsmd = rs.getMetaData();
 			int colnum = rsmd.getColumnCount();    // Get column numbers
-            boolean linked = false;
+			boolean linked = false;
 
 			List<String> fieldNames = new ArrayList<String>();
 
@@ -661,12 +661,78 @@ public class BDB {
 			rs.close();
 			st.close();
 			tablemd.close();			
-        } catch (SQLException ex) {
-        	log.severe("Function getViewSQL Error : " + ex);
-        }
+		} catch (SQLException ex) {
+			log.severe("Function getViewSQL Error : " + ex);
+		}
 
 		return mystr;
 	}
+	
+	public String getAddFieldSQL(String tablename, List<String> lFields) {
+		String myStr = "ALTER TABLE " + tablename;
+		try {
+			String mysql = "SELECT * FROM " + tablename;
+			Statement st = db.createStatement();
+			st.setFetchSize(10);
+			ResultSet rs = st.executeQuery(mysql);
+			ResultSet rsIk = dbmd.getImportedKeys(null, null, tablename);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int colnum = rsmd.getColumnCount();
+			
+			mysql = " information_schema.columns "
+				+ "WHERE ((table_schema, table_name) = ('public', '" + tablename + "')) AND (column_default is not null)";
+			Map<String, String> mDefaultValue = getMapData("column_name", "column_default", mysql);
+			
+			Map<String, Integer> mFieldCols = new HashMap<String, Integer>();
+			for (int col = 1; col <= colnum; col++) {
+				if(lFields.contains(rsmd.getColumnName(col))) {
+					mFieldCols.put(rsmd.getColumnName(col), col);
+				}
+			}
+			
+			Map<String, String> mImportedKeys = new HashMap<String, String>();
+			while(rsIk.next()) mImportedKeys.put(rsIk.getString(8), rsIk.getString(3));
+			
+			boolean isFirst = true;
+			for(String fieldName : lFields) {
+				int col = mFieldCols.get(fieldName);
+				int colType = rsmd.getColumnType(col);
+				
+				if(isFirst) isFirst = false;
+				else myStr += ",";
+				
+				myStr += "\nADD " + fieldName;
+				if(colType == 1) myStr += " char";
+				else if(colType == 4) myStr += " integer";
+				else if(colType == 7) myStr += " real";
+				else if(colType == -7) myStr += " boolean";
+				else myStr += " " + rsmd.getColumnTypeName(col);
+				
+				if(((colType == 1) || (colType == 12)) && (!"text".equals(rsmd.getColumnTypeName(col)))) {
+					myStr += "(" + rsmd.getColumnDisplaySize(col) + ")";
+				}
+				
+				if(mImportedKeys.containsKey(fieldName)) myStr += " references " + mImportedKeys.get(fieldName);
+				
+				if(mDefaultValue.containsKey(fieldName)) myStr += " default " + mDefaultValue.get(fieldName);
+				
+				if(rsmd.isNullable(col) == 0) myStr += " not null"; 
+				
+				//myStr += " " + rsmd.getColumnType(col);
+			}
+			myStr += ";\n";
+			
+			rsIk.close();
+			rs.close();
+			st.close();
+		} catch (SQLException ex) {
+			log.severe("Function getViewSQL Error : " + ex);
+		}
+
+		return myStr;
+	}
+	
+	
 
 	public String initCap(String mystr) {
 		if(mystr != null) {
